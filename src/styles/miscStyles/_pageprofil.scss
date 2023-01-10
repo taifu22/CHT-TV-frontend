@@ -1,0 +1,20 @@
+.page-profil-container {
+    margin-top: 50px;
+    .page-profil {
+        height: 90vh;
+        overflow: hidden;
+        .home {
+            margin-left: -1px;
+        }
+        i {
+            margin-right: 5px;
+        }
+    }
+    
+    .my-order {
+        overflow-y: scroll;
+        max-height: 530px;
+    }
+}
+
+
