@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchemaLogin } from '../validationSchemaYup/validationSchemaLogin';
 import serviceUser   from '../../../lib/service/serviceUser';
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserData, setTokenData } from '../../../lib/state/features/user.slice';
 
 const Login = () => {  
@@ -13,6 +13,14 @@ const Login = () => {
   const dispatch = useDispatch();
   //state for store error login if username or password are note valids
   const [errorLogin, setErrorLogin] = useState();
+
+  //recovery data of cart for see if user not connect and add products to cart.
+  //if the user not connect and add products to cart, before payment it will be redirected to login page, and after redirect again in cart page
+  const dataCart = useSelector(state => ([...state.cart.items]))
+
+  useEffect(()=>{
+    console.log(dataCart.length);
+  },[])
 
 	const { register, handleSubmit, formState, reset } = useForm({
 		mode: "onBlur",
@@ -33,12 +41,12 @@ const Login = () => {
             .then(res => {
               //console.log(res);
               dispatch(setUserData(res.data));
-              navigate('/')  
+              navigate(dataCart.length > 0 ? '/cart' : '/')  
             }) 
        })
        .catch(error => {
         setErrorLogin('User not found!')
-        console.log(error.response.data.message)
+        console.log(error.response.data.message) 
     })
 		reset();
 	};

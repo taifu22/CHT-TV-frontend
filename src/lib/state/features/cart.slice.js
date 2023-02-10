@@ -14,7 +14,7 @@ const filterItem = (item, payload) => item.id !== payload.id
 
 export const cartSlice = createSlice({ 
     name: "user",
-    initialState: {
+    initialState: { 
         items: localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [],
         delivery: 'standard'
     },

@@ -18,6 +18,7 @@ function Success() {
 
   const navigate = useNavigate();
   function redirectHome(params) {
+    //je vide mon panier une fois la commande validé et tout
     dispatch(checkOut());
     setTimeout(()=>{
       navigate('/');

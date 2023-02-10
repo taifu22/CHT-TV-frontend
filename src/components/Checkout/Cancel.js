@@ -1,9 +1,11 @@
 
 import React, { useEffect} from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import DataOrder from '../../lib/service/serviceOrder';
-
+import { deleteNewOrder } from '../../lib/state/features/user.slice';
+import { deleteNewDataPurchase } from '../../lib/service/service';
+ 
 const styles = {
   height: '100vh',
   fontSize: 20
@@ -11,6 +13,8 @@ const styles = {
 function Cancel() {
 
   const token = useSelector(state => ({...state.user.token}))
+  const purchase = useSelector(state => state.user.users.body.orders)
+  const dispatch = useDispatch();
   
   useEffect(()=>{
     redirectHome();
@@ -18,7 +22,11 @@ function Cancel() {
 
   const navigate = useNavigate();
   function redirectHome() {
-    DataOrder.deleteNewOrder(token.accessToken);
+    //je supprime de la bdd et du redux la derniere commande annulé pendant le checkout
+    DataOrder.deleteNewOrder(token.accessToken); 
+    dispatch(deleteNewOrder());
+    //je supprime le dernier élément qui corresponds à la derniere commande effectué pour ce produit, mais annulé pendant le checkout de stripe
+    deleteNewDataPurchase(purchase[purchase.length -1])
     setTimeout(()=>{
       navigate('/');
     }, 3000)

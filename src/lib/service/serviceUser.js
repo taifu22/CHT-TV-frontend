@@ -78,8 +78,29 @@ let uploadImageProfil = (token, data) => {
         }
     }
     let body = data
-    console.log(body);
+    console.log(body); 
     return Axios.post('api/profile/editImageProfil', body, config);
 }
 
-export default { signup, signin, getProfile, deleteAddressUser, addNewDataAddress, editLastFirstName, editPassword, uploadImageProfil }
+//function to add new dataAddress
+let addNewDataFavoris = (token, data) => {
+    let config = {
+        headers: {
+          'Authorization': 'Bearer ' + token 
+        }
+    }
+    return Axios.patch('api/auth/profile/favoris', data, config);
+}
+
+//function to delete an user's address
+let deleteFavorisUser = (token, id) => {
+    let config = {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+    }
+    let body = {id: id}
+    return Axios.patch('api/auth/profile/favoris/delete', body, config);
+}
+
+export default { signup, signin, getProfile, deleteAddressUser, addNewDataAddress, editLastFirstName, editPassword, uploadImageProfil, addNewDataFavoris, deleteFavorisUser }

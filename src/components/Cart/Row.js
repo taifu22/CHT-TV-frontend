@@ -1,8 +1,10 @@
 import React from 'react';  
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, updateCart } from '../../lib/state/features/cart.slice';
+import { addNewFavorisData,deleteFavorisData } from '../../lib/state/features/user.slice';
+import serviceUser from '../../lib/service/serviceUser';
 
-const Row = ({ id, name, price, quantity}) => { 
+const Row = ({ id, name, price, quantity, category}) => { 
 
     const dispatch = useDispatch();
     const removeFromcartAction = (e) => {
@@ -15,6 +17,42 @@ const Row = ({ id, name, price, quantity}) => {
         return dispatch(updateCart({id, value}))
     }
 
+    const token = useSelector(state => ({...state.user.token}));
+    const addDataFavoris = (id, name, price) => {
+        const newData = {
+            id : id,
+            name: name,
+            price: price  
+        }
+        serviceUser.addNewDataFavoris(token.accessToken, newData)
+        dispatch(addNewFavorisData(newData))
+    }
+
+    function deleteFavorite(id) {
+        serviceUser.deleteFavorisUser(token.accessToken, id);
+        dispatch(deleteFavorisData(id));
+    }
+
+    //fonction pour ajouter/supprimer un produit des favoris
+    function onClickfavoris(params) {
+        if (productFav === undefined) {
+            alert('il faut se connecter pour ajouter un produit aux favoris')
+        } else {
+            productFav !== undefined && (productFav.includes(id) ? deleteFavorite(id) : addDataFavoris(id, name, price))
+        }
+    }
+
+    const favoris = useSelector(state => ({...state.user.users}));
+    let productFav;
+
+    /*on stocke les id des favoris, pour pouvoir supprimer de la liste si on reclique sur un produit dejà mis en favoris
+    Bien sur si on est pas connecté donc token pas présent on va pas avoir acces aux favoris, donc on fait une condition*/
+    if (token['accessToken'] !== undefined) {
+        productFav = favoris.body.favoris.map(item => {
+            return item.id
+        })   
+    } 
+
     return (
         <tr>
             <td>
@@ -24,7 +62,7 @@ const Row = ({ id, name, price, quantity}) => {
                         <a href="#" className="title text-dark">{ name }</a>
                     </figcaption>
                 </figure>
-            </td>
+            </td> 
             <td> 
                 <select className="form-control" value={quantity} onChange={(e) => updateCartAction(e)}>
                     <option>1</option>
@@ -40,7 +78,11 @@ const Row = ({ id, name, price, quantity}) => {
                 </div>
             </td>
             <td className="text-right"> 
-                <a data-original-title="Save to Wishlist" title="" href="" className="btn btn-light" data-toggle="tooltip" onClick={() => null}> <i className="fa fa-heart"></i></a> 
+                <a data-original-title="Save to Wishlist" title="" 
+                   className="btn btn-light" 
+                   data-toggle="tooltip" 
+                   onClick={() => onClickfavoris()}> 
+                   <i className={productFav !== undefined ? (productFav.includes(id) ? "fas fa-heart text-danger fa-lg" : "far fa-heart text-dark a-lg") : "far fa-heart text-dark a-lg"}></i></a> 
                 <a href="" className="btn btn-light btn-round" onClick={(e) => removeFromcartAction(e)}> Remove</a>
             </td>
     </tr>)

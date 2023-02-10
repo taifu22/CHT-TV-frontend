@@ -10,7 +10,7 @@ export const productsSlice = createSlice({
   },
   reducers: {
       getProductsPending: (state) => {
-        return {
+        return { 
           ...state,
           isLoading: true,
         }
@@ -34,15 +34,9 @@ export const productsSlice = createSlice({
           ...state,
           pageIndex: payload,
         }
-      },
-      // getProductsSorted: (state, {payload}) => {
-      //   return {
-      //     ...state,
-      //     SortedProducts: payload,
-      //   }
-      // }
+      }, 
   }
 })
 
-export const {getProductsFailure, getProductsSuccess, getProductsPending, setPageIndex, getProductsSorted} = productsSlice.actions;
+export const {getProductsFailure, getProductsSuccess, getProductsPending, setPageIndex} = productsSlice.actions;
 export default productsSlice.reducer;

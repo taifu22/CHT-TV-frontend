@@ -21,9 +21,9 @@ const Pagination = () => {
 		<nav aria-label="Page navigation example" className="float-right" style={{ marginBottom: '100px' }}>
 			<ul className="pagination">
 				<li className={`page-item ${ Previous.isDisabled ? 'disabled' : ''}`}><a className="page-link" href="#" onClick={(e) => updatePage(e, pageIndex - 1)}>Previous</a></li>
-					{items.map((_, index) => <li key={index} className="page-item"><a className="page-link" onClick={(e) => updatePage(e, index)}>{ index + 1 }</a></li>)}						
+					{items.map((_, index) => <li role={'button'} key={index} className={pageIndex == index ? "page-item active" : "page-item"}><a className="page-link" onClick={(e) => updatePage(e, index)}>{ index + 1 }</a></li>)}						
 				<li className={`page-item ${ Next.isDisabled ? 'disabled' : ''}`}><a className="page-link" href="#" onClick={(e) => updatePage(e, pageIndex + 1)}>Next</a></li>
 			</ul>
 		</nav>)
 }
-export default Pagination
+export default Pagination 

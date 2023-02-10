@@ -77,7 +77,7 @@ export const data = [
         name: 'Winter Jacket for Men, All sizes', 
         price: 19
     }, 
-    {
+    { 
         id: 14, 
         category: 'Clothes',
         name: 'Winter Jacket for Men, All sizes', 

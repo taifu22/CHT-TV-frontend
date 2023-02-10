@@ -98,7 +98,7 @@ function ModalAddress(props) {
                             </div>
                             <div className="form-group d-flex mt-4 justify-content-md-end">
                                 <button type="button" onClick={handleSubmit(onSubmit)} className={`col-md-2 mr-4 btn btn-primary`} data-dismiss="modal" >Valider</button>
-                                <button type="button" className="col-md-2 btn btn-danger" onClick={() => reset()}>Annuler</button>
+                                <button type="button" className="col-md-2 btn btn-danger" onClick={() => reset()}>Annuler</button> 
                             </div>              
 			            </form> 
                     </div>

@@ -41,12 +41,33 @@ export const userSlice = createSlice({
         addnewOrder: (state, {payload}) => {
             state.users.body.orders = [...state.users.body.orders, payload];
         },
+        //action to delete new order if the user cancel an order befor the stripe checkouot
+        deleteNewOrder: (state) => {
+            if (state.users.body.orders.length == 1) {
+                state.users.body.orders = []
+            } else {
+                state.users.body.orders = state.users.body.orders.pop();
+            } 
+        },
         //action to update user's profil's image
         updateUserProfilImage: (state, {payload}) => {
             state.users.body.image = payload
-        }
+        },
+        //action for add newproduct favorite to store
+        addNewFavorisData: (state, {payload}) => {
+            state.users.body.favoris = [...state.users.body.favoris, payload];
+        },
+        //action pour supprimer un produit de la liste des favoris
+        deleteFavorisData: (state, {payload}) => {
+            state.users.body.favoris = state.users.body.favoris.filter((pic) => pic.id !== payload); 
+        },
+        //action for add new product opinion to store
+        addNewOpinionData: (state, {payload}) => {
+            state.users.body.opinions = [...state.users.body.opinions, payload];
+        },
+        
     }
 })
 
-export const {setUserData, setTokenData, editUserData, deleteDataUser, deleteAddressData, addNewAddressData, edituserLastFirstName, editEmailUser, addnewOrder, updateUserProfilImage} = userSlice.actions;
+export const {setUserData, setTokenData, editUserData, deleteDataUser, deleteAddressData, addNewAddressData, edituserLastFirstName, editEmailUser, addnewOrder, deleteNewOrder, updateUserProfilImage, addNewFavorisData, deleteFavorisData, addNewOpinionData} = userSlice.actions;
 export default userSlice.reducer;

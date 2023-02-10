@@ -1,0 +1,29 @@
+.container-favoris-products {
+    display: flex;
+    flex-direction: column;
+    .favoris-product {
+        margin: 10px;
+        border: 1px rgb(221, 212, 212) solid;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+            height: 100px;
+            border-radius: 5px;
+        }
+        .infos-product {
+            .infos-price {
+                color: #007bff;
+            }
+        }
+        .buttons-favoris-product {
+            display: flex;
+            flex-direction: column;
+            button {
+                margin: 5px;
+            }
+        }
+    }
+}

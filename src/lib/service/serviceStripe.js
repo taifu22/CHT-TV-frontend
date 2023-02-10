@@ -1,6 +1,7 @@
 import { loadStripe } from '@stripe/stripe-js';
 import Axios from './CallAxiosService';
 import DataOrder from '../../lib/service/serviceOrder';
+import { addNewDataPurchase } from '../../lib/service/service'
 
 export const processPayment = async (order, token) => {
     const cléAPI_production = "pk_live_51MK0pUKGygiBmYbKg2TZs2rb9uIBggBBfwyk6MZ3tPdCaZ3MgvDta4vBpjuubVwKSTPLXlJRmTkENc0A8roaFmnX00tvanLu9Q";
@@ -14,6 +15,7 @@ export const processPayment = async (order, token) => {
             const dataFormat = {key: date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()}
             const orderWithDate = [order, dataFormat];
             stripe.redirectToCheckout({ sessionId: sessionID });
-            return DataOrder.addNewDataOrder(token.accessToken, orderWithDate)
+            addNewDataPurchase(orderWithDate);
+            return DataOrder.addNewDataOrder(token.accessToken, orderWithDate) 
           })
 } 

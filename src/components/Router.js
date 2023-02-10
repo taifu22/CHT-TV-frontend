@@ -15,6 +15,7 @@ import Footer from './Layout/Footer';
 import Pageprofile from './Misc/Pageprofile';
 import '../styles/style.scss'
 import Nav from './Layout/Nav';
+import Favoris from './Misc/Pageprofil/Favoris'; 
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path={'/about'} exact element={<About />} />
           <Route path={'/help'} exact element={<Help />} />
           <Route path={'/deals'} exact element={<Deals />} />
+          <Route path={'/favoris'} exact element={<Favoris />} /> 
       
           <Route path={'/register'} exact element={<Register />} />
           <Route path={'/registerSuccess'} exact element={<RegistrationSuccess />} />

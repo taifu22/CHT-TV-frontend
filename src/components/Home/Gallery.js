@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Product from './Product'; 
 import Pagination from './Pagination';
 import { fetchProducts } from '../../lib/service/service'
+import { useLocation } from 'react-router-dom';
 
 /*ici on créé 3 composants, le premier c'est pour afficher notre gallerie, si on a bien récuperé la data avec les produits
 le deuxieme c'est pour afficher un message, si le tableau des datas est vide donc pas de produits a afficher dans la gallerie
@@ -19,12 +20,15 @@ const Loading = ({ isLoading }) => isLoading && <p style={{marginLeft: 18, fontS
 const Gallery = () => { 
 
 	const dispatch = useDispatch();
+	const location = useLocation();
 	const state = useSelector(state => ({...state.products}));
 	const {items, isLoading } = state; 
 
-	//appel de la fonction pour dispatche dans le store redux 
+	//appel de la fonction pour dispatche dans le store redux  
 	useEffect(() => {
-	   dispatch(fetchProducts()) 
+	    /*j'utilise le location, car si le state du lacation n'est pas null, car on a utilisé le research dans une autre page
+		alors on affichera directement les produits sorti lors de la recherche (voir composant /Layout/Nav)*/ 
+	   location.state === null && dispatch(fetchProducts()) 
 	}, [])
 
 	return (

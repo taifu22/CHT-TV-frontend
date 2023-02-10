@@ -1,0 +1,165 @@
+nav .img-profil {
+  height: 35px;
+  width: 35px;
+  margin-right: 5px;
+  border: 1px white solid;
+}
+
+.page-profil-container {
+  margin-top: 50px;
+}
+.page-profil-container .page-profil {
+  height: 90vh;
+  overflow: hidden;
+}
+.page-profil-container .page-profil .home {
+  margin-left: -1px;
+}
+.page-profil-container .page-profil i {
+  margin-right: 5px;
+}
+.page-profil-container .my-order {
+  overflow-y: scroll;
+  max-height: 530px;
+}
+.page-profil-container .my-order button {
+  width: 100%;
+  margin: 5px;
+}
+.page-profil-container .my-order .productOpinionOK {
+  padding: 5px;
+  border: solid 1px rgb(170, 163, 163);
+  color: rgb(170, 163, 163);
+  margin-left: 5px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container-favoris-products {
+  display: flex;
+  flex-direction: column;
+}
+.container-favoris-products .favoris-product {
+  margin: 10px;
+  border: 1px rgb(221, 212, 212) solid;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container-favoris-products .favoris-product img {
+  height: 100px;
+  border-radius: 5px;
+}
+.container-favoris-products .favoris-product .infos-product .infos-price {
+  color: #007bff;
+}
+.container-favoris-products .favoris-product .buttons-favoris-product {
+  display: flex;
+  flex-direction: column;
+}
+.container-favoris-products .favoris-product .buttons-favoris-product button {
+  margin: 5px;
+}
+
+.modal-worldmap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1040;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: myAnimHome 1s ease 0s 1 normal forwards;
+}
+.modal-worldmap .modals {
+  z-index: 1060;
+  left: 10%;
+  top: 5%;
+  background: #fff;
+  position: fixed;
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+  max-width: 80%;
+  padding: 1rem;
+}
+.modal-worldmap .modals .modal-header {
+  display: flex;
+  justify-content: space-between;
+}
+.modal-worldmap .modals .modal-header div {
+  display: flex;
+  align-items: center;
+}
+.modal-worldmap .modals .modal-header div h2 {
+  margin-right: 10px;
+}
+.modal-worldmap .modals .modal-header .flag-modal {
+  width: 60px;
+  border: 1px rgb(0, 0, 0) solid;
+}
+.modal-worldmap .modals .modal-body {
+  display: flex;
+}
+.modal-worldmap .modals .modal-body .img-map {
+  max-height: 450px !important;
+}
+.modal-worldmap .modals .modal-body .body-country-info {
+  background-color: rgb(235, 226, 226);
+  padding: 30px;
+  border-radius: 5px;
+  max-height: 450px;
+  overflow-y: scroll;
+}
+.modal-worldmap .modals .modal-body .body-country-info .div-price-product {
+  text-align: end;
+  margin-top: 30px;
+}
+.modal-worldmap .modals .modal-body .body-country-info .div-price-product .price-product {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+}
+.modal-worldmap .modals .modal-body .body-country-info .div-price-product .price-info {
+  font-size: small;
+}
+.modal-worldmap .modals .modal-body .body-country-info .div-buttons-product {
+  display: flex;
+  text-align: end;
+  flex-direction: column;
+  align-items: end;
+}
+.modal-worldmap .modals .modal-body .body-country-info .div-buttons-product button {
+  width: 40%;
+  margin-top: 10px;
+}
+.modal-worldmap .modals .modal-body .body-country-info .div-buttons-product .btn-cart-product i {
+  margin-left: 10px;
+}
+.modal-worldmap .modals .modal-body .body-country-info .users-opinions {
+  margin-top: 20px;
+}
+.modal-worldmap .modals .modal-body .body-country-info .users-opinions .users-stars {
+  display: flex;
+}
+
+.modal-close-button {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+@keyframes myAnimHome {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}/*# sourceMappingURL=style.css.map */

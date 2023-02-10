@@ -3,6 +3,7 @@ import AddressShipping from './Pageprofil/AddressShipping';
 import PersonalData from './Pageprofil/PersonalData';
 import MyOrder from './Pageprofil/MyOrder';
 import ImageProfil from './Pageprofil/ImageProfil';
+import Favoris from './Pageprofil/Favoris';
 
 function Pageprofile() {
     
@@ -10,22 +11,25 @@ function Pageprofile() {
         personnel: true,
         address: false,
         orders: false,
-        image: false
+        image: false,
+        favoris: false
     })
 
     function handleMenu(e) {
         if (e.target.textContent === 'Données Personnelles') {
-            setStateMenu({personnel: true, address: false, orders: false, image: false});
+            setStateMenu({personnel: true, address: false, orders: false, image: false, favoris: false});
         } else if (e.target.textContent === 'Adresses de livraison') {
-            setStateMenu({personnel: false, address: true, orders: false, image: false});
+            setStateMenu({personnel: false, address: true, orders: false, image: false, favoris: false});
         } else if (e.target.textContent === 'My Orders') {
-            setStateMenu({personnel: false, address: false, orders: true, image: false});
+            setStateMenu({personnel: false, address: false, orders: true, image: false, favoris: false});
         } else if (e.target.textContent === 'Image profil') {
-            setStateMenu({personnel: false, address: false, orders: false, image: true})
-        }
+            setStateMenu({personnel: false, address: false, orders: false, image: true, favoris: false})
+        } else if (e.target.textContent === 'Favoris') {
+            setStateMenu({personnel: false, address: false, orders: false, image: false, favoris: true})
+        } 
     }
 
-    return (
+    return ( 
         <div class="container-fluid page-profil-container">
             <div class="page-profil row flex-nowrap" >
                 <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -37,18 +41,23 @@ function Pageprofile() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#submenu1" data-bs-toggle="collapse" title='Adresses de livraison' class="home nav-link px-0 align-middle" onClick={(e)=>handleMenu(e)}>
+                                <a href="#/adresseLivraison" data-bs-toggle="collapse" title='Adresses de livraison' class="home nav-link px-0 align-middle" onClick={(e)=>handleMenu(e)}>
                                     <i class="home text-white fas fa-house fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Adresses de livraison</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link px-0 align-middle" title='My orders' onClick={(e)=>handleMenu(e)}>
+                                <a href="#/MyOrder" class="nav-link px-0 align-middle" title='My orders' onClick={(e)=>handleMenu(e)}>
                                     <i class="fa-sharp fa-solid fa-bag-shopping text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">My Orders</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link px-0 align-middle" title='Image profil' onClick={(e)=>handleMenu(e)}>
-                                <i class="fa-solid fa-image-portrait text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Image profil</span>
+                                <a href="#/ImageProfil" class="nav-link px-0 align-middle" title='Image profil' onClick={(e)=>handleMenu(e)}>
+                                    <i class="fa-solid fa-image-portrait text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Image profil</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#/Favoris" class="nav-link px-0 align-middle" title='Favoris' onClick={(e)=>handleMenu(e)}>
+                                    <i class="fa-sharp fa-solid fa-heart text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Favoris</span>
                                 </a>
                             </li>
                         </ul>
@@ -60,6 +69,7 @@ function Pageprofile() {
                     {stateMenu.personnel && <PersonalData />}
                     {stateMenu.orders && <MyOrder />}
                     {stateMenu.image && <ImageProfil />}
+                    {stateMenu.favoris && <Favoris />}
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { returnProductsArrays } from "../../lib/service/service";
 import { getProductsSuccess } from "../../lib/state/features/products.slice";
 import { deleteDataUser } from '../../lib/state/features/user.slice';
-import { fetchProducts } from "../../lib/service/service";
+import { getProducts } from "../../lib/service/service";
 
 const Nav = (props) => {
 
@@ -15,9 +15,8 @@ const Nav = (props) => {
   const productsSorted = []
   let image;
 
+  //in this useEffect we sort the store redux of produits by ration of input's value
   useEffect(() => { 
-    console.log(valueInput.length);
-    //console.log(productTotal);
     products.items.map(item => {
       item.map(item1 => {
         if (item1.name.toLowerCase().includes(valueInput)) {
@@ -26,15 +25,13 @@ const Nav = (props) => {
       })
     })
     if (valueInput.length === 0 && valueInput === "") {
-      fetchProducts();
-      //dispatch(getProductsSuccess(productTotal[0]));
+      getProducts()
+      .then((response) => returnProductsArrays(response.data.data))
+      .then((productData) => dispatch(getProductsSuccess(productData)))
     } else {
       const productsArrayPagination = returnProductsArrays(productsSorted);
       dispatch(getProductsSuccess(productsArrayPagination));
     }
-    //const productsArrayPagination = returnProductsArrays(productsSorted);
-      //dispatch(getProductsSuccess(productsArrayPagination));
-    //console.log(products.items);
   },[valueInput])
 
   //Data recovery from the redux store (user information and token)
@@ -66,6 +63,11 @@ const Nav = (props) => {
   function onChangeInput(e) {
     setValueInput(e.target.value.toLowerCase())
   }
+  function onClickButton(params) {
+    /*si on click sur le button de research car on est pas dans la page home, on sera redirectionné vers /Home donc la racine du projet
+    et on aura un state dans le location, du coup on va afficher directement nos produits rechercé (voir /Home)*/
+    return naviagte('/', {state:{state: true}}); 
+  }
 
   const links = ["Home", "About"];
   return (
@@ -92,11 +94,11 @@ const Nav = (props) => {
           <div className="form-outline">
             <input onChange={e => onChangeInput(e)} value={valueInput} id="search-focus" type="search" placeholder="search" className="form-control" />
           </div>
-          <button type="button" className="btn btn-primary">
+          <button onClick={()=>onClickButton()} type="button" className="btn btn-primary">
             <i className="fas fa-search"></i>
           </button>
         </div>
-        {data ? <><Link to={'/cart'} className="nav-link"><i className="text-light fas fa-xl fa-shopping-cart"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">{quantity}</span></> : ""}
+        {<><Link to={'/cart'} className="nav-link"><i className="text-light fas fa-xl fa-shopping-cart"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">{quantity}</span></>}
         <div className="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i class="fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : 'My account'} 
@@ -105,6 +107,7 @@ const Nav = (props) => {
             {!!data ? 
               <>
                 <a class="dropdown-item" href="#"><Link to={'/pageprofile'}>Settings</Link></a>
+                <a class="dropdown-item" href="#"><Link to={'/favoris'}>Favoris</Link></a>
                 <a class="dropdown-item" href="#" onClick={() => LogOutHandle()}><Link to={'/pageprofile'}>LogOut</Link></a>
               </> :
               <>
@@ -114,7 +117,7 @@ const Nav = (props) => {
             }
           </div>
         </div> 
-      </div>
+      </div> 
     </nav>
   );
 };

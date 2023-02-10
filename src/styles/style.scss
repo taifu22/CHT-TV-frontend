@@ -1,2 +1,14 @@
 @import './layoutStyle/layout';
 @import './miscStyles/pageprofil';
+@import './miscStyles/favoris';
+@import './home/productdetails';
+
+@keyframes myAnimHome {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}

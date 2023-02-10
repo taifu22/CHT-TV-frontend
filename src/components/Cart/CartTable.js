@@ -1,9 +1,9 @@
 import React from 'react';  
 import CartFooter from './CartFooter'
 import Row from './Row';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'; 
 
-const CartTable = () => { 
+const CartTable = (props) => { 
 
     const {items} = useSelector((state) => ({...state.cart}))
 
@@ -28,7 +28,7 @@ const CartTable = () => {
 			))}
             </tbody>
         </table>
-		<CartFooter />
+		<CartFooter data={props.dataUser}/>
 		</div>
 		<div className="alert alert-success mt-3">
 			<p className="icontext"><i className="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>

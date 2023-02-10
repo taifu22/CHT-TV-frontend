@@ -9,7 +9,7 @@ let addNewDataOrder = (token, data) => {
         }
     }
     let body = data 
-    return Axios.patch('api//create-new-order', body, config);
+    return Axios.patch('api/create-new-order', body, config); 
 }
 
 //function to delete an order with stripe cancelled payment
