@@ -1,70 +1,45 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Project CHT-TV site E-commerce
+## Author 
+- Chahouat Taoufik
+## General information
+- This repo contains all the source code to run the application.
+## Responsive design
+- Desktop OK
+- Mobile max 480px OK
+- Tablette current programming
+## Prerequisites
+- A text editor like VSCode, Vim, IntelliJ...
+- Node.js < v.16
+- Git
+## Project setup
+- Clone the repo on your computer.
+> git clone https://github.com/taifu22/CHT-TV-frontend.git
+- Package installations after cloning.
+> - npm install 
+- Start application
+> - first you have to start the backend of application (see here https://github.com/taifu22/CHT-TV-backend)
+> - then to start from 'npm start' in the terminal (you have to be in the directory of application)
+## Added dependencies
+- "axios": "^1.2.1",
+- "concurrently": "^7.6.0",
+- "react": "^18.2.0",
+- "react-dom": "^18.2.0",
+- "react-hook-form": "^7.40.0",
+- "react-redux": "^8.0.5",
+- "react-router-dom": "^6.4.5",
+- "react-scripts": "^5.0.1",
+- "react-stripe-elements": "^6.1.2",
+- "redux-persist": "^6.0.0",
+- "redux-thunk": "^2.4.2",
+- "reselect": "^4.1.7",
+- "sass": "^1.57.1",
+- "stripe": "^11.3.0",
+- "web-vitals": "^3.1.0",
+- "yup": "^0.32.11",
+- "react-simple-star-rating": "^5.1.7"
+## Dev dependencies
+- jsdoc v3.6.11
+- sass v1.54.4
+- eslint v8.21.0
+## Deployment
+deploiment in processing
