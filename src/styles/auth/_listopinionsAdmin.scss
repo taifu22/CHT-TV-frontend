@@ -1,0 +1,25 @@
+.list-opinions-admin {
+    .total-list-opinions {
+        margin-top: 30px;
+        .title-opinions {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 20px;
+            padding-right: 30px;
+        }
+        .list-opinions {
+            overflow-y: scroll;
+            max-height: 370px;
+            .opinion {
+                padding: 10px;
+                padding-left: 20px;
+                padding-right: 20px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .p-no-report {
+                margin: 30px;
+            }
+        }
+    }
+}

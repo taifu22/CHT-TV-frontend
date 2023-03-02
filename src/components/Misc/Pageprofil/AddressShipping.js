@@ -7,7 +7,7 @@ import useModal from '../../../lib/hooks/useModal';
 
 function AddressShipping(props) {
 
-    const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal();
+    const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal(); 
     const dispatch = useDispatch();
     const token = useSelector(state => ({...state.user.token}))
     const data = useSelector(state => ({...state.user.users.body.address}))
@@ -34,7 +34,7 @@ function AddressShipping(props) {
                  {
                     arrayAdresses.map(item => {
                         return (<><div className="col-sm-4">
-                                    <div className="card">
+                                    <div className="card"> 
                                     <div className="card-body">
                                         <h5 className="card-title">{item[1].firstname} {item[1].lastname}</h5>
                                         <p className="card-text">{item[1].street}</p>

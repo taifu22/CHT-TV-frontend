@@ -1,17 +1,58 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import serviceAdmin from '../../lib/service/serviceAdmin';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewReportOpinionData } from '../../lib/state/features/user.slice';
+import LightBoxProductsDetails from '../Layout/LightBoxProductsDetails';
 
 function ProductDetails(props) {
 
-    useEffect(()=>{
-      //console.log(props.opinions);
-    },[])
-    
+    //on récupère la liste des signalations donné par le user et son email pour voir si lui donner la main pour donner
+    //une signalation si pas fait, sinon on affichera un button desactivé avec le mot 'dejà signalé'
+    const opinionWithReport = useSelector(state => {
+      if (state.user.users === null) {
+        return null
+      } else {
+        return state.user.users.body.opinionsWithReport
+      }
+    });
+    const userEmail = useSelector(state => {
+      if (state.user.users === null) {
+        return null
+      } else {
+        return state.user.users.body.email
+      }
+    })
+    let opinionWithreportOK = [];
+
+    const dispatch = useDispatch()
     const navigate = useNavigate();
 
     function BuyNow() {
+      //si on clique sur achat immediat on sera redirectionné vers le panier
       props.cart()
       navigate('/cart'); 
+    }
+
+    //affichage de l'image du produit stocké dans le backend ou une image par défaut si pas d'image dispo
+    // const imageData = (img) => { 
+    //   let image1;
+    //   //on verifie si la key image existe dans le body des info de l'user (voir bdd)
+    //   if (img.picture !== undefined){
+    //       //si existe on affiche l'image stocké dans le dossier uploads du back (geré par multer)
+    //       image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + img.picture.data;    
+    //   } else {
+    //       //sinon si l'user vient de s'enregister on mets une image profil par défaut
+    //       image1 = "./images/avatars/avatar3.jpg"
+    //   }
+    //   return image1;
+    // }
+
+    //fonction pour envoyer à la bdd la signalation de l'avis, et on mets à jour aussi le store de redux comme ca l'user
+    //ne pourra pas signaler une deuxième fois un avis qu'il a déjà signalé
+    function FuncSignal(item) {
+      serviceAdmin.setReportOpinion(props.token.accessToken, item.id)
+          .then(res => dispatch(addNewReportOpinionData(res.data.body)))
     }
 
     return (
@@ -30,7 +71,10 @@ function ProductDetails(props) {
                   </button> 
                 </div> 
                 <div className="modal-body">
-                  <img className='img-map' src={ `images/items/${props.data.name}.jpg`}></img>
+                  <div>
+                    {/* <img className='img-map' src={imageData(props.data)}></img> */}
+                    <LightBoxProductsDetails data={props.data.pictures} image={props.data.pictures[0].filename}/>
+                  </div>
                   <div className='body-country-info'>
                     <p><b>Description : </b> {props.data.description}</p>
                     <div className='div-price-product'>
@@ -50,14 +94,42 @@ function ProductDetails(props) {
                        <p><b>Avis des utilisateurs : </b> <span className='ml-3'>{props.stars(props.starArray, props.totalStars())}</span>  <span className='ml-2'>{props.totalStars() ? props.totalStars() : "aucun avis"}</span></p>
                        <hr/>
                        {props.opinions.map(item => {
+                        {opinionWithReport !== null && opinionWithReport.map(item1 => {
+                           {/**ici on stocke si  un item correspond a notre id de l'opinion, car si deja signalé, on affichera le bouton desactivé 'déjà signalé'*/}
+                          if(item1.idOpinion === item.id) {
+                            return opinionWithreportOK.push(item1.idOpinion)
+                          }
+                        })}
                          return(
                           <>
-                          <div className='users-stars'>
-                            <p className='text-primary'>{item.userName}</p>
-                            <ul>{props.stars(props.starArray, item.star)}</ul>
+                          <div className='d-flex justify-content-between'>
+                            <div className='users-stars'>
+                              <p className='text-primary'>{item.userName}</p>
+                              <ul>{props.stars(props.starArray, item.star)}</ul>
+                            </div>
+                            <span className='span-date'>{item.date}</span>
                           </div>
                           <div className='opinion'>
                             <p className='p-opinion'>{item.opinion}</p>
+                            <div className='text-right'>
+                              {/**ici on fait une condition, si dans le store on a déja un id qui est === à un id dans 
+                              la liste des opinions deja signalé par l'user, donc le array opinions de sa fiche user, alors
+                              on lui donne plus la possibilité de redonner une signalation pour le meme avis 
+                              Ensuite si l'user a donné un avis, sur ce avis il ne pourra pas donner de signalation, il aura le button desactivé 'Mon avis'
+                              Ensuite si on es pas loggé si on clique sur signaler on aura un message d'alert*/}
+                              {console.log(opinionWithreportOK)}
+                              {(opinionWithReport !== null && opinionWithreportOK.length && userEmail !== null && item.user !== userEmail) ? 
+                                                opinionWithreportOK.map(item1 =>{
+                                                  if(item1.includes(item.id)) {
+                                                    return(<button disabled className='btn-cart-product btn btn-secondary btn-sm'>Déjà signalé</button>)
+                                                  }
+                                                })
+                              : (userEmail !== null && item.user !== userEmail && opinionWithreportOK.length == 0) ? 
+                                                  <button onClick={()=>FuncSignal(item)} className='btn-cart-product btn btn-secondary btn-sm'>signaler</button>                   
+                              : item.user === userEmail ? <button disabled className='btn-cart-product btn btn-secondary btn-sm'>Mon avis</button>
+                              : userEmail === null ?  <button onClick={()=>alert('il faut se connecter pour faire la signalation')} className='btn-cart-product btn btn-secondary btn-sm'>Signaler</button>
+                              : <button onClick={()=>FuncSignal(item)} className='btn-cart-product btn btn-secondary btn-sm'>Signaler</button>}
+                            </div>
                           </div>
                           <hr/>
                           </>

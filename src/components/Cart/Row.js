@@ -1,10 +1,10 @@
-import React from 'react';  
+import React, { useEffect } from 'react';  
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, updateCart } from '../../lib/state/features/cart.slice';
 import { addNewFavorisData,deleteFavorisData } from '../../lib/state/features/user.slice';
 import serviceUser from '../../lib/service/serviceUser';
 
-const Row = ({ id, name, price, quantity, category}) => { 
+const Row = ({ id, name, price, quantity, category, picture}) => { 
 
     const dispatch = useDispatch();
     const removeFromcartAction = (e) => {
@@ -53,11 +53,29 @@ const Row = ({ id, name, price, quantity, category}) => {
         })   
     } 
 
+    //fonction pour afficher l'image du profile (on l'utilisera dans le src de la balise img)
+    const imageData = () => {
+        let image1;
+        //on verifie si la key image existe dans le body des info de l'user (voir bdd)
+        if (picture !== undefined) {
+            //si existe on affiche l'image stocké dans le dossier uploads du back (geré par multer)
+            image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + picture.data;    
+        } else {
+            //sinon si l'user vient de s'enregister on mets une image profil par défaut
+            image1 = "./images/avatars/avatar3.jpg"
+        }
+        return image1; 
+    }
+
+    useEffect(()=>{
+        console.log(picture);
+    },[])
+
     return (
         <tr>
             <td>
                 <figure className="itemside">
-                    <div className="aside"><img src={ `images/items/${name}.jpg`} className="img-sm" /></div>
+                    <div className="aside"><img src={imageData()} className="img-sm" /></div>
                     <figcaption className="info">
                         <a href="#" className="title text-dark">{ name }</a>
                     </figcaption>

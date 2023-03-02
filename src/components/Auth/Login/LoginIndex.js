@@ -39,9 +39,13 @@ const Login = () => {
         dispatch(setTokenData(res.data))
         serviceUser.getProfile(res.data.accessToken)
             .then(res => {
-              //console.log(res);
+              console.log(res);
               dispatch(setUserData(res.data));
-              navigate(dataCart.length > 0 ? '/cart' : '/')  
+              if (res.data.body.role === "admin") {
+                navigate('/dashboardAdmin');
+              } else {
+                navigate(dataCart.length > 0 ? '/cart' : '/')
+              }  
             }) 
        })
        .catch(error => {

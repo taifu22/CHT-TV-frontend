@@ -2,8 +2,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import Axios from './CallAxiosService';
 import DataOrder from '../../lib/service/serviceOrder';
 import { addNewDataPurchase } from '../../lib/service/service'
+import { useSelector } from 'react-redux';
 
-export const processPayment = async (order, token) => {
+export const processPayment = async (order, deliveryAddress, orderNumber, token) => {
     const cléAPI_production = "pk_live_51MK0pUKGygiBmYbKg2TZs2rb9uIBggBBfwyk6MZ3tPdCaZ3MgvDta4vBpjuubVwKSTPLXlJRmTkENc0A8roaFmnX00tvanLu9Q";
     const cléAPI_test = "pk_test_51MK0pUKGygiBmYbKUEqZKBqzP5Exchr0uxP5k4NGmgqfEXkk1sihvHA7W4aCykaVaLFBic7IqPjoQhWoVeckex4y00UQisAdAq"
     const stripePromise = loadStripe(cléAPI_test);
@@ -12,10 +13,11 @@ export const processPayment = async (order, token) => {
           .then(res => {
             const sessionID = res.data.id
             const date = new Date();
-            const dataFormat = {key: date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()}
-            const orderWithDate = [order, dataFormat];
+            const dataFormat = {key: date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear(),
+                                orderNumber: orderNumber}
+            const orderWithDate = [order, deliveryAddress, dataFormat];
             stripe.redirectToCheckout({ sessionId: sessionID });
             addNewDataPurchase(orderWithDate);
-            return DataOrder.addNewDataOrder(token.accessToken, orderWithDate) 
+            return DataOrder.addNewDataOrder(token.accessToken, orderWithDate)  
           })
 } 

@@ -1,4 +1,5 @@
-  import React from 'react';
+  import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Gallery from './Gallery'
 
 const Deals = () => ( 
@@ -106,6 +107,7 @@ const Slider = () => (
   </div>)
 
 const Home = () => {
+
     return(
       <div className="container" style={{marginTop: '130px'}}>  
         {/* <Deals /> */}

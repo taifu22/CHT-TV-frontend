@@ -1,0 +1,50 @@
+.erreur-404 {
+    //margin: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .erreur-404-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        color: black;
+        .p-404 {
+            margin: 95px;
+            font-size: 100px;
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            line-height: 142.6%;
+        }
+        .p-404-text {
+            font-size: 36px;
+        }
+    }
+    .back-to-home {
+        margin-bottom: 50px;
+        text-decoration: underline;
+    }
+}
+
+@media screen and (max-width: 375px){
+    .erreur-404{
+        margin-top: 100px;
+        .erreur-404-container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .p-404 {
+                font-size: 96px;
+            }
+            .p-404-text {
+                font-size: 18px;
+                text-align: center;
+            }
+        }
+        .back-to-home {
+            font-size: 14px;
+        }
+    }
+}

@@ -13,7 +13,7 @@ const Nav = (props) => {
   const products = useSelector(state => ({...state.products}))
 	const quantity = items.length > 0 ? items.length : '';
   const productsSorted = []
-  let image;
+  let image; 
 
   //in this useEffect we sort the store redux of produits by ration of input's value
   useEffect(() => { 
@@ -106,7 +106,7 @@ const Nav = (props) => {
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {!!data ? 
               <>
-                <a class="dropdown-item" href="#"><Link to={'/pageprofile'}>Settings</Link></a>
+                <a class="dropdown-item" href="#"><Link to={data.role === 'admin' ? '/dashboardAdmin' :'/pageprofile'}>{data.role === 'admin' ? 'DashBoard' : 'Settings'}</Link></a>
                 <a class="dropdown-item" href="#"><Link to={'/favoris'}>Favoris</Link></a>
                 <a class="dropdown-item" href="#" onClick={() => LogOutHandle()}><Link to={'/pageprofile'}>LogOut</Link></a>
               </> :

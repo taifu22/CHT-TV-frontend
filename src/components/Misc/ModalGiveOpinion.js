@@ -6,11 +6,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Rating } from 'react-simple-star-rating';
 import { addNewDataOpinion } from '../../lib/service/service';
 import { addNewOpinionData } from '../../lib/state/features/user.slice';
+import serviceAdmin from '../../lib/service/serviceAdmin';
 
 function ModalGiveOpinion(props) {
 
     const dispatch = useDispatch();
     const token = useSelector(state => ({...state.user.token}))
+    const userId = useSelector(state => state.user.users.body)
 
     //ce state c'est pour faire en facon que ma modale se ferme correctement à la validation du formulaire grace  à la 
     //proprieté data-dismiss de la balise button de bootstrap
@@ -22,23 +24,32 @@ function ModalGiveOpinion(props) {
 			name: "",
             opinion: "" 
 		},
-		resolver: yupResolver(validationSchemaOpinion),
+		resolver: yupResolver(validationSchemaOpinion), 
     });
 
-	const { errors } = formState;
+	const { errors } = formState; 
 
     //fonction pour envoyer le formulaire donc le valider, et envoyer les données à la bdd, et au store redux
     //pour voir les maj en direct sans rafraichissement de la page
 	const onSubmit = (data) => {
         props.hide();
         setDataDismiss(!dataDismiss)
+        //fonction pour donner toujours un id opinion different
+        const opinionNumber = userId.id.match(/\d+/g).join('') + userId.opinions.length +7; 
+        const date = new Date();
+        const dataFormat = date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()
         const newData = {
+            id: opinionNumber,
             nameProduct: props.product,
             opinion: data.opinion,
             userName: data.name,
-            star: rating 
+            star: rating,
+            date: dataFormat 
         }
-        addNewDataOpinion(token.accessToken, newData);
+        //envoie de l'avis vers la colection opinions (où l'on stocke tous les avis de tous les utilisateurs pour les afficher dans la dashboard admin)
+        serviceAdmin.addOpinionAdminService(token.accessToken, newData)
+        //envoie vers la collection user, donc vers le array opinions de l'utilisateur qui a envoyé l'opinion, et vers du coup le produit en question aussi (on fait les 2 requetes dans le meme controller)
+        addNewDataOpinion(token.accessToken, newData); 
         dispatch(addNewOpinionData(newData))
 	};
 
@@ -84,7 +95,8 @@ function ModalGiveOpinion(props) {
                             <div className="form-group">
                                 <div className="col form-group col-md p-0" >
                                     <label>Donnez votre avis</label>
-                                    <textarea {...register("opinion")} type='textArea' name='opinion' className="form-control" rows="3"></textarea>                                    <small className="text-danger">
+                                    <textarea {...register("opinion")} type='textArea' name='opinion' className="form-control" rows="3"></textarea>                                    
+                                    <small className="text-danger">
                                         {errors.opinion?.message}
                                     </small>
                                 </div>

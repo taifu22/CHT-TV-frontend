@@ -7,6 +7,8 @@ export const productsSlice = createSlice({
     error: null,
     pageIndex: 0,
     items: [],
+    //ici on stocke les images du produit que l'on veut modifier (modification produits coté dashboard admin)
+    infosProduct: null
   },
   reducers: {
       getProductsPending: (state) => {
@@ -35,8 +37,28 @@ export const productsSlice = createSlice({
           pageIndex: payload,
         }
       }, 
+      deleteProductFromAdmin: (state, {payload}) => {
+        state.items = state.items.map(item => {
+          return item.filter((pic) => pic.id !== payload);
+        })
+      },
+      addNewProductAdmin: (state, {payload}) => {
+        state.items[state.items.length -1].push(payload)
+      },
+      updateProductFromAdmin: (state, {payload}) => {
+        state.items = state.items.map(item => {
+          return item.filter((pic) => pic.id !== payload.id);
+        })
+        state.items[state.items.length -1].push(payload)
+      },
+      setInfosProductFromAdmin: (state, {payload}) => {
+        state.infosProduct = payload
+      },
+      deleteInfosproductFromAdmin: (state) => {
+        state.infosProduct = null
+      }
   }
 })
 
-export const {getProductsFailure, getProductsSuccess, getProductsPending, setPageIndex} = productsSlice.actions;
+export const {getProductsFailure, getProductsSuccess, getProductsPending, setPageIndex, deleteProductFromAdmin, addNewProductAdmin, setInfosProductFromAdmin, deleteInfosproductFromAdmin,updateProductFromAdmin } = productsSlice.actions;
 export default productsSlice.reducer;

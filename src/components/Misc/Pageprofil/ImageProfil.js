@@ -11,7 +11,8 @@ function ImageProfil(props) {
     const token = useSelector(state => ({...state.user.token}))
     const dataImage = useSelector(state => ({...state.user.users.body}))
     const dispatch = useDispatch();
-    console.log(dataImage);
+    
+    //fonction pour afficher l'image du profile (on l'utilisera dans le src de la balise img)
     const imageData = () => {
         let image1;
         //on verifie si la key image existe dans le body des info de l'user (voir bdd)
@@ -22,7 +23,7 @@ function ImageProfil(props) {
             //sinon si l'user vient de s'enregister on mets une image profil par défaut
             image1 = "./images/avatars/avatar3.jpg"
         }
-        return image1;
+        return image1; 
     }
 
     const { register, handleSubmit, formState, reset } = useForm({ 

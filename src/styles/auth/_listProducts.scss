@@ -1,0 +1,32 @@
+.list-product-admin {
+    overflow-y: scroll;
+    max-height: 530px;
+    .div-search-button-add {
+        display: flex;
+        justify-content: space-between;
+    }
+    .product-admin {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.modal-add-product-visible {
+    display: block;
+}
+
+.modal-add-product-none {
+    display: none;
+}
+
+.modal-add-product-images-visible {
+    display: block;
+}
+
+.modal-add-product-images-none {
+    display: none;
+}
+
+.span-text-infos-update-product {
+    font-size: 12px;
+}

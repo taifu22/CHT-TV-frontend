@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { setPageIndex } from '../../lib/state/features/products.slice';
 
@@ -13,8 +13,12 @@ const Pagination = () => {
 		return { isDisabled: pageIndex === 0 }
 	}, [pageIndex])
 	const Next = React.useMemo(() => {  
-		return { isDisabled: pageIndex === items.length - 1  }
+		return { isDisabled: (pageIndex === items.length - 1 || pageIndex === 0)  }
 	}, [pageIndex])
+
+	useEffect(()=>{
+        console.log(items.length);
+	},[])
 		 
     return (
 		!!items.length &&

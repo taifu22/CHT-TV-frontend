@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { current } from "@reduxjs/toolkit";
 
 const mapItem = (item, payload) => {
-    console.log(item);
     if (item.id === payload.id) { return { ...item, quantity: item.quantity + 1 } }
     return item
 }
@@ -16,7 +15,8 @@ export const cartSlice = createSlice({
     name: "user",
     initialState: { 
         items: localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [],
-        delivery: 'standard'
+        delivery: 'standard',
+        addressDelivery : {}
     },
     reducers: {
         addToCart: (state, {payload}) => {
@@ -37,6 +37,9 @@ export const cartSlice = createSlice({
         setDeliveryChoice: (state, {payload}) => {
             return {...state, delivery: payload} 
         },
+        setDeliveryAddress: (state, {payload}) => {
+            return {...state, deliveryAddress: payload}
+        },
         checkOut: (state) => {
             state.delivery= 'standard';
             state.items= []
@@ -44,5 +47,5 @@ export const cartSlice = createSlice({
     }
 })
 
-export const {addToCart, removeFromCart, updateCart, setDeliveryChoice, checkOut} = cartSlice.actions;
+export const {addToCart, removeFromCart, updateCart, setDeliveryChoice, setDeliveryAddress, checkOut} = cartSlice.actions;
 export default cartSlice.reducer;

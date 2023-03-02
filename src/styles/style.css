@@ -155,6 +155,82 @@ nav .img-profil {
   background: transparent;
 }
 
+.section-content-checkout .container .address-delivery .card .card-body {
+  cursor: pointer;
+}
+.section-content-checkout .container .address-delivery .card .card-body:hover {
+  background-color: rgb(214, 227, 238);
+}
+.section-content-checkout .container .address-delivery .card .card-body-selected {
+  background-color: rgb(214, 227, 238);
+}
+
+.cart-footer .disabled-cart-btn {
+  pointer-events: none;
+}
+
+.erreur-404 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.erreur-404 .erreur-404-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: black;
+}
+.erreur-404 .erreur-404-container .p-404 {
+  margin: 95px;
+  font-size: 100px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  line-height: 142.6%;
+}
+.erreur-404 .erreur-404-container .p-404-text {
+  font-size: 36px;
+}
+.erreur-404 .back-to-home {
+  margin-bottom: 50px;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 375px) {
+  .erreur-404 {
+    margin-top: 100px;
+  }
+  .erreur-404 .erreur-404-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .erreur-404 .erreur-404-container .p-404 {
+    font-size: 96px;
+  }
+  .erreur-404 .erreur-404-container .p-404-text {
+    font-size: 18px;
+    text-align: center;
+  }
+  .erreur-404 .back-to-home {
+    font-size: 14px;
+  }
+}
+.list-product-admin {
+  overflow-y: scroll;
+  max-height: 530px;
+}
+.list-product-admin .div-search-button-add {
+  display: flex;
+  justify-content: space-between;
+}
+.list-product-admin .product-admin {
+  display: flex;
+  justify-content: space-between;
+}
+
 @keyframes myAnimHome {
   0% {
     opacity: 0;

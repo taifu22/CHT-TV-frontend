@@ -10,15 +10,25 @@ function Favoris(props) {
     const favoris = useSelector(state => ({...state.user.users.body}));
     const token = useSelector(state => ({...state.user.token}));
 
-    const addTocartAction = (id, name, price) => dispatch(addToCart({id, name, price}))
+    const addTocartAction = (id, name, price, picture) => dispatch(addToCart({id, name, price, picture}))
     function deleteFavorite(id) {
         serviceUser.deleteFavorisUser(token.accessToken, id);
         dispatch(deleteFavorisData(id));
     }
 
-    useEffect(() => {
-        console.log(favoris.favoris);
-    },[])
+    //affichage de l'image du produit stocké dans le backend ou une image par défaut si pas d'image dispo
+    const imageData = (picture) => { 
+        let image1;
+        //on verifie si la key image existe dans le body des info de l'user (voir bdd)
+        if (picture !== undefined){
+            //si existe on affiche l'image stocké dans le dossier uploads du back (geré par multer)
+            image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + picture.data;    
+        } else {
+            //sinon si l'user vient de s'enregister on mets une image profil par défaut
+            image1 = "./images/avatars/avatar3.jpg"
+        }
+        return image1;
+    }
 
     return (
         <div className='container-fluid div-favoris'>
@@ -30,13 +40,13 @@ function Favoris(props) {
                     favoris.favoris.map(item => {
                         return(
                             <div className='favoris-product'>
-                                <img src={ `images/items/${item.name}.jpg`}/>
+                                <img src={imageData(item.picture)}/>
                                 <div className='infos-product'>
                                     <p>{item.name}</p>
                                     <p className='infos-price'>{item.price} Є</p>
                                 </div>
                                 <div className='buttons-favoris-product'>
-                                    <button onClick={() => addTocartAction(item.id, item.name, item.price)} className='btn btn-primary'>Ajouter au panier</button>
+                                    <button onClick={() => addTocartAction(item.id, item.name, item.price, item.picture)} className='btn btn-primary'>Ajouter au panier</button>
                                     <button onClick={() => deleteFavorite(item.id)} className='btn btn-danger'>Supprimer</button>
                                 </div>
                             </div>)

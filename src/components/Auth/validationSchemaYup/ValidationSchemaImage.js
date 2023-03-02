@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 export const ValidationSchemaImage = Yup.object().shape({
-    name: Yup.string()
+    name: Yup.string() 
         .required("le nom de fichier est obligatoire")
         .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
         .min(1, "trop petit!")

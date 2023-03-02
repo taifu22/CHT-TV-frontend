@@ -32,7 +32,7 @@ function ModalAddress(props) {
 			lastname: data.lastname,
 			street: data.street,
 			city: data.city,
-            country: data.country
+            country: data.country 
 		}
 		serviceUser.addNewDataAddress(token.accessToken, dataAddress)
                  .then(res => console.log(res))

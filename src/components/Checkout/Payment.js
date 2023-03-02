@@ -4,7 +4,10 @@ import { processPayment } from '../../lib/service/serviceStripe'
 import { selectDeliveryCost } from "../../lib/state/selectors";
 import { addnewOrder } from '../../lib/state/features/user.slice';
 
-function Payment({ isValid }) {
+function Payment(props) {
+
+  const deliveryAddress = useSelector(state => state.cart.deliveryAddress);
+  const userId = useSelector(state => state.user.users.body)
 
   const dispatch = useDispatch();
   const token = useSelector(state => ({...state.user.token}))
@@ -14,7 +17,7 @@ function Payment({ isValid }) {
     backend, et doc stripe), donc vu qu'on peut avoir plusieurs produits dans le panier, dans order, on fera
     un map de processItem, pour pouvoir avoir un tableau avec tous les produits de mon panier*/
   const processItem = (item) => ({
-    price_data: {
+    price_data: { 
       currency: "eur",
       product_data: { name: item.name },
       //a savoir que la unit (voir la doc), c'est toujours en centimes, donc faire *100
@@ -41,21 +44,29 @@ function Payment({ isValid }) {
   //on fait une concat de nos produits dans le panier plus la livraison
   const orderWithShipping = order.concat(processShipping);
 
-  return (
+  //fonction pour donner toujours un numéro de commande different
+  const orderNumber = userId.id.match(/\d+/g).join('') + userId.orders.length +2;
+
+  useEffect(()=>{
+    console.log(userId.orders.length);
+  },[])
+
+  return ( 
     <button 
       className="btn btn-outline-primary btn-lg mt-3 btn-block" 
       onClick={async() =>{
         /*je rajoute un index à l'array avec deja 1 array qui contient 2 index, un avec les ou l'objet et l'autre avec la livraison
         donc on aura 2 index, un avec objets et livraison, et un avec la date de la commande*/
         const date = new Date();
-        const dataFormat = {key: date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()}
-        const orderWithDate = [orderWithShipping, dataFormat];
+        const dataFormat = {key: date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear(),
+                            orderNumber: orderNumber}
+        const orderWithDate = [orderWithShipping, deliveryAddress, dataFormat];
         dispatch(addnewOrder(orderWithDate));
-        await processPayment(orderWithShipping, token); 
+        await processPayment(orderWithShipping, deliveryAddress, orderNumber, token); 
       }} 
-      disabled={isValid}>
+      disabled={props.address != 0 ? "" : "disabled"}>
       Checkout
       </button>
   );
 }
-export default Payment;
+export default Payment;  

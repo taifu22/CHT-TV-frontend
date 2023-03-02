@@ -1,7 +1,7 @@
 import Axios from './CallAxiosService';
 
 //function to add new dataOrder
-let addNewDataOrder = (token, data) => {
+let addNewDataOrder = (token, data) => { 
   console.log(token);
     let config = {
         headers: {

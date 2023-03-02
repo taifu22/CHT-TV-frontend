@@ -1,0 +1,26 @@
+.list-orders-admin {
+    .title-order-admin {
+        margin-top: 30px;
+        margin-right: 50px;
+    }
+    .total-list-order {
+        overflow-y: scroll;
+        max-height: 340px;
+        margin-right: 20px;
+        .p-nameproduct {
+            margin-bottom: -3px ;
+        }
+        .order-admin {
+            display: flex;
+            justify-content: space-around;
+            .p-nameproduct {
+                margin-bottom: -3px ;
+            }
+        }
+        .infos-order-number-total {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

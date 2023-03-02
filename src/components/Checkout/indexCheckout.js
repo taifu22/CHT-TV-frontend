@@ -1,31 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Payment from './Payment'
 import DeliveryBox from './DeliveryBox'
 import { useSelector, useDispatch } from 'react-redux';
-import { setDeliveryChoice } from '../../lib/state/features/cart.slice';
+import { setDeliveryChoice, setDeliveryAddress } from '../../lib/state/features/cart.slice';
 import { Link, useNavigate } from "react-router-dom";
 
 const defaultValues = { 
-	delivery: 'standard',
+	delivery: 'standard', 
 	address: ''
 }
 
 const options = ['Canada', 'Russia', 'United States', 'India', 'Afganistan']
-const Checkout = () => { 	
+const Checkout = () => { 
 
 	//ici je dit, tu vas me chercher la key address de ce state/objet donc user.users.body
 	const { address } = useSelector(state => state.user.users.body);
+	//ici je récupère depuis le store juste la valeur du choix de delivery choisi (20$ ou pas, car seulement 2 choix)
 	const delivery = useSelector(state => state.cart.delivery)
+	//ici je récupère depuis le store l'adresse de livraison choisi, pour faire fonctionner mon système de choix des addresses
+	const deliveryAddress = useSelector(state => state.cart.deliveryAddress)
 
 	const dispatch = useDispatch()
 
+	//fonction pour dispatch dans le store le choix de la livraiison pour aprés l'utiliser lors du payement (ajouter ou pas 20£)
 	function deliveryChoice(value) {
 		dispatch(setDeliveryChoice(value))
+	}
+    
+	//fonction pour stocker dans le store l'adresse de livraison et pouvoir l'utiliser dans la prochaine étape du payement
+	function deliveryAddressChoice(value) {
+		if (value !== deliveryAddress) {
+		    dispatch(setDeliveryAddress(value))	
+		}
 	}
 
 	return (
 	<> 
-	<section className="section-content padding-y" style={{ margin: '100px auto', maxWidth: '720px' }}>
+	<section className="section-content-checkout padding-y" style={{ margin: '100px auto', maxWidth: '720px' }}>
 		<div className="container" >
             <div className="card mb-4">
 				<div className="card-body">
@@ -44,9 +55,9 @@ const Checkout = () => {
 						{
 							address.length != 0  ? address.map(item => {
 							return (<>
-										<div className="col-sm-4">
+										<div className="col-sm-4 address-delivery">
 											<div className="card">
-											<div className="card-body">
+											<div onClick={()=> deliveryAddressChoice(item)} className={item === deliveryAddress ? "card-body card-body-selected" : "card-body"}>
 												<h5 className="card-title">{item.firstname} {item.lastname}</h5>
 												<p className="card-text">{item.street}</p>
 												<p className="card-text">{item.city}</p>
@@ -60,7 +71,7 @@ const Checkout = () => {
 					</div>
 				</div> 
 				<div className="form-row" style={{padding: '0 25px 30px'}}>
-					<Payment />	
+					<Payment address={address.length}/>	
 				</div>
 			</div> 
 		</div>
