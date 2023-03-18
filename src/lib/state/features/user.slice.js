@@ -13,6 +13,10 @@ export const userSlice = createSlice({
         order: null,
         //ici on stocke toutes les orders pour pouvoir les afficher seulement coté admin et faire une recherche par numéro de commande(donc afficher les commandés rechercés en temps réele)
         orders: null,
+        //ici on stocke les infos du message que l'on souhaite récuperer dans la modal (voir discussion) coté messagerie 
+        message: null,
+        //on stocke tous les messages des utilisateurs dans la dashboard admin
+        AllMessages: null
     },
     reducers: {
         //store token in redux store
@@ -30,7 +34,8 @@ export const userSlice = createSlice({
             state.address = null;
             state.orders = null;
             state.order = null;
-            state.opinionsWithReport = null
+            state.message = null;
+            state.AllMessages = null;
         },
         //action for add newAddress to store
         addNewAddressData: (state, {payload}) => {
@@ -94,6 +99,56 @@ export const userSlice = createSlice({
         addNewReportOpinionData: (state, {payload}) => {
             state.users.body.opinionsWithReport = [...state.users.body.opinionsWithReport, payload]
         },
+        //affiches les infos de la discussion du message ouvert (modal voir discussion) dans le panneau des settings
+        setMessage: (state, {payload}) => {
+            state.message = payload
+        },
+        //affiche le message qui vient d'etre envoyé par l'user dans le tableau de la messagerie
+        setMessageSend: (state, {payload}) => {
+            state.message.messages = [...state.message.messages, payload.new]
+        },
+        //affiche la discussion qui vient d'etre démarré, (le user vient d'envoyer un msg à l'admin du coup il a ouvert une nouvelle discussion)
+        setNewDiscussion: (state, {payload}) => {
+            state.users.body.messages = [...state.users.body.messages, payload]
+        },
+        //affiche la liste de tous les messages dans la dashBoard admin
+        getAllMessages: (state, {payload}) => {
+            state.AllMessages = payload
+        },
+        //delete newmessage notification admin
+        setNewMessageFalse: (state, {payload}) => {
+            state.AllMessages = state.AllMessages.map(item => {
+                if (item.id === payload) {
+                    item.messages.map(item1 => {
+                        return item1 = {...item1, newMessage: false} 
+                    })
+                    return item = {...item, newMessage: false}
+                } else {
+                    item.messages.map(item1 => {
+                        return item1 = {...item1, newMessage: false} 
+                    })
+                    return item
+                }
+            })
+            state.users.body.newMessage = false
+        },
+        //delete newmessage notification admin
+        setNewMessageFalseUser: (state, {payload}) => {
+            state.users.body.messages = state.users.body.messages.map(item => {
+                if (item.id !== undefined && item.id === payload) {
+                    item.messages.map(item1 => {
+                        return item1 = {...item1, newMessage: false}
+                    })
+                    return item = {...item, newMessage: false}
+                } else {
+                    item.messages.map(item1 => {
+                        return item1 = {...item1, newMessage: false}
+                    })
+                    return item
+                }
+            })
+            state.users.body.newMessage = false 
+        }
     }
 })
 
@@ -114,6 +169,12 @@ export const {setUserData,
                 setAddressInfosOrders,
                 getAllOrdersFromAdmin,
                 setOrderFromAdmin,
-                addNewReportOpinionData} = userSlice.actions;
+                addNewReportOpinionData,
+                setMessage,
+                setMessageSend,
+                getAllMessages,
+                setNewDiscussion,
+                setNewMessageFalse,
+                setNewMessageFalseUser} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -24,7 +24,7 @@ function ModalGiveOpinion(props) {
 			name: "",
             opinion: "" 
 		},
-		resolver: yupResolver(validationSchemaOpinion), 
+		resolver: yupResolver(validationSchemaOpinion),  
     });
 
 	const { errors } = formState; 

@@ -55,7 +55,7 @@ function ListProducts(props) {
             sum+= result[i]
         } 
         return sum
-    }
+    } 
 
     //fonction pour supprimer un produit de la bdd et du store redux
     function deleteProduct(id, token) {
@@ -118,10 +118,14 @@ function ListProducts(props) {
                         <i className="fas fa-search"></i>
                     </button>
                 </div>
-                <button data-toggle="modal" data-target="#modalAddproduct" onClick={()=>toggleInfo()} className='btn btn-success'>Ajouter un nouveau produit</button>
+                <div className='add-product-admin'>
+                    <i role={'button'} data-toggle="modal" data-target="#modalAddproduct" onClick={()=>toggleInfo()} title='ajouter un nouveau produit' class="fa-solid fa-plus"></i>
+                </div>     
+                {/* <button data-toggle="modal" data-target="#modalAddproduct" onClick={()=>toggleInfo()} className='btn btn-success'>Ajouter un nouveau produit</button> */}
                 {isInfoShowed && <ModalAddProduct updateProduct={false} dataTarget={"modalAddproduct"} funcToggle={()=>toggleInfo()} />}
             </div>
             <hr/>
+            <div className='list-products-admin'>
             {products.map(item =>{
                 return item.map(item1 => {
                     return(
@@ -141,9 +145,11 @@ function ListProducts(props) {
                                     <p>{(item1.purchases.length >= 1 && NumberPurchases(item1.purchases) > 1 ) ? NumberPurchases(item1.purchases) + ' articles vendus' : (item1.purchases.length == 1 && NumberPurchases(item1.purchases) == 1) ? item1.purchases.length+ ' article vendu' : '0 articles vendus'} </p>
                                 </div>
                                 {/*je vide le tableau des etoiles, pour que ca soit vide pour le prochaine produit du map (sinon conflits d'étoiles)arrayStar = []*/}
-                                <div className='d-flex flex-column justify-content-between'>
-                                    <button onClick={()=>deleteProduct(item1.id, token.accessToken)} className='btn btn-outline-danger'>Supprimer le produit</button>
-                                    <button data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} className='btn btn-outline-info'>Modifier le produit</button>
+                                <div className='d-flex flex-column justify-content-center mr-3'>
+                                    <i onClick={()=>deleteProduct(item1.id, token.accessToken)} title='supprimer le produit' className="fa-solid fa-trash text-danger fa-lg" role={'button'}></i>
+                                    {/* <button onClick={()=>deleteProduct(item1.id, token.accessToken)} className='btn btn-outline-danger'>Supprimer le produit</button> */}
+                                    <i data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} title='modifier le produit' className="fa-solid fa-pen-to-square text-info mt-4" role={'button'}></i>
+                                    {/* <button data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} className='btn btn-outline-info'>Modifier le produit</button> */}
                                     {isInfoShowed2 && <ModalAddProduct updateProduct={true} dataTarget={"modalUpdateproduct"} funcToggle={()=>toggleInfo2()} />}
                                 </div>
                             </div>
@@ -152,6 +158,7 @@ function ListProducts(props) {
                         </>)
                 })
             })}
+            </div>
         </div>
     );
 }

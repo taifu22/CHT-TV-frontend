@@ -66,16 +66,30 @@ function ModalAddProduct(props) {
 
     //fonction pour prévisualiser une image (chargé avec l'input file) avant l'upload
     //on récupère le File du FileList (donc son index 0), puis on visualise l'image avec l'Objet Filereader de js
-    const [picture, setPicture] = useState()
-    function onChangePicture(e) {
-        console.log(e);
+    const [picture1, setPicture1] = useState()
+    const [picture2, setPicture2] = useState()
+    const [picture3, setPicture3] = useState()
+    const [picture4, setPicture4] = useState()
+    function onChangePicture(e, picture) {
         const file = e.target.files[0]
         const reader = new FileReader();
         reader.onload = () => {
-            setPicture(reader.result)
+            return picture === 'picture1' ?
+                    setPicture1(reader.result) :
+                    picture === 'picture2' ?
+                    setPicture2(reader.result) :
+                    picture === 'picture3' ?
+                    setPicture3(reader.result) :
+                    picture === 'picture4' ?
+                    setPicture4(reader.result) : ""
         }
         reader.readAsDataURL(file)
     }
+
+    useEffect(()=>{
+        console.log(picture1);
+        console.log(picture2);
+    },[picture1, picture2])
 
     return (
         <>
@@ -97,9 +111,9 @@ function ModalAddProduct(props) {
                                                             </div> : ""}
                                     <div className="form-group col" >
                                         <div className='d-flex justify-content-between'>
-                                            <input id="picture" {...register("picture")} type="file" onChange={e=>onChangePicture(e)}/>
-                                            {(infosProduct !== null && infosProduct.pictures[0] !== undefined) ? <img style={{height:'50px'}} src={picture != undefined ? picture : 'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[0].filename}></img> : picture} 
-                                            {(infosProduct === null && picture !== undefined) ? <img style={{height:'50px'}} src={picture}></img> : ""}
+                                            <input id="picture" {...register("picture")} type="file" onChange={e=>onChangePicture(e, 'picture1')}/>
+                                            {infosProduct !== null && (infosProduct.pictures[0] !== undefined ? <img style={{height:'50px'}} src={picture1 != undefined ? picture1 : 'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[0].filename}></img> : <img style={{height:'50px'}} src={picture1}></img>)} 
+                                            {(infosProduct === null && picture1 !== undefined) ? <img style={{height:'50px'}} src={picture1}></img> : ""}
                                         </div>
                                         <small className="text-danger">
                                             {errors.picture?.message}
@@ -107,8 +121,9 @@ function ModalAddProduct(props) {
                                     </div>
                                     <div className="form-group col" >
                                         <div className='d-flex justify-content-between'>
-                                            <input id="picture1" {...register("picture1")} type="file" />
-                                            {(infosProduct !== null && infosProduct.pictures[1] !== undefined) ? <img style={{height:'50px'}} src={'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[1].filename}></img> : ""}
+                                            <input id="picture1" {...register("picture1")} type="file" onChange={e=>onChangePicture(e, 'picture2')}/>
+                                            {infosProduct !== null && (infosProduct.pictures[1] !== undefined ? <img style={{height:'50px'}} src={picture2 != undefined ? picture2 : 'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[1].filename}></img> : <img style={{height:'50px'}} src={picture2}></img>)} 
+                                            {(infosProduct === null && picture2 !== undefined) ? <img style={{height:'50px'}} src={picture2}></img> : ""}
                                         </div> 
                                         <small className="text-danger">
                                             {errors.picture1?.message}
@@ -116,8 +131,9 @@ function ModalAddProduct(props) {
                                     </div>
                                     <div className="form-group col" >
                                         <div className='d-flex justify-content-between'>
-                                            <input id="picture2" {...register("picture2")} type="file" />
-                                            {(infosProduct !== null && infosProduct.pictures[2] !== undefined) ? <img style={{height:'50px'}} src={'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[2].filename}></img>: ""} 
+                                            <input id="picture2" {...register("picture2")} type="file" onChange={e=>onChangePicture(e, 'picture3')}/>
+                                            {infosProduct !== null && (infosProduct.pictures[2] !== undefined ? <img style={{height:'50px'}} src={picture3 != undefined ? picture3 : 'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[2].filename}></img> : <img style={{height:'50px'}} src={picture3}></img>)} 
+                                            {(infosProduct === null && picture3 !== undefined) ? <img style={{height:'50px'}} src={picture3}></img> : ""}
                                         </div>
                                         <small className="text-danger">
                                             {errors.picture2?.message}
@@ -125,8 +141,9 @@ function ModalAddProduct(props) {
                                     </div>
                                     <div className="form-group col" >
                                         <div className='d-flex justify-content-between'>
-                                            <input id="picture3" {...register("picture3")} type="file" />
-                                           {(infosProduct !== null && infosProduct.pictures[3] !== undefined) ?  <img style={{height:'50px'}} src={'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[3].filename}></img> : "" }
+                                            <input id="picture3" {...register("picture3")} type="file" onChange={e=>onChangePicture(e, 'picture4')}/>
+                                            {infosProduct !== null && (infosProduct.pictures[3] !== undefined ? <img style={{height:'50px'}} src={picture4 != undefined ? picture4 : 'http://localhost:4000/uploads/imagesUsersProfil/' + infosProduct.pictures[3].filename}></img> : <img style={{height:'50px'}} src={picture4}></img>)} 
+                                            {(infosProduct === null && picture4 !== undefined) ? <img style={{height:'50px'}} src={picture4}></img> : ""}
                                         </div>
                                         <small className="text-danger">
                                             {errors.picture3?.message}

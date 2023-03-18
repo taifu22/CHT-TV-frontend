@@ -7,7 +7,7 @@ import useModal from '../../../lib/hooks/useModal';
 
 function AddressShipping(props) {
 
-    const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal(); 
+    const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal();  
     const dispatch = useDispatch();
     const token = useSelector(state => ({...state.user.token}))
     const data = useSelector(state => ({...state.user.users.body.address}))

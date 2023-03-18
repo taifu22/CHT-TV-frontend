@@ -1,0 +1,36 @@
+.messaing-list {
+    .div-search-button-add {
+        display: flex;
+        height: 40px;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+    .messaging-list-div {
+        overflow-y: scroll;
+        max-height: 340px;
+        .into-message {
+            .into-message-p-elipsis {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+    }
+    .list-messages-container {
+        overflow-y: scroll;
+        max-height: 280px;
+        .inside-message {
+            max-width: 50%;
+            background-color: rgb(185, 233, 233);
+            padding: 10px;
+            border-radius: 10px;
+            .p-message { 
+                font-size: 12px;
+            }
+        }
+        .inside-message-2 {
+            margin-left: 200px !important;
+            background-color: rgb(198, 230, 194) !important;
+        }
+    }
+}

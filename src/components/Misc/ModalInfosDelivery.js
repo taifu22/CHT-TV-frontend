@@ -8,7 +8,7 @@ function ModalInfosDelivery(props) {
     return (
         <div class="modal fade" id='modalDeliveryInfos' tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content"> 
                         <div class="modal-header text-center w-100">
                             <div>
                                 <h4 class="modal-title font-weight-bold">informations de livraison</h4>

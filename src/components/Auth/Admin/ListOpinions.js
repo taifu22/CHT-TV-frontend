@@ -10,15 +10,10 @@ function ListOrders(props) {
     const opinions = useSelector(state => state.opinions.items)
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-        console.log(valueInput);
-        console.log(opinions);
-    })
-
     //variable pour stocker les avis signalés dans un array au chargement de la page
     let arrayOpinionsReport = [];
 
-    //function to sorted gallery products with the value of input
+    //function to sorted list opinions with the value of input
     function onChangeInput(e) {
         setValueInput(e.target.value) 
     }
@@ -125,7 +120,7 @@ function ListOrders(props) {
                             </>
                         )
                     }) : (valueInput === "avis signalés" && arrayOpinionsReport.length === 0) ? <p className='p-no-report'>Aucun avis signalé</p>
-                    : (valueInput === "tous les avis" && opinions.length === 0) ? <p className='p-no-report'>Aucun avis utilisateur</p> : "gg"}
+                    : (valueInput === "tous les avis" && opinions.length === 0) ? <p className='p-no-report'>Aucun avis utilisateur</p> : ""}
                 </div>
             </div>
         </div>

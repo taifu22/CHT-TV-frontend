@@ -13,6 +13,7 @@ export const validationSchema = Yup.object().shape({
         .max(50, "trop long!"),
     email: Yup.string()
         .email("email invalide")
+        //mise en place regex pour valider le mail par rapport au domaine
         .required("l'email est obligatoire"),
     password: Yup.string()
         .required("Mot de passe est obligatoire")

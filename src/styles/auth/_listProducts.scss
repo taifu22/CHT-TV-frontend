@@ -1,13 +1,26 @@
 .list-product-admin {
-    overflow-y: scroll;
-    max-height: 530px;
     .div-search-button-add {
         display: flex;
         justify-content: space-between;
+        .add-product-admin {
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            background-color: green;
+            color: white;
+            i {
+                margin-left: 6px;
+            }
+        }
     }
-    .product-admin {
+    .list-products-admin {
+        overflow-y: scroll;
+        max-height: 530px;
+        .product-admin {
         display: flex;
         justify-content: space-between;
+        
+        }
     }
 }
 

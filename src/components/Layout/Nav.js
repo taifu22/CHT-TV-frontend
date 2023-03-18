@@ -6,12 +6,23 @@ import { getProductsSuccess } from "../../lib/state/features/products.slice";
 import { deleteDataUser } from '../../lib/state/features/user.slice';
 import { getProducts } from "../../lib/service/service";
 
-const Nav = (props) => {
+const Nav = () => {
 
   const [valueInput, setValueInput] = useState("");
   const {items} = useSelector((state) => ({...state.cart}));
   const products = useSelector(state => ({...state.products}))
+  const user = useSelector(state => state.user.users)
 	const quantity = items.length > 0 ? items.length : '';
+  //if we have a new message received unread, then we will display in new red in the envelope 
+  const newMessages = useSelector(state => {
+    if (state.user.users !== null && state.user.users.body.newMessage === true) {
+      return 'new'
+    }  else {
+      return ''
+    } 
+  }) 
+
+  //variable for store the product sorted with reacrh input
   const productsSorted = []
   let image; 
 
@@ -69,11 +80,12 @@ const Nav = (props) => {
     return naviagte('/', {state:{state: true}}); 
   }
 
-  const links = ["Home", "About"];
+  const links = ["Home", "About", "Contact"];
   return (
-    <nav className={"navbar navbar-expand-lg navbar-dark bg-primary"}>
+    <nav className={"navbar navbar-expand-lg navbar-dark bg-primary nav-header"}>
       <Link className="navbar-brand" to={"/"}>
-        <b>CHT-TV-Marketplace</b>
+        {/* <b>CHT-TV-Market</b> */}
+        <img style={{height:'40px', margin:0}} src="/CHT-TV-removebg-preview.png"></img>
       </Link>
 
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,25 +106,26 @@ const Nav = (props) => {
           <div className="form-outline">
             <input onChange={e => onChangeInput(e)} value={valueInput} id="search-focus" type="search" placeholder="search" className="form-control" />
           </div>
-          <button onClick={()=>onClickButton()} type="button" className="btn btn-primary">
+          <button onClick={()=>onClickButton()} type="button" className="btn text-light">
             <i className="fas fa-search"></i>
           </button>
         </div>
+        {user !== null ? <><Link to={user.body.role === 'admin' ? '/dashboardAdmin/messaging' : 'pageprofil/messaging'} className="nav-link"><i className="text-light fas fa-xl fa-solid fa-envelope"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">{newMessages}</span></> : ""}
         {<><Link to={'/cart'} className="nav-link"><i className="text-light fas fa-xl fa-shopping-cart"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">{quantity}</span></>}
         <div className="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i class="fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : 'My account'} 
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {!!data ? 
               <>
-                <a class="dropdown-item" href="#"><Link to={data.role === 'admin' ? '/dashboardAdmin' :'/pageprofile'}>{data.role === 'admin' ? 'DashBoard' : 'Settings'}</Link></a>
-                <a class="dropdown-item" href="#"><Link to={'/favoris'}>Favoris</Link></a>
-                <a class="dropdown-item" href="#" onClick={() => LogOutHandle()}><Link to={'/pageprofile'}>LogOut</Link></a>
+                <a class="dropdown-item" href="#"><Link to={data.role === 'admin' ? '/dashboardAdmin' :'/pageprofil'}>{data.role === 'admin' ? 'DashBoard' : 'Settings'}</Link></a>
+                <a class="dropdown-item" href="#"><Link to={user.body.role === 'admin' ? '/dashboardAdmin/favoris' : 'pageprofil/favoris'}>Favoris</Link></a>
+                <a class="dropdown-item" href="#" onClick={() => LogOutHandle()}><Link to={'/pageprofil'}>LogOut</Link></a>
               </> :
               <>
                 <a class="dropdown-item" href="#"><Link to={'/register'}>Register</Link></a>
-                <a class="dropdown-item" href="#"><Link to={'/login'}>Login</Link></a>
+                <a class="dropdown-item" href="#"><Link to={'/login'}>Login</Link></a> 
               </>
             }
           </div>

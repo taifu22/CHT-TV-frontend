@@ -5,11 +5,11 @@ import { validationSchemaLogin } from '../validationSchemaYup/validationSchemaLo
 import serviceUser   from '../../../lib/service/serviceUser';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserData, setTokenData } from '../../../lib/state/features/user.slice';
+import { setUserData, setTokenData } from '../../../lib/state/features/user.slice'; 
 
 const Login = () => {  
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const dispatch = useDispatch();
   //state for store error login if username or password are note valids
   const [errorLogin, setErrorLogin] = useState();
@@ -49,10 +49,12 @@ const Login = () => {
             }) 
        })
        .catch(error => {
-        setErrorLogin('User not found!')
-        console.log(error.response.data.message) 
+        if (error.response.status === 404) {
+          setErrorLogin('User not found!')
+        } else if (error.response.status === 401) {
+          setErrorLogin('Invalid Password!')
+        }
     })
-		reset();
 	};
 
   return(<>

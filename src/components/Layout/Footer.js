@@ -1,7 +1,7 @@
 import React from 'react';  
 const Footer = () => { 
   return (
-    <nav className="navbar fixed-bottom navbar-dark bg-primary text-white d-flex justify-content-between">
+    <nav className="navbar fixed-bottom navbar-dark bg-primary text-white d-flex justify-content-between nav-footer">
     <div>
       <i role={'button'} className="fa-brands fa-facebook mr-3 fa-lg"></i>
       <i role={'button'} className="fa-brands fa-twitter mr-3 fa-lg"></i>

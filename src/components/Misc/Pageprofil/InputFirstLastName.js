@@ -11,7 +11,7 @@ function InputFirstLastName(props) {
     const dispatch = useDispatch();
     const { register, handleSubmit, formState, reset } = useForm({
 		mode: "onBlur",
-		defaultValues: {
+		defaultValues: { 
 			firstname: "",
 			lastname: "", 
 		},

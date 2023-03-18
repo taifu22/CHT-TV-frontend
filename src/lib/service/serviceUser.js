@@ -3,15 +3,11 @@ import Axios from './CallAxiosService';
 //fonction to signup an user
 let signup = (data) => {
     return Axios.post('api/auth/signup', data)
-                .then(res => res) 
-                .catch((er) => console.log(er))
 }
 
 //fonction for signin the user
 let signin = (data) => {
     return Axios.post('api/auth/signin', data)
-                .then(res => res)
-                .catch((er) => console.log(er))
 }
 
 //function to get data's user with the token received during the connection
@@ -103,4 +99,23 @@ let deleteFavorisUser = (token, id) => {
     return Axios.patch('api/auth/profile/favoris/delete', body, config);
 }
 
-export default { signup, signin, getProfile, deleteAddressUser, addNewDataAddress, editLastFirstName, editPassword, uploadImageProfil, addNewDataFavoris, deleteFavorisUser }
+//function to send à email from user to admin in the Contact page
+let SendEmailFromContactPage = (token, data) => {
+    let config = {
+        headers: {
+          'Authorization': 'Bearer ' + token 
+        }
+    }
+    return Axios.post('api/auth/profile/send-email-contact', data, config);
+}
+
+export default { signup, 
+                 signin, 
+                 getProfile, 
+                 deleteAddressUser, 
+                 addNewDataAddress, 
+                 editLastFirstName, 
+                 editPassword, 
+                 uploadImageProfil, 
+                 addNewDataFavoris, 
+                 deleteFavorisUser }

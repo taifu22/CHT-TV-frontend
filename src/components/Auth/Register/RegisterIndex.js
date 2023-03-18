@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,6 +10,7 @@ const RegisterIndex = () => {
 
 	const options = ['Uzbekistan', 'Russia', 'United States', 'India', 'Afganistan'];
 	const navigate = useNavigate();
+	const [emailAlreadyExist, setEmailAlreadyExist] = useState()
 
 	const { register, handleSubmit, formState, reset } = useForm({
 		mode: "onBlur",
@@ -32,9 +33,14 @@ const RegisterIndex = () => {
 			email: data.email,
 			password: data.password
 		}
-		serviceUser.signup(dataUser);
-		reset();
-		navigate('/registerSuccess', {state:{firstname: dataUser.firstname, lastname: dataUser.lastname}});
+		serviceUser.signup(dataUser)
+		    .then(res => navigate('/registerSuccess', {state:{firstname: dataUser.firstname, lastname: dataUser.lastname}}))
+			.catch(err => {
+				if (err.response.status === 400) {
+					setEmailAlreadyExist('L\'email existe déjà, merci d\'en utiliser une autre');
+				}
+			})
+		//reset();
 	};
  
 	return (
@@ -42,6 +48,7 @@ const RegisterIndex = () => {
     <div className="card mx-auto" style={{maxWidth:'520px', marginTop:'140px'}} >
       <article className="card-body">
 			<header className="mb-4"><h4 className="card-title">Sign up</h4></header>
+			{emailAlreadyExist ? <p style={{color:'red'}}>{emailAlreadyExist}</p> : ""}
  			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="form-row">
 					<div className="col form-group col-md" >
