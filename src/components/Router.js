@@ -42,6 +42,7 @@ const App = () => {
           <Route path={'/deals'} exact element={<Deals />} />
           <Route path={user === 'admin' ? '/dashboardAdmin/favoris' : '/pageprofil/favoris'} exact element={user === 'admin' ? <DashboardAdmin menu={'favoris'} /> : <Pageprofile menu={'favoris'}/>} /> 
           <Route path={user === 'admin' ? '/dashboardAdmin/messaging' : '/pageprofil/messaging'} exact element={user === 'admin' ? <DashboardAdmin menu={'message'}/> : <Pageprofile menu={'message'}/>} />
+          <Route path={'/pageprofil/address'} exact element={<Pageprofile menu={'address'}/>} />
           <Route path={'*'} element={<Erreur_404 />}/> 
       
           <Route path={'/register'} exact element={<Register />} />

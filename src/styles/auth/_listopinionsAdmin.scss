@@ -4,22 +4,98 @@
         .title-opinions {
             display: flex;
             justify-content: space-between;
-            padding-left: 20px;
-            padding-right: 30px;
+            padding: 15px;
+            .email {
+                display: flex;
+                justify-content: start;
+                width: 50%;
+                .star {
+                    margin-left: 130px;
+                }
+            }
+            .products {
+                display: flex;
+                justify-content: space-between;
+                width: 50%;
+                .action {
+                    margin-right: 30px;
+                }
+            }
         }
         .list-opinions {
             overflow-y: scroll;
             max-height: 370px;
             .opinion {
-                padding: 10px;
-                padding-left: 20px;
-                padding-right: 20px;
                 display: flex;
                 justify-content: space-between;
+                padding: 15px;
+                .opinion-user {
+                    display: flex;
+                    justify-content: start;
+                    width: 50%;
+                    .stars1 {
+                        margin-left: 60px;
+                    }
+                }
+                .opinion-action {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 50%;
+                }
             }
             .p-no-report {
                 margin: 30px;
             }
         }
+    }
+} 
+
+.p-elipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+
+@media screen and (max-width: 992px) {
+    .list-opinions-admin {
+        .total-list-opinions {
+            .title-opinions {
+                display: none;
+            }
+            .list-opinions {
+                overflow-y: scroll;
+                max-height: 370px;
+                .opinion {
+                    display: block;
+                    padding: 10px;
+                    .opinion-user {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+                    }
+                    .opinion-action {
+                        margin-top: 10px;
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+                        .product {
+                            margin-right: 60px;
+                        }
+                    }
+                }
+                .p-no-report {
+                    margin: 30px;
+                }
+            }
+        }
+    }   
+} 
+
+@media screen and (max-width: 768px) {
+    .list-opinions-admin {  
+        p {
+            font-size: small;
+        }     
     }
 }

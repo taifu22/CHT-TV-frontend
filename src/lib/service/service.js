@@ -1,6 +1,6 @@
 import {data} from '../../data/products';
 import axios from './CallAxiosService';
-import { getProductsFailure, getProductsPending, getProductsSuccess } from '../state/features/products.slice';
+import { getAllproduct, getProductsFailure, getProductsPending, getProductsSuccess } from '../state/features/products.slice';
 
 //récupération des données mockées
 export const getProductsMock = () => {
@@ -20,6 +20,25 @@ export const getProducts = () => {
          onSuccess(response);
       })
    })
+}
+
+//récupération des produits selon la catégorie choisi
+export const fetchproductsWithCategory = (props) => {
+   console.log(props);
+   return function (dispatch) {
+      getProducts()
+      .then((response) => {
+         let newArrayWithCategory = []
+         response.data.data.map(item => {
+            if (item.category === props) {
+               newArrayWithCategory.push(item)
+            }
+         })
+         return returnProductsArrays(newArrayWithCategory)
+      })
+      .then((productData) => dispatch(getProductsSuccess(productData)))
+      .catch((err) => dispatch(getProductsFailure(err)))
+    }
 }
  
 //ajouter un avis utilisateur sur la fiche d'un produit
@@ -62,7 +81,7 @@ export const returnProductsArrays = (items) => {
    return TwoDimensionalArray
 };
 
-//dispatch des données vers le store redux
+//dispatch des données vers le store redux avec les produits trié selon la pagination, donc 9 product par array
 export const fetchProducts = () => {
    return function (dispatch) {
      dispatch(getProductsPending);
@@ -73,3 +92,13 @@ export const fetchProducts = () => {
      .catch((err) => dispatch(getProductsFailure(err)))
    }
  }  
+
+ //dispatch des produits sans pagination, dans itemsAll du state.products du store, 
+ export const fetchProductsWithoutPagination = () => {
+   return function (dispatch) {
+     dispatch(getProductsPending);
+     getProducts()
+     .then((response) => dispatch(getAllproduct(response.data.data)))
+     .catch((err) => dispatch(getProductsFailure(err)))
+   } 
+ } 

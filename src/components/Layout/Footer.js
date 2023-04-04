@@ -10,4 +10,4 @@ const Footer = () => {
         <small>© Copyright CHT-TV - Tous droits reservés  - {new Date().getFullYear()}</small>
     </nav>)
 }  
-export default Footer 
+export default Footer  

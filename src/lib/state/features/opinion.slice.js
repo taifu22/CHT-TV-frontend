@@ -4,6 +4,8 @@ export const opinionsSlice = createSlice({
   name: "opinions",
   initialState: { 
     items: [],
+    //ici on stocke coté dashBoard admin l'avis qu'on souhaite visualiser depuis la liste des avis laissés par les utilisateurs
+    opinion: null
   },
   reducers: {
       //ici on rècupère tutes les opinions dans le store redux pour les afficher en temps réel dans la dashBoard admin
@@ -25,10 +27,13 @@ export const opinionsSlice = createSlice({
       //suppression d'une opinion en temps réel depuis le store de redux
       deleteOpinionRedux: (state, {payload}) => {
         state.items = state.items.filter((pic) => pic.id !== payload);
-      }
-
+      },
+      //voilà c'est ici qu'on stocke dans le store l'opinion qu'on vient d'ouvrir depuis la liste des avis dans la dashboard admin
+      setOpinionFromAdmin: (state, {payload}) => {
+        state.opinion = payload
+      } 
   }
 })
 
-export const { getOpinionsSuccess, deleteReportopinion, deleteOpinionRedux } = opinionsSlice.actions;
+export const { getOpinionsSuccess, deleteReportopinion, deleteOpinionRedux, setOpinionFromAdmin } = opinionsSlice.actions;
 export default opinionsSlice.reducer;

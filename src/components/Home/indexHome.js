@@ -109,7 +109,7 @@ const Slider = () => (
 const Home = () => {
 
     return(
-      <div className="container" style={{marginTop: '130px'}}>  
+      <div className="container-fluid" style={{marginTop: '80px'}}>  
         {/* <Deals /> */}
         <Gallery />
       </div>  

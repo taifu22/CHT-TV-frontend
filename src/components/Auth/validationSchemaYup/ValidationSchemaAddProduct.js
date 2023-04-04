@@ -11,7 +11,7 @@ export const ValidationSchemaAddProduct = Yup.object().shape({
     description: Yup.string()
         .required("le nom de fichier est obligatoire")
         .min(1, "trop petit!")
-        .max(150, "trop long!"),
+        .max(450, "trop long!"),
     category: Yup.string()
         .required("le nom de fichier est obligatoire")
         .min(1, "trop petit!")

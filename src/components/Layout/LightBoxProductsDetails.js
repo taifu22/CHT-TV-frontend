@@ -32,9 +32,9 @@ function LightBoxProductsDetails(props) {
             <img src={'http://localhost:4000/uploads/imagesUsersProfil/' + dataImage}></img>
             {props.data.length > 1 ? 
             <div className='d-flex justify-content-between align-items-end'>
-                <i onClick={previousImage} className="fa fa-solid fa-angle-left rigthImage"></i> 
+                <i role={"button"} onClick={previousImage} className="fa fa-solid fa-angle-left rigthImage"></i> 
                 <p className='mt-3'>{indexImage+1}/{props.data.length}</p>
-                <i onClick={nextImage} className ="fa fa-solid fa-angle-right leftImage"></i>
+                <i role={"button"} onClick={nextImage} className ="fa fa-solid fa-angle-right leftImage"></i>
             </div> : ''}
         </div>
     );

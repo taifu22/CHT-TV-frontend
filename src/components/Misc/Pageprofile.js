@@ -6,6 +6,7 @@ import ImageProfil from './Pageprofil/ImageProfil';
 import Favoris from './Pageprofil/Favoris';
 import MessagingUser from './Pageprofil/MessagingUser';
 import { useSelector } from 'react-redux';
+import useWindowSize from '../../lib/hooks/useScreenSize';
 
 function Pageprofile(props) {
     
@@ -19,17 +20,18 @@ function Pageprofile(props) {
     })
 
     function handleMenu(e) {
-        if (e.target.textContent === 'Données Personnelles') {
+        console.log(e);
+        if (e.target.title === 'Personnel') {
             setStateMenu({personnel: true, address: false, orders: false, image: false, favoris: false, messages: false});
-        } else if (e.target.textContent === 'Adresses de livraison') {
+        } else if (e.target.title === 'Adresses de livraison') {
             setStateMenu({personnel: false, address: true, orders: false, image: false, favoris: false, messages: false});
-        } else if (e.target.textContent === 'My Orders') {
+        } else if (e.target.title === 'My orders') {
             setStateMenu({personnel: false, address: false, orders: true, image: false, favoris: false, messages: false});
-        } else if (e.target.textContent === 'Image profil') {
+        } else if (e.target.title === 'Image profil') {
             setStateMenu({personnel: false, address: false, orders: false, image: true, favoris: false, messages: false})
-        } else if (e.target.textContent === 'Favoris') {
+        } else if (e.target.title === 'Favoris') {
             setStateMenu({personnel: false, address: false, orders: false, image: false, favoris: true, messages: false})
-        } else if (e.target.textContent === 'Messagerie') {
+        } else if (e.target.title === 'Messagerie') {
             setStateMenu({personnel: false, address: false, orders: false, image: false, favoris: false, messages: true})
         }
     }
@@ -39,6 +41,8 @@ function Pageprofile(props) {
             setStateMenu({personnel: false, address: false, orders: false, image: false, favoris: false, messages: true})
         } else if (props.menu === 'favoris') {
             setStateMenu({personnel: false, address: false, orders: false, image: false, favoris: true, messages: false})
+        } else if (props.menu === 'address') {
+            setStateMenu({personnel: false, address: true, orders: false, image: false, favoris: false, messages: false})
         }
     },[props.menu])
 
@@ -51,42 +55,46 @@ function Pageprofile(props) {
         } 
     })
 
+    //the hook allow us know the with of the screen for the responsive design
+    const screenWidth = useWindowSize().width;
+
     return (  
         <div class="container-fluid page-profil-container">
             <div class="page-profil row flex-nowrap" >
-                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-                    <div class="ul-profil d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 mt-3">
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-2 px-sm-2 px-0 bg-dark">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 mt-3">
+                    {screenWidth > 576 ? <h4 className='text-light mt-3 mb-3'>Settings</h4> : <i class="fa-2x text-light mt-3 mb-3 fas fa-bars fs-xl"></i>}
+                        <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                             <li class="nav-item">
-                                <a class="nav-link align-middle px-0" title='Personnel' onClick={(e)=>handleMenu(e)}>
-                                    <i class="text-white fas fa-user fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Données Personnelles</span>
-                                </a>
+                                <div class="nav-link align-middle px-0" role={'button'} title='Personnel' onClick={(e)=>handleMenu(e)}>
+                                    <i class="text-white fas fa-user fa-1x" title='Personnel'></i> <span title='Personnel' class="ms-1 d-none d-sm-inline h6 text-white">Données Personnelles</span>
+                                </div>
                             </li>
                             <li>
-                                <a data-bs-toggle="collapse" title='Adresses de livraison' class="home nav-link px-0 align-middle" onClick={(e)=>handleMenu(e)}>
-                                    <i class="home text-white fas fa-house fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Adresses de livraison</span>
-                                </a>
+                                <div role={'button'} title='Adresses de livraison' class="home nav-link px-0 align-middle" onClick={(e)=>handleMenu(e)}>
+                                    <i class="home text-white fas fa-house fa-1x" title='Adresses de livraison' /> <span title='Adresses de livraison' class="ms-1 d-none d-sm-inline h6 text-white">Adresses de livraison</span>
+                                </div>
                             </li>
                             <li>
-                                <a class="nav-link px-0 align-middle" title='My orders' onClick={(e)=>handleMenu(e)}>
-                                    <i class="fa-sharp fa-solid fa-bag-shopping text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">My Orders</span>
-                                </a>
+                                <div role={'button'} class="nav-link px-0 align-middle" title='My orders' onClick={(e)=>handleMenu(e)}>
+                                    <i class="fa-sharp fa-solid fa-bag-shopping text-white fa-1x" title='My orders'></i> <span title='My orders' class="ms-1 d-none d-sm-inline h6 text-white">My orders</span>
+                                </div>
                             </li>
                             <li>
-                                <a class="nav-link px-0 align-middle" title='Image profil' onClick={(e)=>handleMenu(e)}>
-                                    <i class="fa-solid fa-image-portrait text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Image profil</span>
-                                </a>
+                                <div role={'button'} class="nav-link px-0 align-middle" title='Image profil' onClick={(e)=>handleMenu(e)}>
+                                    <i class="fa-solid fa-image-portrait text-white fa-1x" title='Image profil'></i> <span title='Image profil' class="ms-1 d-none d-sm-inline h6 text-white">Image profil</span>
+                                </div>
                             </li>
                             <li>
-                                <a class="nav-link px-0 align-middle" title='Favoris' onClick={(e)=>handleMenu(e)}>
-                                    <i class="fa-sharp fa-solid fa-heart text-white fa-1x"></i> <span class="ms-1 d-none d-sm-inline h6 text-white">Favoris</span>
-                                </a>
+                                <div role={'button'} class="nav-link px-0 align-middle" title='Favoris' onClick={(e)=>handleMenu(e)}>
+                                    <i class="fa-sharp fa-solid fa-heart text-white fa-1x" title='Favoris'></i> <span title='Favoris' class="ms-1 d-none d-sm-inline h6 text-white">Favoris</span>
+                                </div>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link align-middle px-0" title='opinions' onClick={(e)=>handleMenu(e)}>
-                                    <i className="text-white fas fa-envelope fa-1x"></i> <span className="ms-1 d-none d-sm-inline h6 text-white">Messagerie</span>
+                                <div role={'button'} className="nav-link align-middle px-0" title='Messagerie' onClick={(e)=>handleMenu(e)}>
+                                    <i className="text-white fas fa-envelope fa-1x" title='Messagerie'></i> <span title='Messagerie' className="ms-1 d-none d-sm-inline h6 text-white">Messagerie</span>
                                     {<span style={{marginLeft:'10px'}} className="badge badge-danger mr-2 mb-3">{newMessages}</span>}
-                                </a>
+                                </div>
                             </li>
                         </ul>
                         <hr />

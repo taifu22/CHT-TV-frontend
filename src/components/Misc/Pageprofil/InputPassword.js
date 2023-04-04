@@ -36,7 +36,7 @@ function InputPassword(props) {
 						</small>
                     </div>
                     <div className='col'>
-                        <label>Confirm new password</label>
+                        <label>Confirm password</label>
                         <input {...register("confirmPassword")} type='password' name='confirmPassword' className="form-control"  />
                         <small className="text-danger">
 							{errors.confirmPassword?.message}

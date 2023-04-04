@@ -1,13 +1,15 @@
 .container-favoris-products {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    max-height: 450px;
     .favoris-product {
         margin: 10px;
         border: 1px rgb(221, 212, 212) solid;
         padding: 10px;
         border-radius: 5px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         img {
             height: 100px;

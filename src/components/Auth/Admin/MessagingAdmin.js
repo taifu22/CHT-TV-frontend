@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../../lib/hooks/useModal';
 import { setMessage } from '../../../lib/state/features/user.slice';
 import ModalViewMessages from '../../Misc/Pageprofil/ModalViewMessages';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 function MessagingAdmin(props) {
 
@@ -41,7 +39,7 @@ function MessagingAdmin(props) {
     let AllMessagesNewArray = [];
 
     return (
-        <div className='container-fluid messaing-list'> 
+        <div className='messaging-list'> 
             {
                 //je stocke les nouveaux messages dans un array, pour les afficher dans le select 'nouveaux messages'
                 AllMessages.map(item => {
@@ -63,29 +61,30 @@ function MessagingAdmin(props) {
                     </select>
                 </div>
             </div>
-            <div className='d-flex justify-content-around title-order-admin'>
-                <h5>Date</h5>
-                <h5>user</h5>
-                <h5>Objet</h5>
-                <h5>Action</h5>
+            <div className='row title-order-admin'>
+                <h5 className='col-3 into-message-p-elipsis'>Date</h5>
+                <h5 className='col-4 into-message-p-elipsis'>user</h5> 
+                <h5 className='col-3 into-message-p-elipsis'>Objet</h5>
+                <h5 className='into-message-p-elipsis'>Action</h5>
             </div>
             <hr/>
-            <div className='messaging-list-div'>
+            <div className='container messaging-list-div'>
                 {(valueInput === 'tous les messages' && AllMessages.length ) ? AllMessages.map(item => {
-                    return  (<><div className='d-flex justify-content-around into-message'>
-                                <p>{item.date}</p>
-                                <p className='into-message-p-elipsis'>{item.user}</p>
-                                <p className='into-message-p-elipsis'>{item.object}</p>
+                    console.log(item.messages[item.messages.length -1].date)
+                    return  (<><div className='row into-message'>
+                                <p className='col-3'>{item.messages[item.messages.length -1].date /*ici on afiche la date du dernier message recu*/}</p>
+                                <p className='col-4 into-message-p-elipsis'>{item.user}</p>
+                                <p className='col-4 into-message-p-elipsis'>{item.object}</p> 
                                 <div>
                                     {item.newMessage ? <span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">new</span> : ""}
                                     <i role={'button'} onClick={()=>ViewMessages(item.messages, item.id, item.user, item.object, item.newMessage)} title='voir la discussion' data-toggle="modal" data-target="#modalViewMessages" className="fa-solid fa-eye"></i>
                                 </div>
                             </div><hr/></>)
                 }) : (valueInput === "nouveaux messages" && AllMessagesNewArray.length ) ? AllMessagesNewArray.map(item => {
-                    return  (<><div className='d-flex justify-content-around into-message'>
-                            <p>{item.date}</p>
-                            <p>{item.user}</p>
-                            <p>{item.object}</p>
+                    return  (<><div className='row into-message'>
+                            <p className='col-3'>{item.messages[item.messages.length -1].date /*ici on afiche la date du dernier message recu*/}</p>
+                            <p className='col-4 into-message-p-elipsis'>{item.user}</p>
+                            <p className='col-4 into-message-p-elipsis'>{item.object}</p>
                             <div>
                                 {item.newMessage ? <span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">new</span> : ""}
                                 <i role={'button'} onClick={()=>ViewMessages(item.messages, item.id, item.user, item.object, item.newMessage)} title='voir la discussion' data-toggle="modal" data-target="#modalViewMessages" className="fa-solid fa-eye"></i>
@@ -95,7 +94,7 @@ function MessagingAdmin(props) {
                 (valueInput === "tous les messages" && AllMessages.length === 0) ? <p>Aucun message recu</p> : ""}
             </div>
             {isInfoShowed && <ModalViewMessages user={user} hide={()=>toggleInfo()} />}
-        </div>
+        </div> 
     );
 }
 

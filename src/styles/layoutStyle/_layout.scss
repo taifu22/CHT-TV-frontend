@@ -14,3 +14,14 @@ nav {
 .nav-footer {
     background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
 }
+
+@media screen and (max-width: 513px) {
+  .nav-footer {
+    small {
+      font-size: x-small;
+    }
+    i {
+      margin-right: 10px !important;
+    }
+  }
+}

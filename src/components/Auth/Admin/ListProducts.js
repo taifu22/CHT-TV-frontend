@@ -23,7 +23,7 @@ function ListProducts(props) {
     function MeanStarsCalculate(opinions) {
         opinions.length && opinions.map(item => {
             arrayStar.push(item.star)
-        })
+        }) 
         let sum = 0;
         arrayStar.forEach(item => {
             sum += item
@@ -125,32 +125,36 @@ function ListProducts(props) {
                 {isInfoShowed && <ModalAddProduct updateProduct={false} dataTarget={"modalAddproduct"} funcToggle={()=>toggleInfo()} />}
             </div>
             <hr/>
-            <div className='list-products-admin'>
+            <div className='list-products-admin-into'>
             {products.map(item =>{
                 return item.map(item1 => {
                     return(
                         <>   
                             <div className='product-admin'>
-                                <img style={{height:'100px'}} src={imageData(item1)} /*src={ `images/items/${item1.name}.jpg`}*/ />
-                                <div>
-                                    <h5>{item1.name}</h5>
-                                    <p>{item1.category}</p>
-                                    <ul className="rating-stars mb-1">
-                                        {Viewstars(star, MeanStarsCalculate(item1.opinions))}
-                                    </ul> 
-                                    <span className='ml-2'>{item1.opinions.length > 0 ? MeanStarsCalculate(item1.opinions) : "aucun avis"} </span>
+                                <div className='product-admin-image-name'>
+                                    <img src={imageData(item1)} /*src={ `images/items/${item1.name}.jpg`}*/ />
+                                    <div className='name-rating'>
+                                        <h5>{item1.name}</h5>
+                                        <p>{item1.category}</p>
+                                        <ul className="rating-stars mb-1">
+                                            {Viewstars(star, MeanStarsCalculate(item1.opinions))}
+                                        </ul> 
+                                        <span className='ml-2'>{item1.opinions.length > 0 ? MeanStarsCalculate(item1.opinions) : "aucun avis"} </span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p>{item1.price} € </p>
-                                    <p>{(item1.purchases.length >= 1 && NumberPurchases(item1.purchases) > 1 ) ? NumberPurchases(item1.purchases) + ' articles vendus' : (item1.purchases.length == 1 && NumberPurchases(item1.purchases) == 1) ? item1.purchases.length+ ' article vendu' : '0 articles vendus'} </p>
-                                </div>
-                                {/*je vide le tableau des etoiles, pour que ca soit vide pour le prochaine produit du map (sinon conflits d'étoiles)arrayStar = []*/}
-                                <div className='d-flex flex-column justify-content-center mr-3'>
-                                    <i onClick={()=>deleteProduct(item1.id, token.accessToken)} title='supprimer le produit' className="fa-solid fa-trash text-danger fa-lg" role={'button'}></i>
-                                    {/* <button onClick={()=>deleteProduct(item1.id, token.accessToken)} className='btn btn-outline-danger'>Supprimer le produit</button> */}
-                                    <i data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} title='modifier le produit' className="fa-solid fa-pen-to-square text-info mt-4" role={'button'}></i>
-                                    {/* <button data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} className='btn btn-outline-info'>Modifier le produit</button> */}
-                                    {isInfoShowed2 && <ModalAddProduct updateProduct={true} dataTarget={"modalUpdateproduct"} funcToggle={()=>toggleInfo2()} />}
+                                <div className='product-admin-price-action'>
+                                    <div className='product-admin-price'>
+                                        <p>{item1.price} € </p>
+                                        <p>{(item1.purchases.length >= 1 && NumberPurchases(item1.purchases) > 1 ) ? NumberPurchases(item1.purchases) + ' articles vendus' : (item1.purchases.length == 1 && NumberPurchases(item1.purchases) == 1) ? item1.purchases.length+ ' article vendu' : '0 articles vendus'} </p>
+                                    </div>
+                                    {/*je vide le tableau des etoiles, pour que ca soit vide pour le prochaine produit du map (sinon conflits d'étoiles)arrayStar = []*/}
+                                    <div className='d-flex flex-column justify-content-center mr-3'>
+                                        <i onClick={()=>deleteProduct(item1.id, token.accessToken)} title='supprimer le produit' className="fa-solid fa-trash text-danger fa-lg" role={'button'}></i>
+                                        {/* <button onClick={()=>deleteProduct(item1.id, token.accessToken)} className='btn btn-outline-danger'>Supprimer le produit</button> */}
+                                        <i data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} title='modifier le produit' className="fa-solid fa-pen-to-square text-info mt-4" role={'button'}></i>
+                                        {/* <button data-toggle="modal" data-target="#modalUpdateproduct" onClick={()=>{toggleInfo2();dispatch(setInfosProductFromAdmin(item1))}} className='btn btn-outline-info'>Modifier le produit</button> */}
+                                        {isInfoShowed2 && <ModalAddProduct updateProduct={true} dataTarget={"modalUpdateproduct"} funcToggle={()=>toggleInfo2()} />}
+                                    </div>
                                 </div>
                             </div>
                             <hr/>

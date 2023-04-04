@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import serviceAdmin from '../../../lib/service/serviceAdmin';
-import { deleteOpinionRedux, deleteReportopinion } from '../../../lib/state/features/opinion.slice';
+import { deleteOpinionRedux, deleteReportopinion, setOpinionFromAdmin } from '../../../lib/state/features/opinion.slice';
+import useModal from '../../../lib/hooks/useModal';
+import ModalOpinion from './ModalOpinion';
 
 function ListOrders(props) {
 
@@ -52,8 +54,17 @@ function ListOrders(props) {
     //tableau qui me sert pour afficher les étoiles dan la balise ul ci-dessous
     let star = [1,2,3,4,5]
 
+    //modal pour afficher les informations d'opinion laissé par l'utilisateur
+    const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal();
+    function ToggleModalInfos(opinion, user, product) {
+        let item = {opinion: opinion, user: user, product: product}
+        //item donc c'est l'objet qu'on dispatch dans le store pour la visualiser dans la modal
+        dispatch(setOpinionFromAdmin(item))
+        toggleInfo()
+    }
+
     return (
-        <div className='container-fluid list-opinions-admin'>
+        <div className='list-opinions-admin'>
         {opinions.map(item=>{
             //je stocke les avis signalés dans un array pour les visualiser si on choisit l'option de visualisation 'avis signalés'
             if (item.report.length ) {
@@ -75,44 +86,51 @@ function ListOrders(props) {
             </div>
             <div className='total-list-opinions'>
                 <div className='title-opinions'>
-                    <h5>Email user</h5>
-                    <h5>Avis</h5>
-                    <h5>Stars</h5>
-                    <h5>Produit</h5>
-                    <h5>Action</h5>
+                    <div className='email'>
+                        <h5>Email user</h5>
+                        <h5 className='star'>Stars</h5>
+                    </div>
+                    <div className='products'>
+                        <h5>Produit</h5>
+                        <h5 className='action'>Action</h5>
+                    </div>
                 </div>
                 <div className='list-opinions'>
                     {(valueInput === "tous les avis" && opinions.length) ? opinions.map((item,index) => {
-                        console.log('ici tous')
                         return  (
                             <>
                             <div style={index%2 == 0 ? {backgroundColor:'#ECEBEA'} : {backgroundColor:''}} className='opinion'>
-                                <p>{item.user}</p>
-                                <p>{item.opinion}</p>
-                                <ul className="rating-stars mb-1">
-                                    {Viewstars(star, item.star)}
-                                </ul> 
-                                <p>{item.nameProduct}</p>
-                                <div>
-                                    <i role={'button'} title={"supprimer l'avis"} onClick={()=>deleteOpinion(item)} className="text-danger fa-solid fa-trash mr-3"></i>
-                                    {item.report.length ? <i role={'button'} onClick={()=>deleteReport(item.id, item.user)} title="avis signalé, cliquez ici pour valider quand meme" className=" fa-solid fa-cancel text-danger"></i> : <i title='avis valide' className="text-success fa-solid fa-check-double"></i>}
+                                <div className='opinion-user'>
+                                    <p className='p-elipsis'>{item.user}</p>
+                                    <ul className="rating-stars mb-1 stars1">
+                                        {Viewstars(star, item.star)}
+                                    </ul> 
+                                </div>
+                                <div className='opinion-action'>
+                                    <p className='p-elipsis product'>{item.nameProduct}</p>
+                                    <div>
+                                        <i onClick={()=> ToggleModalInfos(item.opinion, item.user, item.nameProduct)} role={'button'} title="voir l'avis" data-toggle="modal" data-target="#modalOpinionInfos" className="fa-solid fa-eye mr-3"></i> 
+                                        {isInfoShowed && <ModalOpinion hide={()=>toggleInfo()} />}
+                                        <i role={'button'} title={"supprimer l'avis"} onClick={()=>deleteOpinion(item)} className="text-danger fa-solid fa-trash mr-3"></i>
+                                        {item.report.length ? <i role={'button'} onClick={()=>deleteReport(item.id, item.user)} title="avis signalé, cliquez ici pour valider quand meme" className=" fa-solid fa-cancel text-danger"></i> : <i title='avis valide' className="text-success fa-solid fa-check-double"></i>}
+                                    </div>
                                 </div>
                             </div>
-                            </>
+                            </> 
                         )
                     })
                     : (valueInput === "avis signalés" && arrayOpinionsReport.length) ? arrayOpinionsReport.map((item,index) => {
-                        console.log('ici')
                         return  (
                             <>
                             <div style={index%2 == 0 ? {backgroundColor:'#ECEBEA'} : {backgroundColor:''}} className='opinion'>
                                 <p>{item.user}</p>
-                                <p>{item.opinion}</p>
                                 <ul className="rating-stars mb-1">
                                     {Viewstars(star, item.star)}
                                 </ul> 
                                 <p>{item.nameProduct}</p>
                                 <div>
+                                    <i onClick={()=> ToggleModalInfos(item.opinion, item.user, item.nameProduct)} role={'button'} title="voir l'avis" data-toggle="modal" data-target="#modalOpinionInfos" className="fa-solid fa-eye mr-3"></i>
+                                    {isInfoShowed && <ModalOpinion hide={()=>toggleInfo()} />}
                                     <i role={'button'} title={"supprimer l'avis"} onClick={()=>deleteOpinion(item)} className="text-danger fa-solid fa-trash mr-3"></i>
                                     {item.report.length ? <i role={'button'} onClick={()=>deleteReport(item.id, item.user)} title="avis signalé, cliquez ici pour valider quand meme" className=" fa-solid fa-cancel text-danger"></i> : <i title='avis valide' className="text-success fa-solid fa-check-double"></i>}
                                 </div>

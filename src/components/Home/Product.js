@@ -6,8 +6,13 @@ import { deleteFavorisData } from '../../lib/state/features/user.slice';
 import serviceUser from '../../lib/service/serviceUser';
 import useModal from '../../lib/hooks/useModal';
 import ProductDetails from './ProductDetails'; 
+import useWindowSize from '../../lib/hooks/useScreenSize';
 
-const Product = ({ id, name, price, category, description, opinions, purchases, pictures }) => {
+const Product = ({ id, name, price, category, description, opinions, purchases, pictures, picture, toggle }) => {
+
+    useEffect(()=>{
+        //console.log(toggle);
+    },[toggle])
 
     //state for show modal with product details
     const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal();
@@ -16,7 +21,7 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
     const token = useSelector(state => ({...state.user.token}));
     const favoris = useSelector(state => ({...state.user.users}));
     let arrayStar = [];
-    let productFav;
+    let productFav; 
 
     /*on stocke les id des favoris, pour pouvoir supprimer de la liste si on reclique sur un produit dejà mis en favoris
     Bien sur si on est pas connecté donc token pas présent on va pas avoir acces aux favoris, donc on fait une condition*/
@@ -26,15 +31,20 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
         })   
     } 
 
-    const addTocartAction = () => dispatch(addToCart({id, name, price, pictures}))
-
-    const addDataFavoris = (id, category, name, price, pictures) => {
+    const addTocartAction = () => {
         const newData = {
             id : id,
             category: category,
             name: name,
             price: price,
-            pictures: pictures  
+            picture: picture
+        }
+        dispatch(addToCart(newData)) 
+    } 
+
+    const addDataFavoris = (id) => {
+        const newData = {
+            id : id,
         }
         serviceUser.addNewDataFavoris(token.accessToken, newData)
         dispatch(addNewFavorisData(newData))
@@ -50,7 +60,7 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
         if (productFav === undefined) {
             alert('il faut se connecter pour ajouter un produit aux favoris')
         } else {
-            productFav !== undefined && (productFav.includes(id) ? deleteFavorite(id) : addDataFavoris(id, category, name, price, pictures))
+            productFav !== undefined && (productFav.includes(id) ? deleteFavorite(id) : addDataFavoris(id))
         }
     }
 
@@ -107,24 +117,26 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
         return image1;
     }
 
-    return (
+    const screenWidth = useWindowSize().width;
+
+    return ( 
     <>
-    <div className="col-sm-4 col-6" onClick={toggleInfo}>
+    {toggle ? <div className="col-md-4 col-6 col-lg-3" onClick={toggleInfo}>
         <div className="card card-product-grid">
-            <a href="#" className="img-wrap"> <img src={imageData()} /> </a> 
+            <img className='m-3' src={imageData()} /> 
             <figcaption className="info-wrap">
                 <ul className="rating-stars mb-1">
                     {Viewstars(star, MeanStarsCalculate())}
                 </ul> 
-                <span className='ml-2'>{MeanStarsCalculate() ? MeanStarsCalculate() : "aucun avis"} </span>
-                <p>{(purchases.length >= 1 && NumberPurchases() > 1 ) ? NumberPurchases() + ' articles vendus' : (purchases.length == 1 && NumberPurchases() == 1) ? purchases.length+ ' article vendu' : '0 articles vendus'} </p>
+                {screenWidth > 576 ? <span className='ml-2'>{MeanStarsCalculate() ? MeanStarsCalculate() : "aucun avis"} </span> : ""}
+                <p>{(purchases.length >= 1 && NumberPurchases() > 1 ) ? NumberPurchases() + ' vendus' : (purchases.length == 1 && NumberPurchases() == 1) ? purchases.length+ ' vendu' : 'pas vendu'} </p>
                 <div>
                     <a href="#" className="text-muted">{ category } : </a>
                     <a href="#" className="title">{ name }</a>
                 </div>
                 <div className="price h5 mt-2">${ price }</div>
                     <div className="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                        <label className="btn btn-light active">
+                        <label className= {screenWidth > 576 ? "btn btn-light active" : "btn btn-light active btn-sm"}>
                             <input 
                                 onClick={() => onClickfavoris()} 
                                 type="radio" 
@@ -135,13 +147,49 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
                                 <i className={productFav !== undefined ? (productFav.includes(id) ? "fas fa-heart text-danger fa-xl" : "far fa-heart text-dark fa-xl") : "far fa-heart text-dark fa-xl"}></i>
                         </label>
 
-                        <label className="btn btn-success">
+                        <label className={screenWidth > 576 ? "btn btn-success" : "btn btn-success btn-sm"}>
                             <input onClick={addTocartAction} type="radio" name="options" id="option3" /><i className="fas fa-shopping-cart fa-xl"></i>
                         </label> 
                     </div>        
             </figcaption>
         </div>
-    </div>
+    </div> : <div className="col-12" onClick={toggleInfo}>
+        <div className="product-menu-list">
+            <img className='m-3' src={imageData()} /> 
+            <figcaption className="m-3 w-100">
+                <div className='row'>
+                    <p className="p-elipsis text-primary col-10">{ name }</p>
+                </div>
+                <div className='container-fluid pl-0'>
+                    <div className='row w-100'>
+                        <p className="p-elipsis col-7">{ description }</p>
+                    </div>
+                </div>
+                <div className="p-price price h5 mt-2">{ price } €</div>
+                <ul className="rating-stars mb-1 ">
+                    {Viewstars(star, MeanStarsCalculate())}
+                </ul> 
+                {screenWidth > 576 ? <span className='ml-2'>{MeanStarsCalculate() ? MeanStarsCalculate() : "aucun avis"} </span> : ""}
+                <p>{(purchases.length >= 1 && NumberPurchases() > 1 ) ? NumberPurchases() + ' vendus' : (purchases.length == 1 && NumberPurchases() == 1) ? purchases.length+ ' vendu' : 'pas vendu'} </p>       
+            </figcaption>
+            <div className="btn-group btn-group-toggle float-right div-buttons" data-toggle="buttons">
+                <label className= {screenWidth > 576 ? "btn btn-light active" : "btn btn-light active btn-sm"}>
+                    <input 
+                        onClick={() => onClickfavoris()} 
+                        type="radio" 
+                        name="options" 
+                        id="option1"  
+                        checked    
+                        />
+                        <i className={productFav !== undefined ? (productFav.includes(id) ? "fas fa-heart text-danger fa-xl" : "far fa-heart text-dark fa-xl") : "far fa-heart text-dark fa-xl"}></i>
+                </label>
+
+                <label className={screenWidth > 576 ? "btn btn-success" : "btn btn-success btn-sm"}>
+                    <input onClick={addTocartAction} type="radio" name="options" id="option3" /><i className="fas fa-shopping-cart fa-xl"></i>
+                </label> 
+            </div> 
+        </div>
+    </div>}
     {isInfoShowed && <ProductDetails 
                             cart={addTocartAction} 
                             favoris={onClickfavoris} 

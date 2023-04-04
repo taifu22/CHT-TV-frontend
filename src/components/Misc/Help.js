@@ -7,16 +7,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setNewDiscussion } from '../../lib/state/features/user.slice';
 import useModal from '../../lib/hooks/useModal';
 import ModalMessageSendOk from './ModalMessageSendOk';
+import Login from '../Auth/Login/LoginIndex';
 
 const Help = () => {
 
 	const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal();
 	const token = useSelector(state => ({...state.user.token}))
-	const user = useSelector(state => state.user.users.body)
+	const user = useSelector(state => {
+		if (state.user.users !== null) {
+			return state.user.users.body
+		} else {
+			return null
+		}
+	})
 	const [message200, setMessage200] = useState(true);
 	const dispatch = useDispatch();
 
-	const { register, handleSubmit, formState, reset } = useForm({
+	const { register, handleSubmit, formState, reset } = useForm({ 
 		mode: "onBlur",
 		defaultValues: { 
 			email: "",
@@ -50,7 +57,7 @@ const Help = () => {
 
 	return ( 
 		<>
-			<div class="container contact-form">
+			{user === null ? <Login /> : <div class="container contact-form">
 			    {isInfoShowed && <ModalMessageSendOk hide={()=>toggleInfo()} />}
 				<div class="contact-image">
 					<img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
@@ -78,7 +85,7 @@ const Help = () => {
 								</small>
 							</div>
 							<div class="form-group">
-								{ user.role === 'admin' ? <button title="vous etes l'admin vous ne pouvez pas vous envoyer un msg !!!" disabled className='btn btn-danger rounded-pill'>Vous etes l'admin</button> : message200 ? <input type="submit" name="btnSubmit" className="btnContact" value="Send Message" /> : ""}
+								{user.role === 'admin' ? <button title="vous etes l'admin vous ne pouvez pas vous envoyer un msg !!!" disabled className='btn btn-danger rounded-pill'>Vous etes l'admin</button> : message200 ? <input type="submit" name="btnSubmit" className="btnContact" value="Send Message" /> : ""}
                                 {message200 === false && <button title="vous venez d'envoyer un message à l'admin !!!" disabled className='btn btn-danger rounded-pill'>Message envoyé</button>}
 							</div>
 						</div>
@@ -92,7 +99,7 @@ const Help = () => {
 						</div>
 					</div>
 				</form>
-			</div>
+			</div>}
 		</>
 	)
 }

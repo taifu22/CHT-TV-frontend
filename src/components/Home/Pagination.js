@@ -17,7 +17,7 @@ const Pagination = () => {
 	}, [pageIndex])
 
 	useEffect(()=>{
-        console.log(items.length);
+        //console.log(items.length); 
 	},[])
 		 
     return (

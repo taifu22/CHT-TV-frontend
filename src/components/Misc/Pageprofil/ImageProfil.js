@@ -23,7 +23,7 @@ function ImageProfil(props) {
             //sinon si l'user vient de s'enregister on mets une image profil par défaut
             image1 = "./images/avatars/avatar3.jpg"
         }
-        return image1; 
+        return image1;  
     }
 
     const { register, handleSubmit, formState, reset } = useForm({ 
@@ -63,13 +63,13 @@ function ImageProfil(props) {
 						    </small>
                         </div> 
                         <div className='form-group'>
-                            <label htmlFor="picture"></label>
-                            <input id="picture" {...register("picture")} type="file" />
+                            <label role={'button'} className='text-primary mt-3' htmlFor="picture">Cliquez ici pour choisir une image</label>
+                            <input id="picture" {...register("picture")} type="file" className='image-profil-input' />
                             <small className="text-danger">
 							    {errors.picture?.message}	
 						    </small>
                         </div>
-                        <button className='btn btn-primary' type='submit'>Envoie</button>
+                        <button style={{marginTop:'-10px'}} className='btn btn-primary' type='submit'>Affiche et envoie</button>
                     </form>
                 </div>
             </div>

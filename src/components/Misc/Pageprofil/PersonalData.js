@@ -23,14 +23,12 @@ function PersonalData(props) {
     }
 
     return (
-        <div>
+        <div className='personal-data'>
             <h2 className='text-primary m-3 text-center'>Données personnelles</h2>
             <div className='container-fluid'>
                  <hr/><br/>
-                <div className='row'>
-                    <div className='col'>
-                        <h4 className='text-primary text-center'>FirstName and LastName</h4>
-                        <br/>
+                <div className='row d-flex justify-content-center'>
+                    <div className='col-md-7'>
                         <div className='text-center'>
                             {toggleData == false && 
                                 <>
@@ -46,9 +44,10 @@ function PersonalData(props) {
                             {toggleData && <InputFirstLastName token={token} func={handleData} />}
                         </div>
                     </div>
-                    <div className='col'>
-                        <h4 className='text-primary text-center'>Change Password</h4>
-                        <br/>
+                </div>
+                <br/>
+                <div className='row d-flex justify-content-center'>
+                    <div className='col-md-7'>
                         <div className='text-center'>
                             {togglePassword == false && 
                                 <>
@@ -67,9 +66,7 @@ function PersonalData(props) {
                 </div>
                 <br/>
                 <div className='row d-flex justify-content-center'>
-                        <div className='col-6 '>
-                            <h4 className='text-primary text-center'>Change Email</h4>
-                            <br/>
+                        <div className='col-md-7 '>
                             <div className='text-center'>
                                 {toggleEmail == false && 
                                     <>

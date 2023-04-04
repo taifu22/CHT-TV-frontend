@@ -30,4 +30,43 @@
     }
 }
 
+.addresses-list-user {
+    overflow-y: scroll;
+    max-height: 380px;
+}
 
+.image-profil-input {
+    display: none;
+}
+
+.personal-data {
+    p {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .my-order {
+        margin: 0;
+        p {
+            font-size: small;
+        }
+        .card-order {
+            margin: -10px !important;
+            margin-bottom: 30px !important;
+        }
+    }
+
+    .div-favoris {
+        .container-favoris-products {
+            margin: -20px;
+        }
+    }
+}
+
+@media screen and (max-width: 513px) {
+    .addresses-list-user {
+        overflow-y: scroll;
+        max-height: 350px;
+    }
+}

@@ -40,7 +40,7 @@ function MessagingUser(props) {
     let messagesnewArray = [];
 
     return (
-        <div className='container-fluid messaing-list'> 
+        <div className=' messaging-list'> 
             {
                 //je stocke les nouveaux messages dans un array, pour les afficher dans le select 'nouveaux messages'
                 messages.map(item => {
@@ -63,28 +63,27 @@ function MessagingUser(props) {
                 </div>
                 <Link to={'/contact'}><button className='btn btn-success'>Contact Admin</button></Link>
             </div>
-            <div className='d-flex justify-content-around title-order-admin'>
-                <h5>Date</h5>
-                <h5>Objet</h5>
-                <h5>Action</h5>
-            </div>
+            <div className='d-flex justify-content-around title-order-admin row'>
+                <h5 className='col-4'>Date</h5>
+                <h5 className='col-4'>Objet</h5>
+                <h5 className='col-2 mr-3'>Action</h5>
+            </div> 
             <hr/>
-            <div className='messaging-list-div'>
+            <div className='container messaging-list-div'>
                 {(valueInput === 'tous les messages' && messages.length ) ? messages.map(item => {
-                    return  (<><div className='d-flex justify-content-around into-message'>
-                                <p>{item.date}</p>
-                                <p>{item.object}</p> 
-                                <div>
-                                    {item.newMessage ? <span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">new</span> : ""}
-                                    <i role={'button'} onClick={()=>ViewMessages(item.messages, item.id, item.user, item.object, item.newMessage)} title='voir la discussion' data-toggle="modal" data-target="#modalViewMessages" className="fa-solid fa-eye"></i>
-                                </div>
+                    return  (<><div className='d-flex justify-content-between into-message row'>
+                                    <p className='col-4 into-message-p-elipsis'>{item.messages[item.messages.length -1].date /*ici on afiche la date du dernier message recu*/}</p>
+                                    <p className='col-4 into-message-p-elipsis'>{item.object}</p> 
+                                    <div className='col-2'>
+                                        {item.newMessage ? <span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">new</span> : ""}
+                                        <i role={'button'} onClick={()=>ViewMessages(item.messages, item.id, item.user, item.object, item.newMessage)} title='voir la discussion' data-toggle="modal" data-target="#modalViewMessages" className="fa-solid fa-eye"></i>
+                                    </div> 
                                 </div><hr/></>)
                 }) : (valueInput === "nouveaux messages" && messagesnewArray.length ) ? (messages.map(item => {
-                    return  (<><div className='d-flex justify-content-around into-message'>
-                            <p>{item.date}</p>
-                            <p>{item.user}</p>
-                            <p>{item.object}</p>
-                            <div>
+                    return  (<><div className='d-flex justify-content-between into-message row'>
+                            <p className='col-4 into-message-p-elipsis'>{item.messages[item.messages.length -1].date /*ici on afiche la date du dernier message recu*/}</p>
+                            <p className='col-4 into-message-p-elipsis'>{item.user}</p> 
+                            <div className='col-2'>
                                 {item.newMessage ? <span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">new</span> : ""}
                                 <i role={'button'} onClick={()=>ViewMessages(item.messages, item.id, item.user, item.object, item.newMessage)} title='voir la discussion' data-toggle="modal" data-target="#modalViewMessages" className="fa-solid fa-eye"></i>
                             </div>

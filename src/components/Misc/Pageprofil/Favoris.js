@@ -8,48 +8,60 @@ function Favoris(props) {
 
     const dispatch = useDispatch();
     const favoris = useSelector(state => ({...state.user.users.body}));
+    const product = useSelector(state => state.products.itemsAll)
     const token = useSelector(state => ({...state.user.token}));
 
-    const addTocartAction = (id, name, price, picture) => dispatch(addToCart({id, name, price, picture}))
+    const addTocartAction = (id, name, price, category, picture) => dispatch(addToCart({id, name, price, category, picture}))
     function deleteFavorite(id) {
         serviceUser.deleteFavorisUser(token.accessToken, id);
         dispatch(deleteFavorisData(id));
-    }
+    } 
 
     //affichage de l'image du produit stocké dans le backend ou une image par défaut si pas d'image dispo
     const imageData = (picture) => { 
         let image1;
-        //on verifie si la key image existe dans le body des info de l'user (voir bdd)
+        //on verifie si l'image existe
         if (picture !== undefined){
             //si existe on affiche l'image stocké dans le dossier uploads du back (geré par multer)
-            image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + picture.data;    
-        } else {
+            image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + picture;    
+        } 
+        else {
             //sinon si l'user vient de s'enregister on mets une image profil par défaut
             image1 = "./images/avatars/avatar3.jpg"
         }
+        
+        
+        console.log(image1);
         return image1;
     }
 
     return (
-        <div className='container-fluid div-favoris'>
+        <div className='container div-favoris'>
             <h2 className='m-3 text-center text-primary'>Liste des produits favoris</h2>
             <hr/>
             <br/>
             <div className='container-favoris-products'>
                 {favoris.favoris.length > 0 ?
                     favoris.favoris.map(item => {
-                        return(
-                            <div className='favoris-product'>
-                                <img src={imageData(item.picture)}/>
-                                <div className='infos-product'>
-                                    <p>{item.name}</p>
-                                    <p className='infos-price'>{item.price} Є</p>
-                                </div>
-                                <div className='buttons-favoris-product'>
-                                    <button onClick={() => addTocartAction(item.id, item.name, item.price, item.picture)} className='btn btn-primary'>Ajouter au panier</button>
-                                    <button onClick={() => deleteFavorite(item.id)} className='btn btn-danger'>Supprimer</button>
-                                </div>
-                            </div>)
+                        return product.map(item1 => {
+                            //pour afficher les infos du produit en favoris, on récupère celle du produits avec le meme id
+                            if(item.id == item1.id){
+                                return(
+                                    <div className='favoris-product row'>
+                                        <div className='col-xs-12 col-lg-2 d-flex justify-content-center'>
+                                            <img src={imageData(item1.picture.data)} />
+                                        </div>
+                                        <div className='infos-product col-xs-2'>
+                                            <p>{item1.name}</p>
+                                            <p className='infos-price'>{item1.price} Є</p>
+                                        </div>
+                                        <div className='d-flex flex-column align-items-center justify-content-between mt-3'>
+                                            <i role={'button'} title='Ajouter au panier' className="fa-2x mb-3 text-success fa-solid fa-cart-shopping" onClick={() => addTocartAction(item1.id, item1.name, item1.price, item1.category, item1.picture)}></i>
+                                            <i role={'button'} className="fa-2x text-danger fa-solid fa-trash" title='supprimer' onClick={() => deleteFavorite(item.id)} ></i>
+                                        </div>
+                                    </div>) 
+                            }
+                        })
                     }) : "Your liste of favorites is empty"
                 }
             </div>

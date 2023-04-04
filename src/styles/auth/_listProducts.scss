@@ -13,13 +13,28 @@
             }
         }
     }
-    .list-products-admin {
+    .list-products-admin-into {
+        margin: 0;
         overflow-y: scroll;
-        max-height: 530px;
+        max-height: 400px;
         .product-admin {
-        display: flex;
-        justify-content: space-between;
-        
+            display: flex;
+            .product-admin-image-name { 
+                img {
+                    height: 100px;
+                }
+                width: 50%;
+                display: flex;
+                justify-content: start;
+                .name-rating {
+                    margin-left: 40px;
+                }
+            }
+            .product-admin-price-action {
+                width: 50%;
+                display: flex;
+                justify-content: space-around;
+            }
         }
     }
 }
@@ -42,4 +57,83 @@
 
 .span-text-infos-update-product {
     font-size: 12px;
+}
+
+@media screen and (max-width: 992px) {
+    .list-product-admin {
+        .list-products-admin-into {
+            margin: 0;
+            overflow-y: scroll;
+            max-height: 400px;
+            .product-admin {
+                display: block;
+                .product-admin-image-name {
+                    width: 100%;
+                    display: flex;
+                    justify-content: start;
+                    .name-rating {
+                        margin-left: 40px;
+                    }
+                }
+                .product-admin-price-action {
+                    margin-top: 20px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    .list-product-admin {
+        .list-products-admin-into {
+            .product-admin {
+                display: block;
+                p {
+                    font-size: small;
+                }
+                .product-admin-image-name {
+                    img {
+                        height: 70px;
+                    }
+                    .name-rating {
+                        margin-right: 40px;
+                        span {
+                            font-size: small;
+                        }
+                        h5 {
+                            font-size: small;
+                        }
+                    }
+                }
+            }
+        }
+    }   
+}
+
+@media screen and (max-width: 576px) {
+    .list-product-admin {
+        .list-products-admin-into {
+            .product-admin {
+                display: block; 
+                p {
+                    font-size: small;
+                }
+                .product-admin-image-name {
+                    img {
+                        height: 70px;
+                    }
+                    .name-rating {
+                        margin-right: 10px;
+                        h5 {
+                            font-size: small;
+                        }
+                    }
+                }
+            }
+        }
+    }   
 }

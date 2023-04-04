@@ -18,11 +18,9 @@ const Row = ({ id, name, price, quantity, category, picture}) => {
     }
 
     const token = useSelector(state => ({...state.user.token}));
-    const addDataFavoris = (id, name, price) => {
+    const addDataFavoris = (id) => {
         const newData = {
-            id : id,
-            name: name,
-            price: price  
+            id : id,  
         }
         serviceUser.addNewDataFavoris(token.accessToken, newData)
         dispatch(addNewFavorisData(newData))
@@ -38,7 +36,8 @@ const Row = ({ id, name, price, quantity, category, picture}) => {
         if (productFav === undefined) {
             alert('il faut se connecter pour ajouter un produit aux favoris')
         } else {
-            productFav !== undefined && (productFav.includes(id) ? deleteFavorite(id) : addDataFavoris(id, name, price))
+            console.log(picture);
+            productFav !== undefined && (productFav.includes(id) ? deleteFavorite(id) : addDataFavoris(id))
         }
     }
 
@@ -51,13 +50,15 @@ const Row = ({ id, name, price, quantity, category, picture}) => {
         productFav = favoris.body.favoris.map(item => {
             return item.id
         })   
-    } 
+    }  
 
     //fonction pour afficher l'image du profile (on l'utilisera dans le src de la balise img)
     const imageData = () => {
         let image1;
+        console.log(picture);
         //on verifie si la key image existe dans le body des info de l'user (voir bdd)
-        if (picture !== undefined) {
+        if (picture.data !== undefined){
+            console.log(picture);
             //si existe on affiche l'image stocké dans le dossier uploads du back (geré par multer)
             image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + picture.data;    
         } else {
@@ -67,15 +68,12 @@ const Row = ({ id, name, price, quantity, category, picture}) => {
         return image1; 
     }
 
-    useEffect(()=>{
-        console.log(picture);
-    },[])
 
     return (
         <tr>
             <td>
                 <figure className="itemside">
-                    <div className="aside"><img src={imageData()} className="img-sm" /></div>
+                    <div className="aside"><img src={imageData()} style={{height:'70px'}} /></div>
                     <figcaption className="info">
                         <a href="#" className="title text-dark">{ name }</a>
                     </figcaption>

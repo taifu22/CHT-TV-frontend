@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchemaMessage } from '../../Auth/validationSchemaYup/ValidationSchemaMessage';
@@ -11,12 +11,13 @@ function ModalViewMessages(props) {
     const messages = useSelector(state => state.user.message)
     const user = useSelector(state => state.user.users.body)
     const token = useSelector(state => ({...state.user.token}))
+    const myDivRef = useRef(null)    
 
     const dispatch = useDispatch();
     const { register, handleSubmit, formState, reset } = useForm({
 		mode: "onBlur",
 		defaultValues: { 
-			message: "",
+			message: "", 
 		},
 		resolver: yupResolver(validationSchemaMessage)
     });
@@ -38,7 +39,7 @@ function ModalViewMessages(props) {
     }
 
     //ici on appelle la route pour pouvoir passer le newMessage à false (coté collections messages si admin et coté document user array messages)
-    useEffect(()=>{
+    useEffect(()=>{ 
         if (messages.newMessage === true && user.role === 'admin') {
             MessageService.deleteNewMessageAdmin(token.accessToken, messages.id);
             dispatch(setNewMessageFalse(messages.id))
@@ -49,13 +50,21 @@ function ModalViewMessages(props) {
         }
     },[])
 
-    return (
+    useEffect(() => {
+        //ici j'essaye de faire afficher toujours le dernier message, donc le scroll toujours vers le bas
+        if (myDivRef.current) {
+            console.log(myDivRef.current);
+          myDivRef.current.scrollTop = myDivRef.current.scrollHeight;
+        }
+    }, [])
+
+    return ( 
         <div class="modal fade" id='modalViewMessages' tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header text-center w-100">
                             <div>
-                                <h4 class="modal-title font-weight-bold">Discussion User Admin</h4>
+                                <h5 class="modal-title font-weight-bold">Objet : {messages.object}</h5>
                             </div> 
                             <div>
                                 <button type="button" onClick={()=>props.hide()} className="close" data-dismiss="modal" aria-label="Close">
@@ -63,25 +72,25 @@ function ModalViewMessages(props) {
                             </button>
                             </div>
                         </div>
-                        <div className='modal-body'>
-                            <div className='mb-3 list-messages-container'>
+                        <div className='modal-body' >
+                            <div className='mb-3 list-messages-container' ref={myDivRef}>
                                 {messages.messages.map(item => {
                                     if(item.user === props.user.email) {
-                                        return (<div className='inside-message m-2'>
+                                        return (<><p className='p-message'>{item.date}</p>
+                                                <div className='inside-message m-2'>
                                                     <div className='d-flex justify-content-between'>
                                                         <p className='text-success m-0'><b>You</b></p>
-                                                        <p className='p-message'>{item.date}</p>
                                                     </div>
                                                     <p className='p-message'>{item.message}</p>
-                                                </div>)
+                                                </div></>)
                                     } else {
-                                        return (<div className='inside-message inside-message-2 m-2'>
-                                        <div className='d-flex justify-content-between'>
-                                                        <p className='text-info m-0'><b>{item.user}</b></p>
-                                                        <p className='p-message'>{item.date}</p>
+                                        return (<><p className='p-message p-message-2'>{item.date}</p>
+                                                <div className='inside-message inside-message-2 m-2'>
+                                                    <div className='d-flex justify-content-between'>
+                                                        <p className='text-info m-0'><b>{user.role === 'user' ? 'Admin ' : item.user}</b></p>
                                                     </div>
                                                     <p className='p-message'>{item.message}</p>
-                                                </div>)
+                                                </div></>)
                                     }
                                 })}
                             </div>

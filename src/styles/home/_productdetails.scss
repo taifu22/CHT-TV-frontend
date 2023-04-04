@@ -1,4 +1,4 @@
-  .modal-worldmap {
+  .modal-productDetails {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,7 +13,7 @@
         z-index: 1060;
         left: 10%;
         top: 5%;
-        background: #fff; 
+        background: #fff;  
         position: fixed;
         width: auto;
         height: auto;
@@ -27,21 +27,18 @@
           div {
             display: flex;
             align-items: center;
-            h2 {
+            p {
+              font-size: x-large;
               margin-right: 10px;
             }
-          }
-          .flag-modal {
-            width: 60px;
-            border: 1px rgb(0, 0, 0) solid;
           }
         }
         .modal-body {
           display: flex;
-          .img-map {
-            max-height: 450px !important;
+          img {
+            width: 100%;
           }
-          .body-country-info {
+          .body-product-info {
             margin-left: 15px;
             background-color: rgb(235, 226, 226);
             padding: 30px;
@@ -107,3 +104,171 @@
       font-size: 40px;
     }
   }
+
+  @media screen and (max-width: 800px) {
+    .modal-productDetails {
+        .modals {
+          .modal-header {
+            div {
+              p {
+                font-size: medium ;
+              }
+            }
+          }
+          .modal-body {
+            flex-direction: column;
+            max-height: 500px;
+            overflow-y: scroll;
+            img {
+              width: 100%;
+            }
+            .body-product-info {
+              margin-top: 15px;
+              max-height: none;
+              overflow-y:initial;
+              .div-buttons-product {
+                text-align: end;
+                display: flex;
+                button {
+                    width: 50%;
+                    margin-top: 10px;
+                    font-size: small;
+                }
+                .btn-cart-product {
+                    i {
+                        margin-left: 10px;
+                    }
+                }
+            }
+            }
+          }
+        }
+    }   
+  }
+
+@media screen and (max-width: 576px) {
+  .modal-productDetails {
+      .modals {
+        .modal-header {
+          div {
+            p {
+              font-size: medium ;
+            }
+          }
+        }
+        .modal-body {
+          flex-direction: column;
+          max-height: 500px;
+          overflow-y: scroll;
+          img {
+            width: 100%;
+          }
+          .body-product-info {
+            margin-top: 15px;
+            max-height: none;
+            overflow-y:initial;
+            .div-buttons-product {
+              text-align: end;
+              display: flex;
+              button {
+                  width: 70%;
+                  margin-top: 10px;
+                  font-size: small;
+              }
+              .btn-cart-product {
+                  i {
+                      margin-left: 10px;
+                  }
+              }
+          }
+          }
+        }
+      }
+  }   
+}
+
+@media screen and (max-width: 510px) {
+  .modal-productDetails {
+      .modals {
+        .modal-header {
+          div {
+            p {
+              font-size: medium ;
+            }
+          }
+        }
+        .modal-body {
+          p {
+            font-size: small ;
+          }
+          .body-product-info {
+            .div-buttons-product {
+              button {
+                  width: 80%;
+                  margin-top: 10px;
+                  font-size: small;
+              }
+            }
+            .users-opinions {
+              p {
+                font-size: small;
+              }
+              span {
+                font-size: small;
+              }
+              button {
+                width: 40%;
+              }
+            }
+          }
+        }
+      }
+  }   
+}
+
+@media screen and (max-width: 490px) {
+  .modal-productDetails {
+      .modals {
+        .modal-header {
+          div {
+            p {
+              font-size: medium ;
+            }
+          }
+        }
+        .modal-body {
+          p {
+            font-size: small ;
+          }
+          .body-product-info {
+            margin-left: 0;
+            padding: 10px;
+            .div-buttons-product {
+              button {
+                  width: 90%;
+                  margin-top: 10px;
+                  font-size: small;
+              }
+            }
+            .users-opinions {
+              font-size: small;
+              p {
+                font-size: smaller;
+                span {
+                  font-size: smaller;
+                }
+              }
+              ul {
+                font-size: smaller;
+                padding-left: 20px;
+              }
+              button {
+                width: 40%;
+                font-size: smaller;
+              }
+            }
+          }
+        }
+      }
+  }   
+}

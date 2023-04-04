@@ -1,14 +1,16 @@
-.messaing-list {
+.messaging-list {
     .div-search-button-add {
         display: flex;
         height: 40px;
-        justify-content: space-between;
+        justify-content: space-between; 
         margin-bottom: 30px;
     }
     .messaging-list-div {
         overflow-y: scroll;
         max-height: 340px;
-        .into-message {
+        padding-left: 0px !important;
+
+        .into-message { 
             .into-message-p-elipsis {
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -16,21 +18,48 @@
             }
         }
     }
-    .list-messages-container {
+    .list-messages-container { 
         overflow-y: scroll;
         max-height: 280px;
+        .p-message { 
+            font-size: 12px;
+            margin: 0;
+        }
         .inside-message {
-            max-width: 50%;
+            max-width: 70%;
             background-color: rgb(185, 233, 233);
             padding: 10px;
             border-radius: 10px;
             .p-message { 
                 font-size: 12px;
+                margin: 0;
             }
         }
+        .p-message-2 {
+            margin-left: 80%;
+        }
         .inside-message-2 {
-            margin-left: 200px !important;
+            max-width: 70%;
+            margin-left: 30% !important;
             background-color: rgb(198, 230, 194) !important;
         }
     }
+}
+
+
+.into-message-p-elipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    .messaging-list {
+        h5 {
+            font-size: small;
+        }
+        p {
+            font-size: small;
+        }
+    }   
 }

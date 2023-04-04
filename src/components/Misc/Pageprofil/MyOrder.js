@@ -50,7 +50,7 @@ function MyOrder() {
             sum += array[i];
         }
         return sum/100; 
-    }
+    } 
 
     ///function pour afficher le bouton pour ajouter un avis, si pas encore fait sur le produit en question
     function opinionOkFunc(item) {
@@ -89,21 +89,22 @@ function MyOrder() {
                 opinionOK.push(element.nameProduct)
             }
         })}
-        <div className='container-fluid my-order'>
+        <div className='container my-order'>
             <h2 className='m-3 text-center text-primary'>Liste des commandes validées</h2>
             <hr/>
             <br/>
             {dataOrders.length ? dataOrders.map(item => {
                 let total = [];
                 return (
-                    <div className='card m-3 p-3'>
+                    <div className='card m-3 p-3 card-order'>
                         <div className='m-1 d-flex justify-content-between'>
                             <div className='d-flex align-items-center'>
                                 <p className='text-center'><b>En cours de livraison</b></p>
                             </div>
-                            <div>
-                                <p className='m-0'>commande du {item[item.length -1].key}</p>
-                                <p>numéro de la comande : {item[item.length -1].orderNumber}</p>
+                            <div className='d-flex flex-column align-items-end'>
+                                <p className='m-0'>Date : {item[item.length -1].key}</p>
+                                <p className='m-0'>N° comande : </p>
+                                <p className='m-0'>{item[item.length -1].orderNumber}</p>
                             </div>
                         </div>
                         {item[0].map(item1 => {
@@ -112,17 +113,18 @@ function MyOrder() {
                             item1.price_data.product_data.name != "Shipping Cost" &&  
                             <div className='card m-1'>
                                 <div className='row no-gutters'>
-                                    <div className='col-md-4'>
+                                    <div className='col-md-6 col-lg-4'>
                                         <a href="#" className="img-wrap"> <img style={{height:'150px'}} src={imageData(item1.price_data.product_data.name)} /> </a> 
                                     </div>
-                                    <div className='col-md-6'>
+                                    <div className='col-md-6 col-lg-4'>
                                         <div className='card-body'>
-                                            <p class="card-title text-primary"><b>{item1.price_data.product_data.name} </b><p className='text-dark'><b>x{item1.quantity}</b></p></p>
+                                            <p class="card-title text-primary"><b>{item1.price_data.product_data.name} </b>
+                                            <p className='text-dark'><b>x{item1.quantity}</b></p></p>
+                                            <p class="card-title text-primary"><b>{item1.price_data.unit_amount/100} Є</b> </p>
                                         </div>
                                     </div>
-                                    <div className='col-md-2'>
+                                    <div className='col-md-12 col-lg-4'>
                                         <div className='card-body'>
-                                            <p class="card-title text-primary ml-3"><b>{item1.price_data.unit_amount/100} Є</b> </p>
                                             {opinionOkFunc(item1.price_data.product_data.name)}
                                             {isInfoShowed && <ModalGiveOpinion hide={()=>toggleInfo()} product={dataproduit} />}
                                         </div>
@@ -132,9 +134,9 @@ function MyOrder() {
                             )
                         })}
                         <div className='m-1 d-flex justify-content-between'>
-                            <button data-toggle="modal" data-target="#modalDeliveryInfos" onClick={()=> ToggleModalDelivery(item[item.length -2], total[total.length-1])} className='btn btn-outline-warning w-25'>informations de livraison</button> 
+                            <i role={'button'} data-toggle="modal" data-target="#modalDeliveryInfos" onClick={()=> ToggleModalDelivery(item[item.length -2], total[total.length-1])} title='informations de livraison' className="fa-solid fa-truck fa-2x text-info" ></i>
                             {isInfoShowed2 && <ModalInfosDelivery hide={()=>toggleInfo2()} />}
-                            <button className='btn btn-outline-danger w-25'>Supprimer la commande</button>
+                            <i role={'button'} title='supprimer la commande' class="fa-2x text-danger fa-solid fa-trash"></i>
                             <div className='d-flex align-items-center'>
                                 <p><b>Total : {TotalResult(total)} Є</b></p>
                             </div>

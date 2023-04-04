@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ListOpinions from './ListOpinions';
 import serviceMessages from '../../../lib/service/serviceMessages';
 import MessagingAdmin from './MessagingAdmin';
+import useWindowSize from '../../../lib/hooks/useScreenSize';
 
 function DashboardAdmin(props) {
     
@@ -42,13 +43,13 @@ function DashboardAdmin(props) {
     },[props.menu])
 
     function handleMenu(e) {
-        if (e === 'Liste des produits') {
+        if (e === 'produits') {
             setStateMenu({products: true, commandes: false, opinions:false, messages: false});
-        } else if (e === 'Liste des commandes') {
+        } else if (e === 'commandes') {
             setStateMenu({products: false, commandes: true, opinions: false, messages: false});
-        } else if (e === 'Liste des avis') {
+        } else if (e === 'opinions') {
             setStateMenu({products: false, commandes: false, opinions: true, messages: false});
-        } else if (e === 'Messagerie') {
+        } else if (e === 'messagerie') {
             setStateMenu({products: false, commandes: false, opinions: false, messages: true});
         }
     }
@@ -62,31 +63,33 @@ function DashboardAdmin(props) {
         } 
     })
 
-    return ( 
+    const screenWidth = useWindowSize().width;
+
+    return (  
         <div className="container-fluid page-profil-container"> 
             <div className="page-profil row flex-nowrap" >
-                <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div className="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-2 px-sm-2 px-0 bg-dark">
                     <div className="ul-profil d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 mt-3">
-                        <h4 className='text-light mt-3 mb-3'>Dashboard Admin</h4>
+                    {screenWidth > 576 ? <h4 className='text-light mt-3 mb-3'>DashBoard Admin</h4> : <i class="fa-2x text-light mt-3 mb-3 fas fa-bars fs-xl"></i>}
                         <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                             <li className="nav-item">
-                                <a href="#" className="nav-link align-middle px-0" title='produits' onClick={(e)=>handleMenu(e.target.textContent)}>
-                                    <i className="text-white fas fa-list fa-1x"></i> <span className="ms-1 d-none d-sm-inline h6 text-white">Liste des produits</span>
+                                <a href="#" className="nav-link align-middle px-0" title='produits' onClick={(e)=>handleMenu(e.target.title)}>
+                                    <i title='produits' className="text-white fas fa-list fa-1x"></i><span className="ms-1 d-none d-sm-inline h6 text-white" title='produits'>Liste des produits</span> 
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="#" className="nav-link align-middle px-0" title='commandes' onClick={(e)=>handleMenu(e.target.textContent)}>
-                                    <i className="text-white fas fa-list-check fa-1x"></i> <span className="ms-1 d-none d-sm-inline h6 text-white">Liste des commandes</span>
+                                <a href="#" className="nav-link align-middle px-0" title='commandes' onClick={(e)=>handleMenu(e.target.title)}>
+                                    <i className="text-white fas fa-list-check fa-1x" title='commandes'></i> <span title='commandes' className="ms-1 d-none d-sm-inline h6 text-white">Liste des commandes</span>
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="#" className="nav-link align-middle px-0" title='opinions' onClick={(e)=>handleMenu(e.target.textContent)}>
-                                    <i className="text-white fas fa-list-check fa-1x"></i> <span className="ms-1 d-none d-sm-inline h6 text-white">Liste des avis</span>
+                                <a href="#" className="nav-link align-middle px-0" title='opinions' onClick={(e)=>handleMenu(e.target.title)}>
+                                    <i className="text-white fas fa-list-check fa-1x" title='opinions'></i> <span title='opinions' className="ms-1 d-none d-sm-inline h6 text-white">Liste des avis</span>
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="#" className="nav-link align-middle px-0" title='opinions' onClick={(e)=>handleMenu(e.target.textContent)}>
-                                    <i className="text-white fas fa-envelope fa-1x"></i> <span className="ms-1 d-none d-sm-inline h6 text-white">Messagerie</span>
+                                <a href="#" className="nav-link align-middle px-0" title='messagerie' onClick={(e)=>handleMenu(e.target.title)}>
+                                    <i className="text-white fas fa-envelope fa-1x" title='messagerie'></i> <span title='messagerie' className="ms-1 d-none d-sm-inline h6 text-white">Messagerie</span>
                                     {<span style={{marginLeft:'10px'}} className="badge badge-danger mr-2 mb-3">{newMessages}</span>}
                                 </a>
                             </li>
@@ -94,7 +97,7 @@ function DashboardAdmin(props) {
                         <hr />
                     </div>
                 </div>
-                <div className="col py-3">
+                <div className="py-3 col">
                     {stateMenu.products && <ListProducts />}
                     {stateMenu.commandes && <ListOrders />}
                     {stateMenu.opinions && <ListOpinions />}

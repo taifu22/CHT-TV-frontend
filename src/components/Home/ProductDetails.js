@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import serviceAdmin from '../../lib/service/serviceAdmin';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewReportOpinionData } from '../../lib/state/features/user.slice';
 import LightBoxProductsDetails from '../Layout/LightBoxProductsDetails';
+import useWindowSize from '../../lib/hooks/useScreenSize';
 
 function ProductDetails(props) {
 
@@ -55,12 +56,17 @@ function ProductDetails(props) {
           .then(res => dispatch(addNewReportOpinionData(res.data.body)))
     }
 
+    //function pour ouvrir la lightbox donc voir l'image dans sa totalité, et cacher les infos du produits
+    const [openLightBox, setopenLightBox] = useState(false);
+
+    const screenWidth = useWindowSize().width;
+
     return (
-        <div className="modal-worldmap">
+        <div className="modal-productDetails">
               <div className="modals">
                 <div className="modal-header"> 
                   <div>
-                    <h2>{props.data.name}</h2>
+                    <p><b>{props.data.name}</b></p>
                   </div> 
                   <button 
                     type="button"
@@ -70,12 +76,12 @@ function ProductDetails(props) {
                   <span>&times;</span>  
                   </button> 
                 </div> 
-                <div className="modal-body">
+                <div className="modal-body"> 
                   <div>
-                    {/* <img className='img-map' src={imageData(props.data)}></img> */}
                     <LightBoxProductsDetails data={props.data.pictures} image={props.data.pictures[0].filename}/>
+                    { screenWidth > 800 ? <p className='mt-3' role={"button"} onClick={()=>setopenLightBox(!openLightBox)}>{ openLightBox ? <><span className='text-primary'>Revenir en arrière</span><i class="ml-2 text-primary fa-solid fa-backward"></i></> : <><span className='text-primary'>Ouvrir l'image </span><i class="text-primary ml-2 fa-solid fa-magnifying-glass"></i></>}</p> : ""}
                   </div>
-                  <div className='body-country-info'>
+                  { openLightBox ? "" : <div className='body-product-info'>
                     <p><b>Description : </b> {props.data.description}</p>
                     <div className='div-price-product'>
                       <p className='price-product'>{props.data.price} €</p>
@@ -91,7 +97,7 @@ function ProductDetails(props) {
                       </button>
                     </div>
                     <div className='users-opinions'>
-                       <p><b>Avis des utilisateurs : </b> <span className='ml-3'>{props.stars(props.starArray, props.totalStars())}</span>  <span className='ml-2'>{props.totalStars() ? props.totalStars() : "aucun avis"}</span></p>
+                       <p><b>Avis des utilisateurs : </b> <span className='ml-3'>{props.stars(props.starArray, props.totalStars())}</span>  <span className='ml-2'>{props.totalStars() ? (screenWidth > 500 ? props.totalStars() : "") : "aucun avis"}</span></p>
                        <hr/>
                        {props.opinions.map(item => {
                         {opinionWithReport !== null && opinionWithReport.map(item1 => {
@@ -117,7 +123,6 @@ function ProductDetails(props) {
                               on lui donne plus la possibilité de redonner une signalation pour le meme avis 
                               Ensuite si l'user a donné un avis, sur ce avis il ne pourra pas donner de signalation, il aura le button desactivé 'Mon avis'
                               Ensuite si on es pas loggé si on clique sur signaler on aura un message d'alert*/}
-                              {console.log(opinionWithreportOK)}
                               {(opinionWithReport !== null && opinionWithreportOK.length && userEmail !== null && item.user !== userEmail) ? 
                                                 opinionWithreportOK.map(item1 =>{
                                                   if(item1.includes(item.id)) {
@@ -136,7 +141,7 @@ function ProductDetails(props) {
                          )
                        })}
                     </div>
-                  </div>
+                  </div>}
                 </div>
               </div>
           </div>

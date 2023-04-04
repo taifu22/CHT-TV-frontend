@@ -66,7 +66,7 @@ const Checkout = () => {
 											</div>
 										</div>
 									</>) 
-							}) : <p>La liste des addresses est vide, Veuillez ajouter une adresse dans le <Link to='/pageprofile'>menu profil utilisateur</Link></p>
+							}) : <p>La liste des addresses est vide, Veuillez ajouter une adresse dans le <Link to='/pageprofil/address'>menu profil utilisateur</Link></p>
 						}
 					</div>
 				</div> 

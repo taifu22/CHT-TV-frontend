@@ -1,7 +1,24 @@
 .list-orders-admin {
     .title-order-admin {
         margin-top: 30px;
-        margin-right: 50px;
+        display: flex;
+        justify-content: space-between; 
+        .commande-total {
+            width: 50%;
+            display: flex;
+            justify-content: start;
+            .total {
+                margin-left: 100px;
+            }
+        }
+        .user-action {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            .action {
+                margin-right: 60px;
+            }
+        }
     }
     .total-list-order {
         overflow-y: scroll;
@@ -18,9 +35,67 @@
             }
         }
         .infos-order-number-total {
-            margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; 
+            .infos-name {
+                width: 50%;
+                display: flex;
+                justify-content: start;
+                .total-price {
+                    margin-left: 60px;
+                }
+            }
+            .infos-user {
+                width: 50%;
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
+}
+
+@media screen and (max-width: 992px) {
+    .list-orders-admin {
+        .title-order-admin {
+            display: none !important;
+        } 
+        .total-list-order {
+            margin-right: 0;
+            .infos-order-number-total {
+                display: flex;
+                flex-direction: column;
+                .infos-name {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    .total-price {
+                        margin-right: 40px;
+                    }
+                }
+                .infos-user {
+                    margin-top: 15px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }  
+} 
+
+@media screen and (max-width: 670px) {
+    .list-orders-admin {
+        p {
+            font-size: small;
+        }
+        .total-list-order {
+            .infos-order-number-total {
+                .infos-name {
+                    .total-price {
+                        margin-right: 15px;
+                    }
+                }
+            }    
+        }
+    }  
 }

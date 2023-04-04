@@ -17,7 +17,6 @@
     "react-scripts": "^5.0.1",
     "react-simple-star-rating": "^5.1.7",
     "react-stripe-elements": "^6.1.2",
-    "react-super-responsive-table": "^5.2.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.7",

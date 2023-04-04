@@ -8,7 +8,11 @@ export const productsSlice = createSlice({
     pageIndex: 0,
     items: [],
     //ici on stocke les images du produit que l'on veut modifier (modification produits coté dashboard admin)
-    infosProduct: null
+    infosProduct: null,
+    //ici on stockera tous les produits sans devoir toucher au items, qui sera utiliser juste pour la pagination donc
+    //avoir des array chaque 9 products
+    //on utilise itemsAll pour récuperer les infos d'un produit par exemple afficher ses infos depuis les favoris de l'user
+    itemsAll: []
   },
   reducers: {
       getProductsPending: (state) => {
@@ -17,6 +21,7 @@ export const productsSlice = createSlice({
           isLoading: true,
         }
       },
+      //ici on récupère les produits avec pagination, donc si 10 produits dans items on aura 2 arrays, un avec 9 product et un avec 1
       getProductsSuccess: (state, {payload}) => {
         return {
           ...state,
@@ -37,6 +42,10 @@ export const productsSlice = createSlice({
           pageIndex: payload,
         }
       }, 
+      //voilà ici on récupère tous les produits sans pagination
+      getAllproduct: (state, {payload}) => {
+        state.itemsAll = payload
+      },
       deleteProductFromAdmin: (state, {payload}) => {
         state.items = state.items.map(item => {
           return item.filter((pic) => pic.id !== payload);
@@ -60,5 +69,15 @@ export const productsSlice = createSlice({
   }
 })
 
-export const {getProductsFailure, getProductsSuccess, getProductsPending, setPageIndex, deleteProductFromAdmin, addNewProductAdmin, setInfosProductFromAdmin, deleteInfosproductFromAdmin,updateProductFromAdmin } = productsSlice.actions;
+export const {getProductsFailure, 
+              getProductsSuccess, 
+              getProductsPending, 
+              setPageIndex, 
+              deleteProductFromAdmin, 
+              addNewProductAdmin, 
+              setInfosProductFromAdmin, 
+              deleteInfosproductFromAdmin,
+              updateProductFromAdmin,
+              getAllproduct } = productsSlice.actions;
+              
 export default productsSlice.reducer;
