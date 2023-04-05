@@ -9,11 +9,13 @@ import ListOpinions from './ListOpinions';
 import serviceMessages from '../../../lib/service/serviceMessages';
 import MessagingAdmin from './MessagingAdmin';
 import useWindowSize from '../../../lib/hooks/useScreenSize';
+import ListCategorys from './ListCategorys';
 
 function DashboardAdmin(props) {
     
     const [stateMenu, setStateMenu] = useState({  
         products: true,
+        categorys: false,
         commandes: false, 
         opinions: false,
         messages: false
@@ -44,13 +46,15 @@ function DashboardAdmin(props) {
 
     function handleMenu(e) {
         if (e === 'produits') {
-            setStateMenu({products: true, commandes: false, opinions:false, messages: false});
+            setStateMenu({products: true, commandes: false, opinions:false, messages: false, categorys: false});
         } else if (e === 'commandes') {
-            setStateMenu({products: false, commandes: true, opinions: false, messages: false});
+            setStateMenu({products: false, commandes: true, opinions: false, messages: false, categorys: false});
         } else if (e === 'opinions') {
-            setStateMenu({products: false, commandes: false, opinions: true, messages: false});
+            setStateMenu({products: false, commandes: false, opinions: true, messages: false, categorys: false});
         } else if (e === 'messagerie') {
-            setStateMenu({products: false, commandes: false, opinions: false, messages: true});
+            setStateMenu({products: false, commandes: false, opinions: false, messages: true, categorys: false});
+        } else if (e === 'categorys') {
+            setStateMenu({products: false, commandes: false, opinions: false, messages: false, categorys: true});
         }
     }
 
@@ -78,6 +82,11 @@ function DashboardAdmin(props) {
                                 </a>
                             </li>
                             <li className="nav-item">
+                                <a href="#" className="nav-link align-middle px-0" title='produits' onClick={(e)=>handleMenu(e.target.title)}>
+                                    <i title='categorys' className="text-white fas fa-list fa-1x"></i><span className="ms-1 d-none d-sm-inline h6 text-white" title='categorys'>Liste des categories</span> 
+                                </a>
+                            </li>
+                            <li className="nav-item">
                                 <a href="#" className="nav-link align-middle px-0" title='commandes' onClick={(e)=>handleMenu(e.target.title)}>
                                     <i className="text-white fas fa-list-check fa-1x" title='commandes'></i> <span title='commandes' className="ms-1 d-none d-sm-inline h6 text-white">Liste des commandes</span>
                                 </a>
@@ -102,6 +111,7 @@ function DashboardAdmin(props) {
                     {stateMenu.commandes && <ListOrders />}
                     {stateMenu.opinions && <ListOpinions />}
                     {stateMenu.messages && <MessagingAdmin />}
+                    {stateMenu.categorys && <ListCategorys />}
                 </div>
             </div>
         </div>
