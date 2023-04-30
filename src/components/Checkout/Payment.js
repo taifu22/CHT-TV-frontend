@@ -19,11 +19,18 @@ function Payment(props) {
   const processItem = (item) => ({
     price_data: { 
       currency: "eur",
-      product_data: { name: item.name },
+      //dans l'objet metadata, je peut ajouter tout ce que je veux
+      //dans ce cas je mets le priceReduction et la pourcentage s'il y en a
+      product_data: { name: item.name, metadata:{priceReduction: item.priceReduction, percentageReduction: item.percentageReduction} },
       //a savoir que la unit (voir la doc), c'est toujours en centimes, donc faire *100
-      unit_amount: item.price * 100
+      unit_amount: item.priceReduction !== null ? item.priceReduction * 100 : item.price * 100
+      //on peut aussi ajouter d'autres keys à notre objet qui partira en bdd
+      //descrition:
+      //images: [ca sera un tableau qui contient l'url de l'image]
     },
-    quantity: item.quantity
+    quantity: item.quantity,
+    //on utilise la proprieté metadata pour ajouter des informations en plus dans l'objet qu'on anvoie en bdd avec les infos de la commande
+    
   }); 
   /*il faudra créer aussi une variable qui gere le produit 'livraison, car si l'user choisi la livraison fast il faudra
    ajouter 20 euros, donc pour stripe il faudra ajouter un produit de 20 euro'*/ 
@@ -48,7 +55,7 @@ function Payment(props) {
   const orderNumber = userId.id.match(/\d+/g).join('') + userId.orders.length +2;
 
   useEffect(()=>{
-    console.log(userId.orders.length);
+    console.log(order);
   },[])
 
   return ( 
@@ -56,7 +63,7 @@ function Payment(props) {
       className="btn btn-outline-primary btn-lg mt-3 btn-block" 
       onClick={async() =>{
         /*je rajoute un index à l'array avec deja 1 array qui contient 2 index, un avec les ou l'objet et l'autre avec la livraison
-        donc on aura 2 index, un avec objets et livraison, et un avec la date de la commande*/
+        donc on aura 2 index, un avec produits et livraison, et un avec la date de la commande*/
         const date = new Date();
         const dataFormat = {key: date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear(),
                             orderNumber: orderNumber}

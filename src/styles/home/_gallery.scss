@@ -10,7 +10,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                border-radius: 5px;
+                border-radius: 5px; 
             }
             .div-list-categorys {
                 position: absolute;
@@ -24,11 +24,15 @@
                     &:hover {
                         background-color: rgb(192, 205, 228);
                     }
+                    img {
+                        margin-left: 10px;
+                        height: 20px;
+                    }
                 }
             }
         }
         div {
-            i {
+            i { 
                 cursor: pointer;
             }
         }
@@ -40,6 +44,7 @@
         }
         .inside-gallery {
             width: 100%;
+            margin: 0px !important;
             .product-menu-list {
                 cursor: pointer;
                 position: relative;
@@ -59,6 +64,12 @@
                    position: absolute;
                    bottom: 10px;
                    right: 10px;
+                }
+            }
+            .card-product-grid {
+                img {
+                    max-height: 300px;
+                    object-fit: contain;
                 }
             }
         }

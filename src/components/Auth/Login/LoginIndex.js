@@ -37,7 +37,7 @@ const Login = () => {
 		serviceUser.signin(data)
        .then(res => {
         dispatch(setTokenData(res.data))
-        serviceUser.getProfile(res.data.accessToken)
+        serviceUser.getProfile(res.data.accessToken) 
             .then(res => {
               console.log(res);
               dispatch(setUserData(res.data));

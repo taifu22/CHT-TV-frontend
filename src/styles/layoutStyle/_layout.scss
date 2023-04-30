@@ -25,3 +25,76 @@ nav {
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .navigation {
+    .nav-header {
+      #navbarSupportedContent {
+        ul {
+          li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            i {
+              font-size: 25px;
+              color: white;
+            }
+            a {
+              margin-top: 5px;
+              font-size: 10px;
+            }
+          }
+        }
+        .panier-div {
+          a {
+            margin-top: -5px;
+          }
+          p {
+            font-size: 10px;
+            color: white;
+            margin-top: -3px;
+          }
+        }
+        .dropdown {
+          .drop-menu-responvive {
+            left: 10px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .navigation {
+    .nav-header {
+      #navbarSupportedContent {
+        .dropdown {
+          button {
+            i {
+              font-size: 25px;
+            }
+            span {
+              font-size: 10px;
+            }
+          }
+          .drop-menu-responvive {
+            left: -45px !important;
+          }
+        }
+        .navlink-messages {
+          margin-top: 15px;
+          p {
+            font-size: 10px;
+            margin-top: 15px;
+          }
+          i {
+            font-size: 30px;
+          }
+        }
+      }
+    }
+  }
+}

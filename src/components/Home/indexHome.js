@@ -1,6 +1,8 @@
   import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Gallery from './Gallery'
+import { getAllsCategories } from '../../lib/state/features/category.slice';
+import serviceCategory from '../../lib/service/serviceCategory';
 
 const Deals = () => ( 
  <section className="padding-bottom mt-5">
@@ -107,6 +109,14 @@ const Slider = () => (
   </div>)
 
 const Home = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    //on récupère de la bdd et on rempli le store de redux avec toutes les categories
+    serviceCategory.getAllCategories()
+        .then(res => dispatch(getAllsCategories(res.data.data)))
+  },[])
 
     return(
       <div className="container-fluid" style={{marginTop: '80px'}}>  

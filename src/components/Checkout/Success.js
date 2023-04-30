@@ -47,7 +47,9 @@ function Success() {
       if (index !== product.length -1) {
         productItem = {
           nameProduct: item.price_data.product_data.name,
-          quantity: item.quantity
+          quantity: item.quantity,
+          priceReduction: item.price_data.product_data.metadata.priceReduction,
+          percentageReduction: item.price_data.product_data.metadata.percentageReduction
         }
         totalprice.push(item.price_data.unit_amount)
         return totalproducts.push(productItem) 
@@ -59,10 +61,6 @@ function Success() {
     //const number = delivery[delivery.length -1].orderNumber 
     //const dateOrder = delivery[delivery.length -1].key
     const numberOrder = [delivery[delivery.length -1].orderNumber, delivery[delivery.length -1].key]
-    console.log(numberOrder);
-    console.log(totalproducts);
-    console.log(deliveryAddress);
-    console.log(totalprice);
     Adminservice.addOrderAdminService(token.accessToken, totalproducts, totalprice, deliveryAddress, numberOrder, userEmail);
     redirectHome();
   },[])

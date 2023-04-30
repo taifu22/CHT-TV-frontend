@@ -64,6 +64,7 @@ function ListOrders(props) {
     function ToggleModalInfos(item, item1) {
         //item c'est les infos produits de cette commande, et item1 c'est le montant de chaque produit
         const newItem = [item, item1]
+        //on dispatch dans le state.user.order
         dispatch(setOrderFromAdmin(newItem))
         toggleInfo2()
     }
@@ -71,11 +72,11 @@ function ListOrders(props) {
     const screenWidth = useWindowSize().width;
 
     useEffect(()=>{
-         console.log(screenWidth);
+         //console.log(screenWidth);
     },[])
 
     return (
-        <div className='container-fluid list-orders-admin'>
+        <div className='list-orders-admin'>
             <h2 className='m-3 text-center text-primary'>Liste des commandes</h2> 
             <br/>
             <div className='div-search-button-add'>
@@ -101,7 +102,6 @@ function ListOrders(props) {
             <hr/>
             <div className='total-list-order'>
                 {orders.length ? (orders !== null && orders.length > 0 && orders.map(item =>{
-                    //console.log(item)
                     return(
                         <>   
                             <div className='infos-order-number-total'>

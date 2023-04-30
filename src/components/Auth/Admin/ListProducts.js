@@ -106,7 +106,7 @@ function ListProducts(props) {
     }
  
     return (
-        <div className='container-fluid list-product-admin'>
+        <div className='list-product-admin'>
             <h2 className='m-3 text-center text-primary'>Liste des produits</h2>
             <br/>
             <div className='div-search-button-add'>
@@ -144,7 +144,11 @@ function ListProducts(props) {
                                 </div>
                                 <div className='product-admin-price-action'>
                                     <div className='product-admin-price'>
-                                        <p>{item1.price} € </p>
+                                        { (item1.percentageReduction && item1.priceReduction !== null) ? 
+                                            <div className='d-flex align-items-center'>
+                                                <p className='text-danger'><b>{item1.priceReduction} € </b></p>
+                                                <span className="badge badge-danger ml-2 mb-3"><em>Reduction</em> {item1.percentageReduction}</span>
+                                            </div> : <p>{item1.price} € </p>}
                                         <p>{(item1.purchases.length >= 1 && NumberPurchases(item1.purchases) > 1 ) ? NumberPurchases(item1.purchases) + ' articles vendus' : (item1.purchases.length == 1 && NumberPurchases(item1.purchases) == 1) ? item1.purchases.length+ ' article vendu' : '0 articles vendus'} </p>
                                     </div>
                                     {/*je vide le tableau des etoiles, pour que ca soit vide pour le prochaine produit du map (sinon conflits d'étoiles)arrayStar = []*/}

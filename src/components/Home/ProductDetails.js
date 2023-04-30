@@ -24,7 +24,7 @@ function ProductDetails(props) {
         return state.user.users.body.email
       }
     })
-    let opinionWithreportOK = [];
+    let opinionWithreportOK = []; 
 
     const dispatch = useDispatch()
     const navigate = useNavigate();
@@ -84,7 +84,11 @@ function ProductDetails(props) {
                   { openLightBox ? "" : <div className='body-product-info'>
                     <p><b>Description : </b> {props.data.description}</p>
                     <div className='div-price-product'>
-                      <p className='price-product'>{props.data.price} €</p>
+                    {(props.data.percentageReduction && props.data.priceReduction !== null) ? 
+                                            <div className='mt-3 mb-3 d-flex align-items-center justify-content-end'>
+                                                <p className='text-danger price-product'><b>{props.data.priceReduction}€ </b></p>
+                                                <span className="badge badge-danger ml-3 mb-2"><em>Reduction</em> {props.data.percentageReduction}</span>
+                                            </div> : <div className="price-product mt-2">{ props.data.price } €</div>}
                       <p className='price-info'>TVA incluse (si applicable), plus frais de livraison</p>
                     </div>
                     <div className='div-buttons-product'>

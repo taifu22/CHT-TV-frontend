@@ -103,7 +103,7 @@ function ListOrders(props) {
                                 <div className='opinion-user'>
                                     <p className='p-elipsis'>{item.user}</p>
                                     <ul className="rating-stars mb-1 stars1">
-                                        {Viewstars(star, item.star)}
+                                        {Viewstars(star, item.star)} 
                                     </ul> 
                                 </div>
                                 <div className='opinion-action'>

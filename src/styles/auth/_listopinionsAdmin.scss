@@ -14,7 +14,7 @@
                 }
             }
             .products {
-                display: flex;
+                display: flex; 
                 justify-content: space-between;
                 width: 50%;
                 .action {
@@ -61,7 +61,7 @@
     .list-opinions-admin {
         .total-list-opinions {
             .title-opinions {
-                display: none;
+                display: none; 
             }
             .list-opinions {
                 overflow-y: scroll;

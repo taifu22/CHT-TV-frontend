@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-function ModalAdminInfoOrder(props) {
+function ModalAdminInfoOrder(props) { 
 
-    const order = useSelector(state => state.user.order)
+    const order = useSelector(state => state.user.order);
+    const [viewPriceReduction, setViewPriceReduction] = useState(true);
 
     return (
         <div class="modal fade" id='modalOrderInfos' tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -24,12 +25,12 @@ function ModalAdminInfoOrder(props) {
                                 <h5>Produit</h5>
                                 {order[0].map(item => {
                                     return (
-                                        <p className='p-nameproduct'>{item.nameProduct }<span className='text-muted'> x{item.quantity}</span></p>
+                                        <p className='p-nameproduct'>{item.nameProduct }</p>
                                     )
                                 })}
                             </div>
                             <div>
-                                <h5>Quantité</h5>
+                                <h5>Qté</h5>
                                 {order[0].map(item => {
                                     return (
                                         <p className='p-nameproduct text-center'>x{item.quantity}</p>
@@ -43,6 +44,15 @@ function ModalAdminInfoOrder(props) {
                                         return(<><p className='p-nameproduct'>{itemPrix/100} €</p></>)
                                     }
                                 })}
+                            </div>
+                            <div>
+                                <h5>Réduc.</h5>
+                                {order[0].map((item, index) => {
+                                        if(item.priceReduction !== null){
+                                            return(<><p className='p-nameproduct text-center'>{item.percentageReduction}</p></>)
+                                        }
+                                    }
+                                )}
                             </div>
                         </div>
                     </div>

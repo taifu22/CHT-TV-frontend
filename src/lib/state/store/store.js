@@ -7,6 +7,7 @@ import opinionSlice from "../features/opinion.slice";
 import { combineReducers } from 'redux';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import sessionStorage from 'redux-persist/es/storage/session';
+import categorySlice from "../features/category.slice";
 
 const persistConfig = {
     key: 'persist', 
@@ -18,9 +19,10 @@ const reducers = combineReducers({
     products: productsReducer,
     user: userReducer, 
     cart: cartSlice,
-    opinions : opinionSlice
+    opinions : opinionSlice,
+    categorys: categorySlice
 });
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, reducers); 
 
 export default configureStore({ 
     reducer: persistedReducer,

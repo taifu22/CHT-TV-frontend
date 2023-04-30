@@ -20,7 +20,7 @@ const Help = () => {
 			return null
 		}
 	})
-	const [message200, setMessage200] = useState(true);
+	const [message200, setMessage200] = useState(true); 
 	const dispatch = useDispatch();
 
 	const { register, handleSubmit, formState, reset } = useForm({ 
@@ -58,7 +58,7 @@ const Help = () => {
 	return ( 
 		<>
 			{user === null ? <Login /> : <div class="container contact-form">
-			    {isInfoShowed && <ModalMessageSendOk hide={()=>toggleInfo()} />}
+			    {isInfoShowed && <ModalMessageSendOk message1={'Votre message a été envoyé'} message2={'L\'administrateur vous répondra dans les plus brefs délais'} hide={()=>toggleInfo()} />}
 				<div class="contact-image">
 					<img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
 				</div>

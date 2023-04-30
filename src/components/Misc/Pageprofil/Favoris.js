@@ -9,7 +9,7 @@ function Favoris(props) {
     const dispatch = useDispatch();
     const favoris = useSelector(state => ({...state.user.users.body}));
     const product = useSelector(state => state.products.itemsAll)
-    const token = useSelector(state => ({...state.user.token}));
+    const token = useSelector(state => ({...state.user.token})); 
 
     const addTocartAction = (id, name, price, category, picture) => dispatch(addToCart({id, name, price, category, picture}))
     function deleteFavorite(id) {
@@ -53,7 +53,11 @@ function Favoris(props) {
                                         </div>
                                         <div className='infos-product col-xs-2'>
                                             <p>{item1.name}</p>
-                                            <p className='infos-price'>{item1.price} Є</p>
+                                            {(item1.percentageReduction && item1.priceReduction !== null) ? 
+                                            <div className='mt-3 mb-3 d-flex align-items-center'>
+                                                <p className='text-danger price h5'><b>{item1.priceReduction}€ </b></p>
+                                                <span className="badge badge-danger ml-3 mb-2"><em>Reduction</em> {item1.percentageReduction}</span>
+                                            </div> : <div className="infos-price h5 mt-2">{ item1.price } €</div>}
                                         </div>
                                         <div className='d-flex flex-column align-items-center justify-content-between mt-3'>
                                             <i role={'button'} title='Ajouter au panier' className="fa-2x mb-3 text-success fa-solid fa-cart-shopping" onClick={() => addTocartAction(item1.id, item1.name, item1.price, item1.category, item1.picture)}></i>

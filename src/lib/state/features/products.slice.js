@@ -12,7 +12,9 @@ export const productsSlice = createSlice({
     //ici on stockera tous les produits sans devoir toucher au items, qui sera utiliser juste pour la pagination donc
     //avoir des array chaque 9 products
     //on utilise itemsAll pour récuperer les infos d'un produit par exemple afficher ses infos depuis les favoris de l'user
-    itemsAll: []
+    itemsAll: [],
+    //state for store the priceReduction if admin choice to defined a reduction for the product (in modal edit product in dashboardAdmin)
+    priceReduction: null
   },
   reducers: {
       getProductsPending: (state) => {
@@ -65,6 +67,9 @@ export const productsSlice = createSlice({
       },
       deleteInfosproductFromAdmin: (state) => {
         state.infosProduct = null
+      },
+      setPriceReduction: (state, {payload}) => {
+        state.priceReduction = payload
       }
   }
 })
@@ -78,6 +83,7 @@ export const {getProductsFailure,
               setInfosProductFromAdmin, 
               deleteInfosproductFromAdmin,
               updateProductFromAdmin,
-              getAllproduct } = productsSlice.actions;
+              getAllproduct,
+              setPriceReduction } = productsSlice.actions;
               
 export default productsSlice.reducer;

@@ -4,7 +4,7 @@ import { removeFromCart, updateCart } from '../../lib/state/features/cart.slice'
 import { addNewFavorisData,deleteFavorisData } from '../../lib/state/features/user.slice';
 import serviceUser from '../../lib/service/serviceUser';
 
-const Row = ({ id, name, price, quantity, category, picture}) => { 
+const Row = ({ id, name, price, quantity, category, picture, priceReduction, percentageReduction}) => { 
 
     const dispatch = useDispatch();
     const removeFromcartAction = (e) => {
@@ -55,10 +55,8 @@ const Row = ({ id, name, price, quantity, category, picture}) => {
     //fonction pour afficher l'image du profile (on l'utilisera dans le src de la balise img)
     const imageData = () => {
         let image1;
-        console.log(picture);
         //on verifie si la key image existe dans le body des info de l'user (voir bdd)
         if (picture.data !== undefined){
-            console.log(picture);
             //si existe on affiche l'image stocké dans le dossier uploads du back (geré par multer)
             image1 = 'http://localhost:4000/uploads/imagesUsersProfil/' + picture.data;    
         } else {
@@ -90,7 +88,13 @@ const Row = ({ id, name, price, quantity, category, picture}) => {
             </td>
             <td>    
                 <div className="price-wrap"> 
-                    <span className="price">${price * quantity}</span> 
+                {
+                    (percentageReduction && priceReduction !== null) ? 
+                                            <div className='mt-3 mb-3 d-flex align-items-center'>
+                                                <p className='text-danger price h5'><b>{priceReduction * quantity}€ </b></p>
+                                                <span className="badge badge-danger ml-3 mb-2"><em>Reduction</em> {percentageReduction}</span>
+                                            </div> : <div className="price h5 mt-2">{ price * quantity } €</div>
+                }
                 </div>
             </td>
             <td className="text-right"> 

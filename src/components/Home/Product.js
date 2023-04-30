@@ -8,7 +8,7 @@ import useModal from '../../lib/hooks/useModal';
 import ProductDetails from './ProductDetails'; 
 import useWindowSize from '../../lib/hooks/useScreenSize';
 
-const Product = ({ id, name, price, category, description, opinions, purchases, pictures, picture, toggle }) => {
+const Product = ({ id, name, price, category, description, opinions, purchases, pictures, picture, toggle, priceReduction, percentageReduction }) => {
 
     useEffect(()=>{
         //console.log(toggle);
@@ -37,7 +37,9 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
             category: category,
             name: name,
             price: price,
-            picture: picture
+            picture: picture,
+            priceReduction: priceReduction,
+            percentageReduction: percentageReduction
         }
         dispatch(addToCart(newData)) 
     } 
@@ -126,7 +128,7 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
             <img className='m-3' src={imageData()} /> 
             <figcaption className="info-wrap">
                 <ul className="rating-stars mb-1">
-                    {Viewstars(star, MeanStarsCalculate())}
+                    {Viewstars(star, MeanStarsCalculate())} 
                 </ul> 
                 {screenWidth > 576 ? <span className='ml-2'>{MeanStarsCalculate() ? MeanStarsCalculate() : "aucun avis"} </span> : ""}
                 <p>{(purchases.length >= 1 && NumberPurchases() > 1 ) ? NumberPurchases() + ' vendus' : (purchases.length == 1 && NumberPurchases() == 1) ? purchases.length+ ' vendu' : 'pas vendu'} </p>
@@ -134,7 +136,11 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
                     <a href="#" className="text-muted">{ category } : </a>
                     <a href="#" className="title">{ name }</a>
                 </div>
-                <div className="price h5 mt-2">${ price }</div>
+                {(percentageReduction && priceReduction !== null) ? 
+                                            <div className='mt-3 mb-3 d-flex align-items-center'>
+                                                <p className='text-danger price h5'><b>{priceReduction}€ </b></p>
+                                                <span className="badge badge-danger ml-3 mb-2"><em>Reduction</em> {percentageReduction}</span>
+                                            </div> : <div className="price h5 mt-2">{ price } €</div>}
                     <div className="btn-group btn-group-toggle float-right" data-toggle="buttons">
                         <label className= {screenWidth > 576 ? "btn btn-light active" : "btn btn-light active btn-sm"}>
                             <input 
@@ -165,7 +171,11 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
                         <p className="p-elipsis col-7">{ description }</p>
                     </div>
                 </div>
-                <div className="p-price price h5 mt-2">{ price } €</div>
+                {(percentageReduction && priceReduction !== null) ? 
+                                            <div className='mt-3 mb-3 d-flex align-items-center'>
+                                                <p className='text-danger price h5'><b>{priceReduction}€ </b></p>
+                                                <span className="badge badge-danger ml-3 mb-2"><em>Reduction</em> {percentageReduction}</span>
+                                            </div> : <div className="p-price price h5 mt-2">{ price } €</div>}
                 <ul className="rating-stars mb-1 ">
                     {Viewstars(star, MeanStarsCalculate())}
                 </ul> 
@@ -195,7 +205,7 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
                             favoris={onClickfavoris} 
                             hide={toggleInfo} 
                             show={isInfoShowed} 
-                            data={{price:price, name:name, category:category, description:description, id:id, pictures:pictures}}
+                            data={{price:price, name:name, category:category, description:description, id:id, pictures:pictures, priceReduction: priceReduction, percentageReduction:percentageReduction}}
                             productFavoris={productFav}
                             stars={Viewstars}
                             opinions={opinions}

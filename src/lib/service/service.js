@@ -61,6 +61,17 @@ export let deleteNewDataPurchase = (body) => {;
    return axios.patch('api/produits/cancel-new-purchase', body);
 }
 
+//rendre à null le price et percentage d'une reduction sur un produits depuis la dash admin, si l'on choisit de modifier via l'input le prix
+const deletePricePercentageReduction = (token, id) => {
+   let config = {
+       headers: {
+         'Authorization': 'Bearer ' + token
+       }
+   }
+   let body = {id: id};
+   return axios.patch('api/produits/null-price-percentage-reduction', body, config);
+}
+
 /*fonction pour pouvoir créér à partir d'un seul tableau plusieurs avec maximum 9 index, concernant la pagination
 donc pour visualiser 9 produits par page dans notre composant gallery*/
 export const returnProductsArrays = (items) => { 
@@ -102,3 +113,6 @@ export const fetchProducts = () => {
      .catch((err) => dispatch(getProductsFailure(err)))
    } 
  } 
+
+
+ export default {deletePricePercentageReduction}

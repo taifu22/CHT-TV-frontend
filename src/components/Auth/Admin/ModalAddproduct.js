@@ -3,8 +3,11 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup';
 import serviceAdmin from '../../../lib/service/serviceAdmin';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewProductAdmin, deleteInfosproductFromAdmin, updateProductFromAdmin } from '../../../lib/state/features/products.slice';
+import { addNewProductAdmin, deleteInfosproductFromAdmin, setPriceReduction, updateProductFromAdmin } from '../../../lib/state/features/products.slice';
 import { ValidationSchemaAddProduct } from '../validationSchemaYup/ValidationSchemaAddProduct';
+import SelectInput from './SelectInputAddProduct';
+import SelectInputAddReductionprice from './SelectInputAddReductionprice';
+import service from '../../../lib/service/service';
 
 function ModalAddProduct(props) {
 
@@ -12,9 +15,11 @@ function ModalAddProduct(props) {
     const dispatch = useDispatch();
     const token = useSelector(state => ({...state.user.token}))
     const infosProduct = useSelector(state => state.products.infosProduct)
+    const categorys = useSelector(state => state.categorys.category)
 
     const { register, handleSubmit, formState, reset } = useForm({
 		mode: "onBlur",
+        //ici on mets ce qu'on verra par défaut dans les input, pour les modifier
 		defaultValues: { 
 			category: infosProduct !== null ? infosProduct.category : "",
             description: infosProduct !== null ? infosProduct.description : "",
@@ -33,6 +38,7 @@ function ModalAddProduct(props) {
 	const onSubmit = (data) => {
         /*je créé une constante form pour pouvoir créer un FormData, et pouvoir l'envoyer à mon back, comme ca, multer
         puisse recuperer la key picture dont l'index 0 contient l'image, et du coup créer une req.file*/ 
+        console.log(data);
         const form = new FormData(); 
         form.append('name', data.name);
         form.append('category', data.category);
@@ -42,6 +48,11 @@ function ModalAddProduct(props) {
         form.append('picture1', data.picture1[0]);
         form.append('picture2', data.picture2[0]);
         form.append('picture3', data.picture3[0]);
+        //si une reduction du prix existe on l'ajoute à la bdd
+        if (priceWithreduction !== null) {
+            form.append('priceReduction', priceWithreduction.price);
+            form.append('percentageReduction', priceWithreduction.percentage)
+        }
         //si on ouvre la modale pour modifier un produit, on envoie aussi à la bdd l'id du produit à modifier
         if (infosProduct !== null ) {
             form.append('id', infosProduct.id);
@@ -55,6 +66,8 @@ function ModalAddProduct(props) {
 		    props.funcToggle();
             dispatch(deleteInfosproductFromAdmin())
         }
+        //on remet à null le setpriceReduction dans le store di redux, comme ca s'il a été modifié il repassera a null
+        dispatch(setPriceReduction(null));
 	};
 
     //passer de la page avec les info de l'image vers la page où l'utilisateur chargera les images du produit
@@ -86,10 +99,16 @@ function ModalAddProduct(props) {
         reader.readAsDataURL(file)
     }
 
-    useEffect(()=>{
-        console.log(picture1);
-        console.log(picture2);
-    },[picture1, picture2])
+    /*pour la modification du prix, on a la possibilité d'ajouter une réduction par rapport au select, du coup le prix on l'affihera 
+    dans une balise p, qui sera modifié selon la reduction choisit, sinon on ala possibilité d'appuyer sur le bouton modify
+    pour modifier directement via un input le prix*/
+    //on commence par la création d'un state, qui nous donne la possibilité de modifier le prix du produit sans passer par la réduction
+    const [stateprice, setStatePrice] = useState(false);
+    //tableau contenant la liste des reductions possibles pour le prix
+    const arrayReduction = ['0%','10%','20%','30%','40%','50%','60%', '70%', '80%'];
+    //ici on récupère notre prix aprés avoir choisi la reduction depuis le store redux 'products.pricereduction'
+    const priceWithreduction = useSelector(state => state.products.priceReduction);
+
 
     return (
         <>
@@ -98,7 +117,7 @@ function ModalAddProduct(props) {
                     <div className="modal-content">
                         <div className="modal-header text-center">
                             <h4 className="modal-title w-100 font-weight-bold">{infosProduct !== null ? 'Modifier le produit' : 'Ajouter un nouveau produit'}</h4>
-                            <button type="button" className="close" onClick={()=>{props.funcToggle();setPlaceholder(undefined);dispatch(deleteInfosproductFromAdmin())}} data-dismiss="modal" aria-label="Close">
+                            <button type="button" className="close" onClick={()=>{props.funcToggle();setPlaceholder(undefined);dispatch(deleteInfosproductFromAdmin());dispatch(setPriceReduction(null))}} data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -162,10 +181,14 @@ function ModalAddProduct(props) {
                                         </div>
                                         <div className="col form-group col-md" >
                                             <label>Prix</label>
-                                            <input {...register("price")} type='text' name='price' className="form-control" />
+                                            {stateprice ? <div><input {...register("price")} type='text' name='price' className="form-control" />
                                             <small className="text-danger">
                                                 {errors.price?.message}
-                                            </small>
+                                            </small></div> : stateprice === false && infosProduct !== null ? <div className='border  p-2 d-flex justify-content-between'>
+                                                                <p className='ml-3'>{priceWithreduction !== null ? priceWithreduction.price : infosProduct.price} €</p>
+                                                                <i role='button' onClick={()=>{setStatePrice(!stateprice); service.deletePricePercentageReduction(token.accessToken, infosProduct.id);}} className="fa-solid fa-pen-to-square text-info"></i>
+                                                                <SelectInputAddReductionprice price={infosProduct.price} name={"priceReduction"} register={register} options={arrayReduction} label={'Choisir la réduction'}/>
+                                                            </div> : <><input {...register("price")} type='text' name='price' className="form-control" /></>}
                                         </div>
                                     </div> 
                                     <div className="form-group">
@@ -178,13 +201,7 @@ function ModalAddProduct(props) {
                                         </div>
                                     </div> 	
                                     <div className='d-flex justify-content-between align-items-end'>
-                                        <div className="" >
-                                            <label>Category</label>
-                                            <input {...register("category")} type='text' name='category' className="form-control" />
-                                            <small className="text-danger">
-                                                {errors.category?.message}	
-                                            </small>
-                                        </div>
+                                        <SelectInput name={"category"} register={register} options={categorys} label={'categorie'}/>
                                         <button onClick={(e)=>handleChangeView(e)} className='h-50 btn btn-info'>{infosProduct !== null ? 'modifier les images' : 'Charger les images'}</button>
                                     </div>
                                 </div>   
@@ -196,7 +213,7 @@ function ModalAddProduct(props) {
                     </div>
                 </div>
             </div>
-            
+             
         </>
     );
 }

@@ -12,12 +12,12 @@ function ModalMessageSendOk(props) {
                 &times;
                 </button>
                 <div>
-                <h3>Votre message a été envoyé</h3>
-                <p>L'administrateur vous répondra dans les plus brefs délais</p>
+                <h3>{props.message1}</h3>
+                <p>{props.message2}</p>
                 </div>
             </div>
         </div>
     );
 }
 
-export default ModalMessageSendOk;
+export default ModalMessageSendOk; 

@@ -120,7 +120,11 @@ function MyOrder() {
                                         <div className='card-body'>
                                             <p class="card-title text-primary"><b>{item1.price_data.product_data.name} </b>
                                             <p className='text-dark'><b>x{item1.quantity}</b></p></p>
-                                            <p class="card-title text-primary"><b>{item1.price_data.unit_amount/100} Є</b> </p>
+                                            {item1.price_data.product_data.metadata.priceReduction !== null ?
+                                                <div className='mt-3 mb-3 d-flex align-items-center'>
+                                                <p className='text-danger price h5'><b>{item1.price_data.product_data.metadata.priceReduction}€ </b></p>
+                                                <span className="badge badge-danger ml-3 mb-2"><em>Reduction</em> {item1.price_data.product_data.metadata.percentageReduction}</span>
+                                            </div> : <p class="card-title text-primary"><b>{item1.price_data.unit_amount/100} Є</b> </p>}
                                         </div>
                                     </div>
                                     <div className='col-md-12 col-lg-4'>

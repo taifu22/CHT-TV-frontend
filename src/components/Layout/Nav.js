@@ -5,6 +5,7 @@ import { returnProductsArrays } from "../../lib/service/service";
 import { getProductsSuccess } from "../../lib/state/features/products.slice";
 import { deleteDataUser } from '../../lib/state/features/user.slice';
 import { getProducts } from "../../lib/service/service";
+import useWindowSize from '../../lib/hooks/useScreenSize';
 
 const Nav = () => {
 
@@ -80,43 +81,50 @@ const Nav = () => {
     return naviagte('/', {state:{state: true}}); 
   }
 
-  const links = ["Home", "About", "Contact"];
+  const screenWidth = useWindowSize().width;
+
+  const links = [
+                  {name:"Home", icon: "fa-solid fa-house"}, 
+                  {name:"About", icon: "fa-solid fa-info"}, 
+                  {name:"Contact", icon: "fa-solid fa-address-card"}
+                ];
   return (
-    <nav className={"navbar navbar-expand-lg navbar-dark bg-primary nav-header"}>
-      <Link className="navbar-brand" to={"/"}>
+    <nav className={"navbar navbar-expand navbar-dark bg-primary nav-header pb-0"}>
+      {screenWidth > 800 ? <Link className="navbar-brand" to={"/"}>
         {/* <b>CHT-TV-Market</b> */}
         <img style={{height:'40px', margin:0}} src="/CHT-TV-removebg-preview.png"></img>
-      </Link>
-
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button> 
-
-      <div className="collapse navbar-collapse " id="navbarSupportedContent">
+      </Link> : ""}
+      <div className="navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto menu">
           {links.map((link) => {
             return (
-              <li className="mr-4" key={link} onClick={() => {}}>
-                <Link to={`/${link == "Home" ? "" : link}`}>{link}</Link>
+              <li className={"mr-4"} key={link.name} onClick={() => {}}>
+                <i className={screenWidth < 800 ? link.icon : ""}></i>
+                <Link to={`/${link.name == "Home" ? "" : link.name}`}>{link.name}</Link>
               </li>
             );
           })}
         </ul>
-        <div className="input-group-prepend mr-3">
+        { screenWidth > 600 ? <div className="input-group-prepend input-responsive mr-3">
           <div className="form-outline">
             <input onChange={e => onChangeInput(e)} value={valueInput} id="search-focus" type="search" placeholder="search" className="form-control" />
           </div>
           <button onClick={()=>onClickButton()} type="button" className="btn text-light">
             <i className="fas fa-search"></i>
           </button>
-        </div>
-        {user !== null ? <><Link to={user.body.role === 'admin' ? '/dashboardAdmin/messaging' : 'pageprofil/messaging'} className="nav-link"><i className="text-light fas fa-xl fa-solid fa-envelope"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">{newMessages}</span></> : ""}
-        {<><Link to={'/cart'} className="nav-link"><i className="text-light fas fa-xl fa-shopping-cart"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-3">{quantity}</span></>}
+        </div> : ""}
+          {user !== null ? <><Link to={user.body.role === 'admin' ? '/dashboardAdmin/messaging' : 'pageprofil/messaging'} className={screenWidth < 600 ? "navlink-messages nav-link d-flex flex-column text-light align-items-center" : "nav-link"}><i className="text-light fas fa-xl fa-solid fa-envelope"></i>{screenWidth < 600 ?<p>Messages</p> : ""}</Link><span style={{marginLeft:'-15px' , marginTop:'-10px' }} className="badge badge-danger mr-2 mb-3">{newMessages}</span></> : ""}
+        <div className="panier-div d-flex flex-column justify-content-center align-items-center">
+          {<div className="d-flex"><Link to={'/cart'} className="nav-link"><i className="text-light fas fa-xl fa-shopping-cart"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-4">{quantity}</span></div>}
+          { screenWidth < 600 ? <p>Panier</p> : ""}
+        </div>   
         <div className="dropdown">
-          <button class="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          { screenWidth > 600 ? <button class="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i class="fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : 'My account'} 
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          </button> : <button class="btn text-light dropdown-toggle d-flex flex-column justify-content-center align-items-center" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i className="icon-reponsive fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : <span>My account</span>} 
+          </button> }
+          <div class="dropdown-menu drop-menu-responvive" aria-labelledby="dropdownMenuButton">
             {!!data ? 
               <>
                 <a class="dropdown-item" href="#"><Link to={data.role === 'admin' ? '/dashboardAdmin' :'/pageprofil'}>{data.role === 'admin' ? 'DashBoard' : 'Settings'}</Link></a>
