@@ -10,6 +10,9 @@ import serviceMessages from '../../../lib/service/serviceMessages';
 import MessagingAdmin from './MessagingAdmin';
 import useWindowSize from '../../../lib/hooks/useScreenSize';
 import ListCategorys from './ListCategorys';
+import ListPromoCode from './ListPromoCode';
+import servicePromosCode from '../../../lib/service/servicePromosCode';
+import { getAllsPromosCode } from '../../../lib/state/features/PromosCode.slice';
 
 function DashboardAdmin(props) {
     
@@ -18,7 +21,8 @@ function DashboardAdmin(props) {
         categorys: false,
         commandes: false, 
         opinions: false,
-        messages: false
+        messages: false,
+        promoCode: false
     })
 
     const dispatch = useDispatch();
@@ -34,6 +38,9 @@ function DashboardAdmin(props) {
         //on récupère de la bdd et on rempli le sore redux avec la liste de tous les messages des utilisateurs
         serviceMessages.getAllMessages(token.accessToken)
             .then(res => dispatch(getAllMessages(res.data.data)))
+            //on récupère la liste des codes promos et on repmli le store redux
+        servicePromosCode.getAllPromosCode()
+            .then(res => dispatch(getAllsPromosCode(res.data.data)))
     },[])
 
     useEffect(()=>{
@@ -46,15 +53,17 @@ function DashboardAdmin(props) {
 
     function handleMenu(e) {
         if (e === 'produits') {
-            setStateMenu({products: true, commandes: false, opinions:false, messages: false, categorys: false});
+            setStateMenu({products: true, commandes: false, opinions:false, messages: false, categorys: false, promoCode: false});
         } else if (e === 'commandes') {
-            setStateMenu({products: false, commandes: true, opinions: false, messages: false, categorys: false});
+            setStateMenu({products: false, commandes: true, opinions: false, messages: false, categorys: false, promoCode: false});
         } else if (e === 'opinions') {
-            setStateMenu({products: false, commandes: false, opinions: true, messages: false, categorys: false});
+            setStateMenu({products: false, commandes: false, opinions: true, messages: false, categorys: false, promoCode: false});
         } else if (e === 'messagerie') {
-            setStateMenu({products: false, commandes: false, opinions: false, messages: true, categorys: false});
+            setStateMenu({products: false, commandes: false, opinions: false, messages: true, categorys: false, promoCode: false});
         } else if (e === 'categorys') {
-            setStateMenu({products: false, commandes: false, opinions: false, messages: false, categorys: true});
+            setStateMenu({products: false, commandes: false, opinions: false, messages: false, categorys: true, promoCode: false});
+        } else if (e === 'promoCode') {
+            setStateMenu({products: false, commandes: false, opinions: false, messages: false, categorys: false, promoCode: true});
         }
     }
 
@@ -67,7 +76,7 @@ function DashboardAdmin(props) {
         } 
     })
 
-    const screenWidth = useWindowSize().width;
+    const screenWidth = useWindowSize().width;  
 
     return (  
         <div className="container-fluid page-profil-container"> 
@@ -82,7 +91,7 @@ function DashboardAdmin(props) {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a href="#" className="nav-link align-middle px-0" title='produits' onClick={(e)=>handleMenu(e.target.title)}>
+                                <a href="#" className="nav-link align-middle px-0" title='categorys' onClick={(e)=>handleMenu(e.target.title)}>
                                     <i title='categorys' className="text-white fas fa-list fa-1x"></i><span className="ms-1 d-none d-sm-inline h6 text-white" title='categorys'>Liste des categories</span> 
                                 </a>
                             </li>
@@ -96,10 +105,15 @@ function DashboardAdmin(props) {
                                     <i className="text-white fas fa-list-check fa-1x" title='opinions'></i> <span title='opinions' className="ms-1 d-none d-sm-inline h6 text-white">Liste des avis</span>
                                 </a>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item nav-item-messagerie-dash">
                                 <a href="#" className="nav-link align-middle px-0" title='messagerie' onClick={(e)=>handleMenu(e.target.title)}>
                                     <i className="text-white fas fa-envelope fa-1x" title='messagerie'></i> <span title='messagerie' className="ms-1 d-none d-sm-inline h6 text-white">Messagerie</span>
                                     {<span style={{marginLeft:'10px'}} className="badge badge-danger mr-2 mb-3">{newMessages}</span>}
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a href="#" className="nav-link align-middle px-0" title='promoCode' onClick={(e)=>handleMenu(e.target.title)}>
+                                    <i className="text-white fa-solid fa-percent fa-1x" title='promoCode'></i> <span title='promoCode' className="ms-1 d-none d-sm-inline h6 text-white">Codes promo</span>
                                 </a>
                             </li>
                         </ul>
@@ -112,6 +126,7 @@ function DashboardAdmin(props) {
                     {stateMenu.opinions && <ListOpinions />}
                     {stateMenu.messages && <MessagingAdmin />}
                     {stateMenu.categorys && <ListCategorys />}
+                    {stateMenu.promoCode && <ListPromoCode />}
                 </div>
             </div>
         </div>

@@ -3,12 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import useModal from '../../../lib/hooks/useModal';
 import { setAddressInfosOrders } from '../../../lib/state/features/user.slice';
 import ModalGiveOpinion from '../ModalGiveOpinion';
-import ModalInfosDelivery from '../ModalInfosDelivery';
+import ModalInfosDelivery from '../ModalInfosDelivery'; 
 
 function MyOrder() {
 
     //tableau pour stocker les noms des produit qui ont été déja commenté (donc pour ne pas commenter en doublon)
     let opinionOK= [];
+
+    //ici on stocke un code promo si existe
+    let codePromo = null
 
     const dispatch = useDispatch() 
 
@@ -95,6 +98,7 @@ function MyOrder() {
             <br/>
             {dataOrders.length ? dataOrders.map(item => {
                 let total = [];
+                codePromo = item[item.length -1].promo
                 return (
                     <div className='card m-3 p-3 card-order'>
                         <div className='m-1 d-flex justify-content-between'>
@@ -102,6 +106,7 @@ function MyOrder() {
                                 <p className='text-center'><b>En cours de livraison</b></p>
                             </div>
                             <div className='d-flex flex-column align-items-end'>
+                                {console.log(item)}
                                 <p className='m-0'>Date : {item[item.length -1].key}</p>
                                 <p className='m-0'>N° comande : </p>
                                 <p className='m-0'>{item[item.length -1].orderNumber}</p>
@@ -142,7 +147,7 @@ function MyOrder() {
                             {isInfoShowed2 && <ModalInfosDelivery hide={()=>toggleInfo2()} />}
                             <i role={'button'} title='supprimer la commande' class="fa-2x text-danger fa-solid fa-trash"></i>
                             <div className='d-flex align-items-center'>
-                                <p><b>Total : {TotalResult(total)} Є</b></p>
+                                <p><b>Total : {TotalResult(total) - (codePromo !== null ? codePromo : 0)} Є {codePromo !== null ?<p className='text-danger small'><em>&#40;{codePromo} Є code promo&#41;</em></p> : ""}</b></p>
                             </div>
                         </div>
                     </div>)

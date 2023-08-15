@@ -17,16 +17,16 @@ const Layout = ({children}) => {
 		} else {
 			return state.user.users.body
 		}
-	})
+	}) 
 
 	return(
-		<section className="section-content padding-y" style={{ marginTop: '140px' }}>
+		<section className="section-content section-content-cart padding-y" style={{ marginTop: '140px' }}> 
 			<div className="container">
 				<div className="row">
-					<main className="col-md-9">
+					<main className="col-md-8">
 						<CartTable children={children} dataUser={data}/>
 					</main>
-					<aside className="col-md-3">
+					<aside className="col-md-4">
 						<CartTotal />			
 					</aside>
 				</div>
@@ -34,4 +34,4 @@ const Layout = ({children}) => {
 	    </section>
 	);
 }
-export default Layout
+export default Layout 

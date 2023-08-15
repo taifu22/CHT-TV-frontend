@@ -8,6 +8,7 @@ import { combineReducers } from 'redux';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import sessionStorage from 'redux-persist/es/storage/session';
 import categorySlice from "../features/category.slice";
+import promosCodeSlice from "../features/PromosCode.slice";
 
 const persistConfig = {
     key: 'persist', 
@@ -20,7 +21,8 @@ const reducers = combineReducers({
     user: userReducer, 
     cart: cartSlice,
     opinions : opinionSlice,
-    categorys: categorySlice
+    categorys: categorySlice,
+    promosCodes: promosCodeSlice
 });
 const persistedReducer = persistReducer(persistConfig, reducers); 
 

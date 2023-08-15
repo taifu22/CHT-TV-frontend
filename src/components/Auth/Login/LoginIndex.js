@@ -6,6 +6,7 @@ import serviceUser   from '../../../lib/service/serviceUser';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData, setTokenData } from '../../../lib/state/features/user.slice'; 
+import serviceCart from '../../../lib/service/serviceCart';
 
 const Login = () => {  
 
@@ -14,9 +15,12 @@ const Login = () => {
   //state for store error login if username or password are note valids
   const [errorLogin, setErrorLogin] = useState();
 
+  //here we store the data of the token to be able to save the data of the cart in bdd 
+  //const [token, setToken] = useState();
+
   //recovery data of cart for see if user not connect and add products to cart.
   //if the user not connect and add products to cart, before payment it will be redirected to login page, and after redirect again in cart page
-  const dataCart = useSelector(state => ([...state.cart.items]))
+  const dataCart = useSelector(state => (state.cart.items));
 
   useEffect(()=>{
     console.log(dataCart.length);
@@ -37,17 +41,19 @@ const Login = () => {
 		serviceUser.signin(data)
        .then(res => {
         dispatch(setTokenData(res.data))
+        const token = res.data.accessToken;
         serviceUser.getProfile(res.data.accessToken) 
             .then(res => {
-              console.log(res);
               dispatch(setUserData(res.data));
               if (res.data.body.role === "admin") {
                 navigate('/dashboardAdmin');
               } else {
-                navigate(dataCart.length > 0 ? '/cart' : '/')
+                //on envoie en bdd, ce que le user à mis pendant qu'il était déconnecté
+                dataCart.length > 0 && serviceCart.addNewDataProductCart(token, dataCart)
+                navigate('/');
               }  
             }) 
-       })
+       })   
        .catch(error => {
         if (error.response.status === 404) {
           setErrorLogin('User not found!')

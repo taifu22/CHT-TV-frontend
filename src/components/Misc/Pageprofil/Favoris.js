@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import serviceUser from '../../../lib/service/serviceUser';
 import { deleteFavorisData } from '../../../lib/state/features/user.slice';
 import { addToCart } from '../../../lib/state/features/cart.slice';
+import serviceCart from '../../../lib/service/serviceCart';
 
 function Favoris(props) {
 
@@ -11,7 +12,10 @@ function Favoris(props) {
     const product = useSelector(state => state.products.itemsAll)
     const token = useSelector(state => ({...state.user.token})); 
 
-    const addTocartAction = (id, name, price, category, picture) => dispatch(addToCart({id, name, price, category, picture}))
+    const addTocartAction = (id, name, price, category, picture) => {
+        dispatch(addToCart({id, name, price, category, picture}))
+        serviceCart.addNewDataProductCart(token.accessToken, {id, name, price, category, picture});
+    }
     function deleteFavorite(id) {
         serviceUser.deleteFavorisUser(token.accessToken, id);
         dispatch(deleteFavorisData(id));

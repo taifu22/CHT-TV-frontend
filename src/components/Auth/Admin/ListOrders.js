@@ -86,7 +86,7 @@ function ListOrders(props) {
                     </div>
                     <button type="button" className="btn btn-primary">
                         <i className="fas fa-search"></i>
-                    </button>
+                    </button> 
                 </div>
             </div>
             <div className='d-flex justify-content-between title-order-admin'>
@@ -111,7 +111,8 @@ function ListOrders(props) {
                                         <p className='p-nameproduct'>passée le : {item.orderNumber[1]}</p>
                                     </div>
                                     <div className='total-price'>
-                                        <p>{screenWidth < 992 ? 'Total: ' : ''} {NumberPurchases(item.total)} €</p>
+                                        {/*si on a un code promo qui a été utilisé lors d'une commande on le verra ici, le résultat sera soutrait du montant du code promo*/}
+                                        <p>{screenWidth < 992 ? 'Total: ' : ''} {NumberPurchases(item.total) - (item.promo !== null ? item.promo : 0)} € {item.promo !== null ?<p className='text-danger small'><em>&#40;{item.promo} Є code promo&#41;</em></p> : ""}</p>
                                     </div>
                                 </div>
                                 <div className='infos-user'>

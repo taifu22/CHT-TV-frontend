@@ -2,32 +2,27 @@ import React from 'react';
 import CartFooter from './CartFooter'
 import Row from './Row';
 import { useSelector } from 'react-redux'; 
+import useWindowSize from '../../lib/hooks/useScreenSize';
 
 const CartTable = (props) => { 
 
     const {items} = useSelector((state) => ({...state.cart}))
 
+    const screenWidth = useWindowSize().width; 
+
     return (
     <>
     <div className="card">
-        <table className="table table-borderless table-shopping-cart">
-        <thead className="text-muted">
-            <tr className="small text-uppercase">
-                <th scope="col">Product</th>
-                <th scope="col" width="120">Quantity</th>
-                <th scope="col" width="120">Price</th>
-                <th scope="col" className="text-right" width="200"> </th>
-            </tr> 
-            </thead>        
-            <tbody>
-            { items.length <= 0 && (<p className="d-flex justify-content-center align-items-center" style={{fontSize: 20}}>
+        <div className="table table-borderless table-shopping-cart">      
+            <div>
+            { items.length <= 0 ? (<tr><p className='ml-3' style={{fontSize: 20}}>
 				Your Cart is Empty
-			</p>)}
-			{items.map((item) => {
+			</p></tr>) :
+			items.map((item) => {
 			    return <Row key={item.id} {...item} />
             })}
-            </tbody>
-        </table>
+            </div>
+        </div>
 		<CartFooter data={props.dataUser}/>
 		</div>
 		<div className="alert alert-success mt-3">

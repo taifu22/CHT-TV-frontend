@@ -1,5 +1,13 @@
 .cart-footer {
     .disabled-cart-btn {
         pointer-events: none;
-    }
+    } 
+}
+
+@media screen and (max-width: 428px) {
+    .cart-footer {
+        button {
+            margin-top: 10px;
+        }
+    }  
 }

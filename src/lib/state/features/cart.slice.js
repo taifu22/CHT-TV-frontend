@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { current } from "@reduxjs/toolkit";
+import { selectCartTotal } from "../selectors";
+import { useSelector } from "react-redux";
 
 const mapItem = (item, payload) => {
     if (item.id === payload.id) { return { ...item, quantity: item.quantity + 1 } }
@@ -16,10 +18,12 @@ export const cartSlice = createSlice({
     initialState: { 
         items: localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [],
         delivery: 'standard',
-        addressDelivery : {}
+        addressDelivery : {},
+        total: null,
+        totalCartWithReduc: null
     },
     reducers: {
-        addToCart: (state, {payload}) => {
+        addToCart: (state, {payload}) => { 
             //pour voir le state en cours on utilise la fonction de redux-toolkit current()
             /*ici itemFound, me dira que le item existe deja, donc avec la fonction mapItem je vais créer un nouveau index
             quantity (au tableau item contenant mon produit) avec du coup le nombre de quantité de ce produit selectionné*/
@@ -38,14 +42,38 @@ export const cartSlice = createSlice({
             return {...state, delivery: payload} 
         },
         setDeliveryAddress: (state, {payload}) => {
-            return {...state, deliveryAddress: payload}
+            return {...state, deliveryAddress: payload} 
         },
         checkOut: (state) => {
-            state.delivery= 'standard';
-            state.items= []
-        }
+            state.delivery = 'standard';
+            state.items = [];
+            state.addressDelivery = {};
+            state.total = null;
+            state.totalCartWithReduc = null;
+        },
+        /*ici je stocke le montant totale de la commande, donc si on utilise la fonction updatecartAction pour ajouter supprimer des
+         produits, ce reducer sera appelé pour mettre à jour le prix totale*/
+        totalCart: (state, {payload}) => {
+            const calculateTotal = ($0, $1) => $0 + $1;
+            let totalCart = current(state.items).map(item => {
+                //biensur je prends en compte un prix qui a une reduction, et les prix sans réduction
+                const total = item.priceReduction !== null ? item.priceReduction * item.quantity : item.price * item.quantity
+                return total
+            }).reduce(calculateTotal, 0) 
+            //je rècupère tout ce qu'il y a dans initialState sans modifier, et je modifie juste la key 'total'
+            //le payload du coup c'est un montant de code promo, si utilisé par l'user
+            return { ...state, total: payload !== null ? totalCart - payload : totalCart }
+        },
+        //ici je modifie le prix total avec une reduction si l'user en a une
+        totalCartWithReduc: (state, {payload}) => {
+            return {...state, totalCartWithReduc: payload}
+        },
+        //ici on récupère de la bdd tous les produits qu'ont été ajouté au panier avant un achat validé.
+        getAllproductsCart: (state, {payload}) => {
+            state.items = payload
+        } 
     }
 })
 
-export const {addToCart, removeFromCart, updateCart, setDeliveryChoice, setDeliveryAddress, checkOut} = cartSlice.actions;
+export const { addToCart, removeFromCart, updateCart, setDeliveryChoice, setDeliveryAddress, checkOut, totalCart, totalCartWithReduc, getAllproductsCart } = cartSlice.actions;
 export default cartSlice.reducer;

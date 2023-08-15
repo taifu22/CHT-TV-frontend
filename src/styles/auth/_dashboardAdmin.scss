@@ -1,0 +1,24 @@
+.page-profil-container {
+    .nav-item-messagerie-dash {
+        position: relative;
+        a {
+            .badge {
+                position: absolute;
+                left: 100px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .page-profil-container {
+        .nav-item-messagerie-dash {
+            a {
+                .badge {
+                    left: 0px;
+                    top: 0px;
+                }
+            }
+        } 
+    }   
+}

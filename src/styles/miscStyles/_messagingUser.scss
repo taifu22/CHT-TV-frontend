@@ -16,6 +16,14 @@
                 overflow: hidden;
                 white-space: nowrap;
             }
+            div {
+                position: relative;
+                .badge {
+                    position: absolute;
+                    bottom: -20px;
+                    left: 5px;
+                }
+            } 
         }
     }
     .list-messages-container { 
@@ -60,6 +68,20 @@
         }
         p {
             font-size: small;
+        }
+    }   
+}
+
+@media screen and (max-width: 475px) {
+    .messaging-list {
+        .messaging-list-div {
+            .into-message { 
+                div {
+                    .badge {
+                        bottom: 0px;
+                    }
+                } 
+            }
         }
     }   
 }

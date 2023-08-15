@@ -40,8 +40,9 @@ function ImageProfil(props) {
         const form = new FormData()
         form.append('name', data.name);
         form.append('picture', data.picture[0]);
+        console.log(form);
         serviceUser.uploadImageProfil(token.accessToken, form)
-        .then(res => dispatch(updateUserProfilImage(res.data.body)))
+        .then(res => dispatch(updateUserProfilImage(res.data.body))) 
 	};
 
     return (

@@ -32,19 +32,19 @@ let updateProductAdminService = (token, body) => {
 }
 
 //function to add a new order and view it in the admin dashboard panel
-let addOrderAdminService = (token, product, total, delivery, orderNumber, email) => {
+let addOrderAdminService = (token, product, total, delivery, orderNumber, email, promo) => {
   let config = {
       headers: {
         'Authorization': 'Bearer ' + token 
       }
   }
-  console.log(orderNumber);
   let body = {
     product: product,
     total: total,
     delivery: delivery, 
     orderNumber: orderNumber,
-    email: email
+    email: email,
+    promo: promo
   }
   return Axios.post('api/admin/dashBoard/orders/add', body, config);
 }

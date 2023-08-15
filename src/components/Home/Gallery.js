@@ -12,9 +12,6 @@ le troisiémé c'est pour afficher un message loading, si par exemple ca mets du
 a savoir dans une fonction fleché (comme ici, on genere un composant avec cette fonction), si on mets les {}, on est 
 obligé de mettre return sinon pas de return et pas de {} */ 
 const Results = ({ items, pageIndex, toggle }) => {
-	console.log(items);
-	console.log(pageIndex);
-	console.log(toggle);
 	return (
 		!!items.length && items[pageIndex].map(product => <Product toggle={toggle} key={product.id} {...product}/>)
 	);
@@ -49,7 +46,6 @@ const Gallery = () => {
 		if (category !== 'All products') {
 			dispatch(fetchproductsWithCategory(category))
 		} else if (category === 'All products') {
-			console.log(category);
 			location.state === null && dispatch(fetchProducts()); 
 		}
 		//categorysReversed = categorys.reverse()
@@ -77,7 +73,7 @@ const Gallery = () => {
 						}) }
 					</div> : ""}
 				</div>
-				<div className='d-flex mr-3'>
+				<div className='d-flex mr-3'> 
 					<p className='mr-3'>Voir:</p>
 					<i class="fa-solid fa-table mr-3 fa-2x" style={{color: toggle ? '#3B71CA' : 'black'}}  onClick={()=> setToggle(!toggle)}></i>
 					<i class="fa-solid fa-list fa-2x" style={{color: toggle ? 'black' : '#3B71CA'}} onClick={()=> setToggle(!toggle)}></i>

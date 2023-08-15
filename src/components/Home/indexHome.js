@@ -1,8 +1,10 @@
   import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Gallery from './Gallery'
 import { getAllsCategories } from '../../lib/state/features/category.slice';
 import serviceCategory from '../../lib/service/serviceCategory';
+import serviceCart from '../../lib/service/serviceCart';
+import { getAllproductsCart } from '../../lib/state/features/cart.slice';
 
 const Deals = () => ( 
  <section className="padding-bottom mt-5">
@@ -111,11 +113,17 @@ const Slider = () => (
 const Home = () => {
 
   const dispatch = useDispatch();
+  const token = useSelector(state => ({...state.user.token}));
 
   useEffect(()=>{
+    console.log(token);
     //on récupère de la bdd et on rempli le store de redux avec toutes les categories
     serviceCategory.getAllCategories()
         .then(res => dispatch(getAllsCategories(res.data.data)))
+
+    //on récupère les produits du panier de l'utilisateur qui vient de se connecter
+    token.accessToken !== undefined && serviceCart.getAllProductsCart(token.accessToken)
+        .then(res => dispatch(getAllproductsCart(res.data.data)))
   },[])
 
     return(
@@ -125,4 +133,4 @@ const Home = () => {
       </div>  
     )
 }
-export default Home;
+export default Home;  

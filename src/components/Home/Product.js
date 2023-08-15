@@ -6,13 +6,13 @@ import { deleteFavorisData } from '../../lib/state/features/user.slice';
 import serviceUser from '../../lib/service/serviceUser';
 import useModal from '../../lib/hooks/useModal';
 import ProductDetails from './ProductDetails'; 
-import useWindowSize from '../../lib/hooks/useScreenSize';
+import useWindowSize from '../../lib/hooks/useScreenSize'; 
+import serviceCart from '../../lib/service/serviceCart';
 
 const Product = ({ id, name, price, category, description, opinions, purchases, pictures, picture, toggle, priceReduction, percentageReduction }) => {
 
-    useEffect(()=>{
-        //console.log(toggle);
-    },[toggle])
+    /*ici la proprieté dans les props 'toggle', me permete de passer de l'affichage par grid, vers l'affichage par liste
+    a savoir que l'affichage par grid c'est la className 'card-product-grid', et celle par liste c'est la 'product-menu-list' */
 
     //state for show modal with product details
     const {isShowing: isInfoShowed, toggle: toggleInfo} = useModal();
@@ -39,9 +39,11 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
             price: price,
             picture: picture,
             priceReduction: priceReduction,
-            percentageReduction: percentageReduction
+            percentageReduction: percentageReduction, 
+            quantity: 1
         }
         dispatch(addToCart(newData)) 
+        token.accessToken !== undefined && serviceCart.addNewDataProductCart(token.accessToken, newData);
     } 
 
     const addDataFavoris = (id) => {
@@ -119,11 +121,11 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
         return image1;
     }
 
-    const screenWidth = useWindowSize().width;
+    const screenWidth = useWindowSize().width; 
 
     return ( 
     <>
-    {toggle ? <div className="col-md-4 col-6 col-lg-3" onClick={toggleInfo}>
+    {toggle ? <div className="col-md-4 col-6 col-lg-3 p-0" onClick={toggleInfo}>
         <div className="card card-product-grid">
             <img className='m-3' src={imageData()} /> 
             <figcaption className="info-wrap">
@@ -159,7 +161,7 @@ const Product = ({ id, name, price, category, description, opinions, purchases, 
                     </div>        
             </figcaption>
         </div>
-    </div> : <div className="col-12" onClick={toggleInfo}>
+    </div> : <div className="col-12 p-0" onClick={toggleInfo}> 
         <div className="product-menu-list">
             <img className='m-3' src={imageData()} /> 
             <figcaption className="m-3 w-100">

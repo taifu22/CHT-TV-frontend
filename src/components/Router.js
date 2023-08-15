@@ -30,7 +30,7 @@ const App = () => {
   });
 
   return (
-    <div style={{height: 'auto', overflow: 'auto'}}>
+    <div style={{height: 'auto'}}>
       <BrowserRouter> 
         <div className='fixed-top navigation'>
           <Nav />

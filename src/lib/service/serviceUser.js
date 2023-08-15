@@ -75,7 +75,7 @@ let uploadImageProfil = (token, data) => {
     }
     let body = data
     console.log(body); 
-    return Axios.post('api/profile/editImageProfil', body, config);
+    return Axios.post('api/profile/editImageProfil', body, config); 
 }
 
 //function to add new dataAddress

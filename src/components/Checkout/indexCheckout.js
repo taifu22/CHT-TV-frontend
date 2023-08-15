@@ -4,6 +4,8 @@ import DeliveryBox from './DeliveryBox'
 import { useSelector, useDispatch } from 'react-redux';
 import { setDeliveryChoice, setDeliveryAddress } from '../../lib/state/features/cart.slice';
 import { Link, useNavigate } from "react-router-dom";
+import CartTotal from '../Cart/CartTotal';
+import useWindowSize from '../../lib/hooks/useScreenSize';
 
 const defaultValues = { 
 	delivery: 'standard', 
@@ -34,9 +36,12 @@ const Checkout = () => {
 		}
 	}
 
+	const screenWidth = useWindowSize().width;
+
 	return (
-	<> 
-	<section className="section-content-checkout padding-y" style={{ margin: '100px auto', maxWidth: '720px' }}>
+	<div className='container'>
+	<div className='row'> 
+	<section className="section-content-checkout padding-y col-md-8" style={{ margin: '100px auto', maxWidth: '720px' }}>
 		<div className="container" >
             <div className="card mb-4">
 				<div className="card-body">
@@ -55,12 +60,12 @@ const Checkout = () => {
 						{
 							address.length != 0  ? address.map(item => {
 							return (<>
-										<div className="col-sm-4 address-delivery">
+										<div className="col-xl-6 address-delivery">
 											<div className="card">
 											<div onClick={()=> deliveryAddressChoice(item)} className={item === deliveryAddress ? "card-body card-body-selected" : "card-body"}>
 												<h5 className="card-title">{item.firstname} {item.lastname}</h5>
-												<p className="card-text">{item.street}</p>
-												<p className="card-text">{item.city}</p>
+												<p className="card-text m-0">{item.street}</p>
+												<p className="card-text m-0">{item.city}</p>
 												<p className="card-text">{item.country}</p>
 											</div>
 											</div>
@@ -76,6 +81,10 @@ const Checkout = () => {
 			</div> 
 		</div>
     </section>
-</>
+	<div className={screenWidth > 767 ? 'col-md-4' : 'col-md-4 mr-3 mb-3 ml-3'} style={screenWidth > 767 ? { marginTop: '135px'} : { marginTop: '-120px' }}>
+		<CartTotal />
+	</div>
+</div>
+</div>
 )}
 export default Checkout

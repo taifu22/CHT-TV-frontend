@@ -40,7 +40,7 @@
     div {
         nav {
             width: 20%;
-            background-color: aqua;
+            background-color: aqua; 
         }
         .inside-gallery {
             width: 100%;
@@ -67,6 +67,7 @@
                 }
             }
             .card-product-grid {
+                margin-left: 10px;
                 img {
                     max-height: 300px;
                     object-fit: contain;
@@ -80,7 +81,7 @@
 @media screen and (max-width: 576px) {
     .section-gallery {
         p,a,.p-price {
-            font-size: small;
+            font-size: small; 
         }
         div {
             .inside-gallery {

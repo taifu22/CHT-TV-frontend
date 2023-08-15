@@ -6,6 +6,8 @@ import { getProductsSuccess } from "../../lib/state/features/products.slice";
 import { deleteDataUser } from '../../lib/state/features/user.slice';
 import { getProducts } from "../../lib/service/service";
 import useWindowSize from '../../lib/hooks/useScreenSize';
+import { setLogOutDeleteCodesPromo } from "../../lib/state/features/PromosCode.slice";
+import { checkOut } from "../../lib/state/features/cart.slice";
 
 const Nav = () => {
 
@@ -21,7 +23,7 @@ const Nav = () => {
     }  else {
       return ''
     } 
-  }) 
+  })  
 
   //variable for store the product sorted with reacrh input
   const productsSorted = []
@@ -67,7 +69,10 @@ const Nav = () => {
 
 	//function to logOut the user, and redirect him, to the home page
 	function LogOutHandle() {
+      //userdata ans promosCodesData is deleted from redux store
+      dispatch(setLogOutDeleteCodesPromo());
       dispatch(deleteDataUser());
+      dispatch(checkOut());
       naviagte('/'); 
   }
 
@@ -113,27 +118,27 @@ const Nav = () => {
             <i className="fas fa-search"></i>
           </button>
         </div> : ""}
-          {user !== null ? <><Link to={user.body.role === 'admin' ? '/dashboardAdmin/messaging' : 'pageprofil/messaging'} className={screenWidth < 600 ? "navlink-messages nav-link d-flex flex-column text-light align-items-center" : "nav-link"}><i className="text-light fas fa-xl fa-solid fa-envelope"></i>{screenWidth < 600 ?<p>Messages</p> : ""}</Link><span style={{marginLeft:'-15px' , marginTop:'-10px' }} className="badge badge-danger mr-2 mb-3">{newMessages}</span></> : ""}
+          {user !== null ? <div className={screenWidth < 600 ? "navlink-messages nav-link d-flex text-light" : "nav-link-messages-xl"}><Link to={user.body.role === 'admin' ? '/dashboardAdmin/messaging' : 'pageprofil/messaging'}><i className="text-light fas fa-xl fa-solid fa-envelope"></i>{screenWidth < 600 ?<p className="text-light">Messages</p> : ""}</Link><span style={{marginLeft:'-15px' , marginTop:'-10px' }} className="badge badge-danger mr-2 mb-3">{newMessages}</span></div> : ""}
         <div className="panier-div d-flex flex-column justify-content-center align-items-center">
           {<div className="d-flex"><Link to={'/cart'} className="nav-link"><i className="text-light fas fa-xl fa-shopping-cart"></i></Link><span style={{marginLeft:'-10px'}} className="badge badge-danger mr-2 mb-4">{quantity}</span></div>}
           { screenWidth < 600 ? <p>Panier</p> : ""}
         </div>   
         <div className="dropdown">
-          { screenWidth > 600 ? <button class="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i class="fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : 'My account'} 
-          </button> : <button class="btn text-light dropdown-toggle d-flex flex-column justify-content-center align-items-center" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          { screenWidth > 600 ? <button className="btn text-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i className="fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : 'My account'} 
+          </button> : <button className="btn text-light dropdown-toggle d-flex flex-column justify-content-center align-items-center" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {!!data ? <img className='img-profil rounded-circle' src={image}/> : <i className="icon-reponsive fas fa-user mx-1"></i>}{!!data ? <span><b>Hi, {data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1)}</b></span> : <span>My account</span>} 
           </button> }
-          <div class="dropdown-menu drop-menu-responvive" aria-labelledby="dropdownMenuButton">
+          <div className="dropdown-menu drop-menu-responvive" aria-labelledby="dropdownMenuButton">
             {!!data ? 
               <>
-                <a class="dropdown-item" href="#"><Link to={data.role === 'admin' ? '/dashboardAdmin' :'/pageprofil'}>{data.role === 'admin' ? 'DashBoard' : 'Settings'}</Link></a>
-                <a class="dropdown-item" href="#"><Link to={user.body.role === 'admin' ? '/dashboardAdmin/favoris' : 'pageprofil/favoris'}>Favoris</Link></a>
-                <a class="dropdown-item" href="#" onClick={() => LogOutHandle()}><Link to={'/pageprofil'}>LogOut</Link></a>
+                <a className="dropdown-item" href="#"><Link to={data.role === 'admin' ? '/dashboardAdmin' :'/pageprofil'}>{data.role === 'admin' ? 'DashBoard' : 'Settings'}</Link></a>
+                <a className="dropdown-item" href="#"><Link to={user.body.role === 'admin' ? '/dashboardAdmin/favoris' : 'pageprofil/favoris'}>Favoris</Link></a>
+                <a className="dropdown-item" href="#" onClick={() => LogOutHandle()}><Link to={'/pageprofil'}>LogOut</Link></a>
               </> :
               <>
-                <a class="dropdown-item" href="#"><Link to={'/register'}>Register</Link></a>
-                <a class="dropdown-item" href="#"><Link to={'/login'}>Login</Link></a> 
+                <a className="dropdown-item" href="#"><Link to={'/register'}>Register</Link></a>
+                <a className="dropdown-item" href="#"><Link to={'/login'}>Login</Link></a> 
               </>
             }
           </div>

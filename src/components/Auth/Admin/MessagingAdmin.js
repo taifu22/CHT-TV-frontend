@@ -24,7 +24,7 @@ function MessagingAdmin(props) {
         toggleInfo()
     } 
 
-    //function to sorted list messages with the value of input
+    //function to sorted list messages with the value of input 
     function onChangeInput(e) {
         setValueInput(e.target.value) 
     }

@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import DataOrder from '../../lib/service/serviceOrder';
 import { deleteNewOrder } from '../../lib/state/features/user.slice';
 import { deleteNewDataPurchase } from '../../lib/service/service';
+import { setPromoOK, setReductionPrice } from '../../lib/state/features/PromosCode.slice';
+import { checkOut } from '../../lib/state/features/cart.slice';
  
 const styles = {
   height: '100vh',
@@ -17,6 +19,11 @@ function Cancel() {
   const dispatch = useDispatch();
   
   useEffect(()=>{
+    //s'il y avait un code promo on le remets à null, et le faite d'avoir utilé un code promo aussi on le mets à false
+    dispatch(setReductionPrice({name: null, price: null}));
+    dispatch(setPromoOK(false));
+    //on vide le panier
+    dispatch(checkOut());
     redirectHome();
   },[])
 
